@@ -1,4 +1,3 @@
-#!/bash/bin
 
 cd ../LTEV2X/LTEV2X/
 uq=$(git rev-list --all | head -n 1)

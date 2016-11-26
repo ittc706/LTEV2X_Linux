@@ -3,7 +3,7 @@
 *
 *       Filename:  RRM_TDM_DRA.cpp
 *
-*    Description:  RRM_TDM_DRAÄ£¿é
+*    Description:  RRM_TDM_DRAæ¨¡å—
 *
 *        Version:  1.0
 *        Created:
@@ -79,7 +79,7 @@ void RRM_TDM_DRA_RSU::initialize() {
 
 
 int RRM_TDM_DRA_RSU::getClusterIdx(int t_TTI) {
-	int roundATTI = t_TTI%RRM_TDM_DRA::s_NTTI; //½«TTIÓ³Éäµ½[0-s_NTTI)µÄ·¶Î§
+	int roundATTI = t_TTI%RRM_TDM_DRA::s_NTTI; //å°†TTIæ˜ å°„åˆ°[0-s_NTTI)çš„èŒƒå›´
 	for (int clusterIdx = 0; clusterIdx < getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++)
 		if (roundATTI <= get<1>(m_ClusterTDRInfo[clusterIdx])) return clusterIdx;
 	return -1;
@@ -92,11 +92,11 @@ string RRM_TDM_DRA_RSU::toString(int t_NumTab) {
 		indent.append("    ");
 
 	ostringstream ss;
-	//Ö÷¸ÉĞÅÏ¢
+	//ä¸»å¹²ä¿¡æ¯
 	ss << indent << "RSU[" << getSystemPoint()->getGTTPoint()->m_RSUId << "] :" << endl;
 	ss << indent << "{" << endl;
 
-	//¿ªÊ¼´òÓ¡VeUEIdList
+	//å¼€å§‹æ‰“å°VeUEIdList
 	ss << indent << "    " << "VeUEIdList :" << endl;
 	ss << indent << "    " << "{" << endl;
 	for (int clusterIdx = 0; clusterIdx < getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
@@ -117,7 +117,7 @@ string RRM_TDM_DRA_RSU::toString(int t_NumTab) {
 	}
 	ss << indent << "    " << "}" << endl;
 
-	//¿ªÊ¼´òÓ¡clusterInfo
+	//å¼€å§‹æ‰“å°clusterInfo
 	ss << indent << "    " << "clusterInfo :" << endl;
 	ss << indent << "    " << "{" << endl;
 
@@ -128,7 +128,7 @@ string RRM_TDM_DRA_RSU::toString(int t_NumTab) {
 	ss << indent << "    " << "}" << endl;
 
 
-	//Ö÷¸ÉĞÅÏ¢
+	//ä¸»å¹²ä¿¡æ¯
 	ss << indent << "}" << endl;
 	return ss.str();
 }
@@ -166,7 +166,7 @@ void RRM_TDM_DRA_RSU::pushToScheduleInfoTable(ScheduleInfo* t_Info) {
 
 
 void RRM_TDM_DRA_RSU::pullFromScheduleInfoTable(int t_TTI) {
-	/*½«´¦ÓÚµ÷¶È±íÖĞµ±Ç°¿ÉÒÔ´«ÊäµÄĞÅÏ¢Ñ¹Èëm_TransimitEventIdList*/
+	/*å°†å¤„äºè°ƒåº¦è¡¨ä¸­å½“å‰å¯ä»¥ä¼ è¾“çš„ä¿¡æ¯å‹å…¥m_TransimitEventIdList*/
 
 	/*  EMERGENCY  */
 	for (int clusterIdx = 0; clusterIdx < getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
@@ -218,18 +218,18 @@ RRM_TDM_DRA::RRM_TDM_DRA(System* t_Context) :
 	for (int threadIdx = 0; threadIdx < m_ThreadNum; threadIdx++) {
 		m_ThreadsRSUIdRange[threadIdx] = pair<int, int>(threadIdx*num, (threadIdx + 1)*num - 1);
 	}
-	m_ThreadsRSUIdRange[m_ThreadNum - 1].second = getContext()->m_Config.RSUNum - 1;//ĞŞÕı×îºóÒ»¸ö±ß½ç
+	m_ThreadsRSUIdRange[m_ThreadNum - 1].second = getContext()->m_Config.RSUNum - 1;//ä¿®æ­£æœ€åä¸€ä¸ªè¾¹ç•Œ
 }
 
 
 void RRM_TDM_DRA::initialize() {
-	//³õÊ¼»¯VeUEµÄ¸ÃÄ£¿é²ÎÊı²¿·Ö
+	//åˆå§‹åŒ–VeUEçš„è¯¥æ¨¡å—å‚æ•°éƒ¨åˆ†
 	m_VeUEAry = new RRM_VeUE*[getContext()->m_Config.VeUENum];
 	for (int VeUEId = 0; VeUEId <getContext()->m_Config.VeUENum; VeUEId++) {
 		m_VeUEAry[VeUEId] = new RRM_TDM_DRA_VeUE();
 	}
 
-	//³õÊ¼»¯RSUµÄ¸ÃÄ£¿é²ÎÊı²¿·Ö
+	//åˆå§‹åŒ–RSUçš„è¯¥æ¨¡å—å‚æ•°éƒ¨åˆ†
 	m_RSUAry = new RRM_RSU*[getContext()->m_Config.RSUNum];
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		m_RSUAry[RSUId] = new RRM_TDM_DRA_RSU();
@@ -250,35 +250,35 @@ void RRM_TDM_DRA::cleanWhenLocationUpdate() {
 void RRM_TDM_DRA::schedule() {
 	bool clusterFlag = getContext()->m_TTI  %getContext()->m_Config.locationUpdateNTTI == 0;
 
-	//×ÊÔ´·ÖÅäĞÅÏ¢Çå¿Õ:°üÀ¨Ã¿¸öRSUÄÚµÄ½ÓÈëÁ´±íµÈ
+	//èµ„æºåˆ†é…ä¿¡æ¯æ¸…ç©º:åŒ…æ‹¬æ¯ä¸ªRSUå†…çš„æ¥å…¥é“¾è¡¨ç­‰
 	informationClean();
 
-	//¸ù¾İ´Ø´óĞ¡½øĞĞÊ±Óò×ÊÔ´µÄ»®·Ö
+	//æ ¹æ®ç°‡å¤§å°è¿›è¡Œæ—¶åŸŸèµ„æºçš„åˆ’åˆ†
 	//groupSizeBasedTDM(clusterFlag);
 	uniformTDM(clusterFlag);
 
-	//¸üĞÂµÈ´ıÁ´±í
+	//æ›´æ–°ç­‰å¾…é“¾è¡¨
 	updateAccessEventIdList(clusterFlag);
 
-	//×ÊÔ´Ñ¡Ôñ
+	//èµ„æºé€‰æ‹©
 	selectRBBasedOnP123();
 
-	//Í³¼ÆÊ±ÑÓĞÅÏ¢
+	//ç»Ÿè®¡æ—¶å»¶ä¿¡æ¯
 	delaystatistics();
 
-	//Ö¡Ìı³åÍ»
+	//å¸§å¬å†²çª
 	conflictListener();
 
-	//ÇëÇóµØÀíÍØÆËµ¥Ôª¼ÆËã¸ÉÈÅÏìÓ¦¾ØÕó
+	//è¯·æ±‚åœ°ç†æ‹“æ‰‘å•å…ƒè®¡ç®—å¹²æ‰°å“åº”çŸ©é˜µ
 	transimitPreparation();
 
-	//Ä£Äâ´«Êä¿ªÊ¼£¬¸üĞÂµ÷¶ÈĞÅÏ¢
+	//æ¨¡æ‹Ÿä¼ è¾“å¼€å§‹ï¼Œæ›´æ–°è°ƒåº¦ä¿¡æ¯
 	transimitStart();
 
-	//Ğ´Èëµ÷¶ÈĞÅÏ¢
+	//å†™å…¥è°ƒåº¦ä¿¡æ¯
 	writeScheduleInfo(g_FileScheduleInfo);
 
-	//Ä£Äâ´«Êä½áÊø£¬Í³¼ÆÍÌÍÂÁ¿
+	//æ¨¡æ‹Ÿä¼ è¾“ç»“æŸï¼Œç»Ÿè®¡ååé‡
 	transimitEnd();
 }
 
@@ -299,33 +299,33 @@ void RRM_TDM_DRA::groupSizeBasedTDM(bool t_ClusterFlag) {
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
-		//ÌØÊâÇé¿ö£¬µ±¸ÃRSUÄÚÎŞÒ»Á¾³µÊ±
+		//ç‰¹æ®Šæƒ…å†µï¼Œå½“è¯¥RSUå†…æ— ä¸€è¾†è½¦æ—¶
 		if (_RSU->getSystemPoint()->getGTTPoint()->m_VeUEIdList.size() == 0) {
 			/*-----------------------ATTENTION-----------------------
-			* Èô¸³ÖµÎª(0,-1,0)»áµ¼ÖÂ»ñÈ¡µ±Ç°´Ø±àºÅÊ§°Ü£¬µ¼ÖÂÆäËûµØ·½ĞèÒªÌÖÂÛ
-			* Òò´ËÖ±½Ó¸øÃ¿¸ö´Ø¶¼¸³ÖµÎªÕû¸öÇø¼ä£¬·´ÕıÒ²Ã»ÓĞÈÎºÎ×÷ÓÃ£¬ÃâµÃÆäËû²¿·ÖÌÖÂÛ
+			* è‹¥èµ‹å€¼ä¸º(0,-1,0)ä¼šå¯¼è‡´è·å–å½“å‰ç°‡ç¼–å·å¤±è´¥ï¼Œå¯¼è‡´å…¶ä»–åœ°æ–¹éœ€è¦è®¨è®º
+			* å› æ­¤ç›´æ¥ç»™æ¯ä¸ªç°‡éƒ½èµ‹å€¼ä¸ºæ•´ä¸ªåŒºé—´ï¼Œåæ­£ä¹Ÿæ²¡æœ‰ä»»ä½•ä½œç”¨ï¼Œå…å¾—å…¶ä»–éƒ¨åˆ†è®¨è®º
 			*------------------------ATTENTION-----------------------*/
 			_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo = vector<tuple<int, int, int>>(_RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum, tuple<int, int, int>(0, s_NTTI - 1, s_NTTI));
 			continue;
 		}
 
-		//³õÊ¼»¯
+		//åˆå§‹åŒ–
 		_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo = vector<tuple<int, int, int>>(_RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum, tuple<int, int, int>(0, 0, 0));
 
-		//¼ÆËãÃ¿¸öTTIÊ±Ï¶¶ÔÓ¦µÄVeUEÊıÄ¿(double)£¬!!!¸¡µãÊı!!£¡
+		//è®¡ç®—æ¯ä¸ªTTIæ—¶éš™å¯¹åº”çš„VeUEæ•°ç›®(double)ï¼Œ!!!æµ®ç‚¹æ•°!!ï¼
 		double VeUESizePerTTI = static_cast<double>(_RSU->getSystemPoint()->getGTTPoint()->m_VeUEIdList.size()) / static_cast<double>(s_NTTI);
 
-		//clusterSize´æ´¢Ã¿¸ö´ØµÄVeUEÊıÄ¿(double)£¬!!!¸¡µãÊı!!£¡
+		//clusterSizeå­˜å‚¨æ¯ä¸ªç°‡çš„VeUEæ•°ç›®(double)ï¼Œ!!!æµ®ç‚¹æ•°!!ï¼
 		vector<double> clusterSize(_RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum, 0);
 
-		//³õÊ¼»¯clusterSize
+		//åˆå§‹åŒ–clusterSize
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++)
 			clusterSize[clusterIdx] = static_cast<double>(_RSU->getSystemPoint()->getGTTPoint()->m_ClusterVeUEIdList[clusterIdx].size());
 
-		//Ê×ÏÈ¸øÖÁÉÙÓĞÒ»Á¾³µµÄ´Ø·ÖÅäÒ»·İTTI
+		//é¦–å…ˆç»™è‡³å°‘æœ‰ä¸€è¾†è½¦çš„ç°‡åˆ†é…ä¸€ä»½TTI
 		int basicNTTI = 0;
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-			//Èç¹û¸Ã´ØÄÚÖÁÉÙÓĞÒ»Á¾VeUE£¬Ö±½Ó·ÖÅä¸øÒ»¸öµ¥Î»µÄÊ±Óò×ÊÔ´
+			//å¦‚æœè¯¥ç°‡å†…è‡³å°‘æœ‰ä¸€è¾†VeUEï¼Œç›´æ¥åˆ†é…ç»™ä¸€ä¸ªå•ä½çš„æ—¶åŸŸèµ„æº
 			if (_RSU->getSystemPoint()->getGTTPoint()->m_ClusterVeUEIdList[clusterIdx].size() != 0) {
 				get<2>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[clusterIdx]) = 1;
 				clusterSize[clusterIdx] -= VeUESizePerTTI;
@@ -333,19 +333,19 @@ void RRM_TDM_DRA::groupSizeBasedTDM(bool t_ClusterFlag) {
 			}
 		}
 
-		//³ıÁË¸ø²»Îª¿ÕµÄ´Ø·ÖÅäµÄÒ»¸öTTIÍâ£¬Ê£Óà¿É·ÖÅäµÄTTIÊıÁ¿
+		//é™¤äº†ç»™ä¸ä¸ºç©ºçš„ç°‡åˆ†é…çš„ä¸€ä¸ªTTIå¤–ï¼Œå‰©ä½™å¯åˆ†é…çš„TTIæ•°é‡
 		int remainNTTI = s_NTTI - basicNTTI;
 
-		//¶ÔÓÚÊ£ÏÂµÄ×ÊÔ´¿é£¬Ñ­»·½«ÏÂÒ»Ê±Ï¶·ÖÅä¸øµ±Ç°±ÈÀı×î¸ßµÄ´Ø£¬·ÖÅäÖ®ºó£¬¸ü¸Ä¶ÔÓ¦µÄ±ÈÀı£¨¼õÈ¥¸ÃÊ±Ï¶¶ÔÓ¦µÄVeUEÊı£©
+		//å¯¹äºå‰©ä¸‹çš„èµ„æºå—ï¼Œå¾ªç¯å°†ä¸‹ä¸€æ—¶éš™åˆ†é…ç»™å½“å‰æ¯”ä¾‹æœ€é«˜çš„ç°‡ï¼Œåˆ†é…ä¹‹åï¼Œæ›´æ”¹å¯¹åº”çš„æ¯”ä¾‹ï¼ˆå‡å»è¯¥æ—¶éš™å¯¹åº”çš„VeUEæ•°ï¼‰
 		while (remainNTTI > 0) {
 			int dex = getMaxIndex(clusterSize);
-			if (dex == -1) throw logic_error("»¹´æÔÚÃ»ÓĞ·ÖÅäµÄÊ±Óò×ÊÔ´£¬µ«ÊÇÃ¿¸ö´ØÄÚµÄVeUEÒÑ¾­Îª¸ºÊı");
+			if (dex == -1) throw logic_error("è¿˜å­˜åœ¨æ²¡æœ‰åˆ†é…çš„æ—¶åŸŸèµ„æºï¼Œä½†æ˜¯æ¯ä¸ªç°‡å†…çš„VeUEå·²ç»ä¸ºè´Ÿæ•°");
 			get<2>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[dex])++;
 			remainNTTI--;
 			clusterSize[dex] -= VeUESizePerTTI;
 		}
 
-		//¿ªÊ¼Éú³ÉÇø¼ä·¶Î§£¬±ÕÇø¼ä
+		//å¼€å§‹ç”ŸæˆåŒºé—´èŒƒå›´ï¼Œé—­åŒºé—´
 		get<0>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[0]) = 0;
 		get<1>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[0]) = get<0>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[0]) + get<2>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[0]) - 1;
 		for (int clusterIdx = 1; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
@@ -354,7 +354,7 @@ void RRM_TDM_DRA::groupSizeBasedTDM(bool t_ClusterFlag) {
 		}
 
 
-		//½«µ÷¶ÈÇø¼äĞ´Èë¸ÃRSUÄÚµÄÃ¿Ò»¸ö³µÁ¾
+		//å°†è°ƒåº¦åŒºé—´å†™å…¥è¯¥RSUå†…çš„æ¯ä¸€ä¸ªè½¦è¾†
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; ++clusterIdx) {
 			for (int VeUEId : _RSU->getSystemPoint()->getGTTPoint()->m_ClusterVeUEIdList[clusterIdx])
 				m_VeUEAry[VeUEId]->getTDM_DRAPoint()->m_ScheduleInterval = tuple<int, int>(get<0>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[clusterIdx]), get<1>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[clusterIdx]));
@@ -369,7 +369,7 @@ void RRM_TDM_DRA::uniformTDM(bool t_ClusterFlag) {
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
-		//³õÊ¼»¯
+		//åˆå§‹åŒ–
 		_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo = vector<tuple<int, int, int>>(_RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum, tuple<int, int, int>(0, 0, 0));
 
 		int equalTimeLength = s_NTTI / _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum;
@@ -380,13 +380,13 @@ void RRM_TDM_DRA::uniformTDM(bool t_ClusterFlag) {
 			_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[clusterIdx] = tuple<int, int, int>(equalTimeLength*clusterIdx, equalTimeLength*(clusterIdx + 1) - 1, equalTimeLength);
 		}
 
-		//ĞŞ¸´×îºóÒ»¸ö´ØµÄÊ±Óò³¤¶È£¬ÒòÎªÆ½¾ù´Ø³¤¿ÉÄÜ±»ËÄÉáÎåÈëÁË£¬Òò´Ë£¬Æ½¾ù´Ø³¤¶È*´ØÊı²¢²»µÈÓÚ×Üµ÷¶ÈÊ±¼ä£¬Òò´Ë½«²îÒìÌîÈë×îºóÒ»¸ö´Ø
+		//ä¿®å¤æœ€åä¸€ä¸ªç°‡çš„æ—¶åŸŸé•¿åº¦ï¼Œå› ä¸ºå¹³å‡ç°‡é•¿å¯èƒ½è¢«å››èˆäº”å…¥äº†ï¼Œå› æ­¤ï¼Œå¹³å‡ç°‡é•¿åº¦*ç°‡æ•°å¹¶ä¸ç­‰äºæ€»è°ƒåº¦æ—¶é—´ï¼Œå› æ­¤å°†å·®å¼‚å¡«å…¥æœ€åä¸€ä¸ªç°‡
 		get<1>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[_RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum - 1]) = s_NTTI - 1;
 		get<2>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[_RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum - 1]) = lastClusterLength;
 
 
 
-		//½«µ÷¶ÈÇø¼äĞ´Èë¸ÃRSUÄÚµÄÃ¿Ò»¸ö³µÁ¾
+		//å°†è°ƒåº¦åŒºé—´å†™å…¥è¯¥RSUå†…çš„æ¯ä¸€ä¸ªè½¦è¾†
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; ++clusterIdx) {
 			for (int VeUEId : _RSU->getSystemPoint()->getGTTPoint()->m_ClusterVeUEIdList[clusterIdx])
 				m_VeUEAry[VeUEId]->getTDM_DRAPoint()->m_ScheduleInterval = tuple<int, int>(get<0>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[clusterIdx]), get<1>(_RSU->getTDM_DRAPoint()->m_ClusterTDRInfo[clusterIdx]));
@@ -397,20 +397,20 @@ void RRM_TDM_DRA::uniformTDM(bool t_ClusterFlag) {
 
 
 void RRM_TDM_DRA::updateAccessEventIdList(bool t_ClusterFlag) {
-	//Ê×ÏÈ£¬´¦ÀíSystem¼¶±ğµÄÊÂ¼ş´¥·¢Á´±í
+	//é¦–å…ˆï¼Œå¤„ç†Systemçº§åˆ«çš„äº‹ä»¶è§¦å‘é“¾è¡¨
 	processEventList();
-	//Æä´Î£¬Èç¹ûµ±Ç°TTI½øĞĞÁËÎ»ÖÃ¸üĞÂ£¬ĞèÒª´¦Àíµ÷¶È±í
+	//å…¶æ¬¡ï¼Œå¦‚æœå½“å‰TTIè¿›è¡Œäº†ä½ç½®æ›´æ–°ï¼Œéœ€è¦å¤„ç†è°ƒåº¦è¡¨
 	if (t_ClusterFlag) {
-		//´¦ÀíRSU¼¶±ğµÄµ÷¶ÈÁ´±í
+		//å¤„ç†RSUçº§åˆ«çš„è°ƒåº¦é“¾è¡¨
 		processScheduleInfoTableWhenLocationUpdate();
 
-		//´¦ÀíRSU¼¶±ğµÄµÈ´ıÁ´±í
+		//å¤„ç†RSUçº§åˆ«çš„ç­‰å¾…é“¾è¡¨
 		processWaitEventIdListWhenLocationUpdate();
 
-		//´¦ÀíSystem¼¶±ğµÄÇĞ»»Á´±í
+		//å¤„ç†Systemçº§åˆ«çš„åˆ‡æ¢é“¾è¡¨
 		processSwitchListWhenLocationUpdate();
 	}
-	//×îºó£¬ÓÉµÈ´ı±íÉú³É½ÓÈë±í
+	//æœ€åï¼Œç”±ç­‰å¾…è¡¨ç”Ÿæˆæ¥å…¥è¡¨
 	processWaitEventIdList();
 }
 
@@ -423,11 +423,11 @@ void RRM_TDM_DRA::processEventList() {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 		int clusterIdx = m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx;
 
-		//½«¸ÃÊÂ¼şÑ¹Èë½ô¼±ÊÂ¼şµÈ´ıÁ´±í
+		//å°†è¯¥äº‹ä»¶å‹å…¥ç´§æ€¥äº‹ä»¶ç­‰å¾…é“¾è¡¨
 		bool isEmergency = event.getMessageType() == EMERGENCY;
 		_RSU->getTDM_DRAPoint()->pushToWaitEventIdList(isEmergency, clusterIdx, eventId);
 
-		//¸üĞÂÈÕÖ¾
+		//æ›´æ–°æ—¥å¿—
 		getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, EVENT_TO_WAIT, -1, -1, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "Trigger");
 		writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, EVENT_TO_WAIT, eventId, -1, -1, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "Trigger");
 	}
@@ -438,45 +438,45 @@ void RRM_TDM_DRA::processScheduleInfoTableWhenLocationUpdate() {
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
-		//¿ªÊ¼´¦Àí m_ScheduleInfoTable
+		//å¼€å§‹å¤„ç† m_ScheduleInfoTable
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
 			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 				if (_RSU->getTDM_DRAPoint()->m_ScheduleInfoTable[clusterIdx][patternIdx] == nullptr) continue;
 
 				int eventId = _RSU->getTDM_DRAPoint()->m_ScheduleInfoTable[clusterIdx][patternIdx]->eventId;
 				int VeUEId = getContext()->m_EventVec[eventId].getVeUEId();
-				//¸ÃVeUE²»ÔÚµ±Ç°RSUÖĞ£¬Ó¦½«ÆäÑ¹ÈëSystem¼¶±ğµÄÇĞ»»Á´±í
+				//è¯¥VeUEä¸åœ¨å½“å‰RSUä¸­ï¼Œåº”å°†å…¶å‹å…¥Systemçº§åˆ«çš„åˆ‡æ¢é“¾è¡¨
 				if (m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_RSUId != _RSU->getSystemPoint()->getGTTPoint()->m_RSUId) {
-					//Ñ¹ÈëSwitchÁ´±í
+					//å‹å…¥Switché“¾è¡¨
 					_RSU->getTDM_DRAPoint()->pushToSwitchEventIdList(m_SwitchEventIdList, eventId);
 
-					//½«Ê£Óà´ı´«bitÖØÖÃ
+					//å°†å‰©ä½™å¾…ä¼ bité‡ç½®
 					getContext()->m_EventVec[eventId].reset();
 
-					//²¢ÊÍ·Å¸Ãµ÷¶ÈĞÅÏ¢µÄ×ÊÔ´
+					//å¹¶é‡Šæ”¾è¯¥è°ƒåº¦ä¿¡æ¯çš„èµ„æº
 					Delete::safeDelete(_RSU->getTDM_DRAPoint()->m_ScheduleInfoTable[clusterIdx][patternIdx]);
 
-					//ÊÍ·ÅPattern×ÊÔ´
+					//é‡Šæ”¾Patternèµ„æº
 					_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx] = true;
 
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, SCHEDULETABLE_TO_SWITCH, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "LocationUpdate");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, SCHEDULETABLE_TO_SWITCH, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "LocationUpdate");
 				}
 				else {
-					//RSUÄÚ²¿·¢ÉúÁË´ØÇĞ»»£¬½«Æä´Óµ÷¶È±íÖĞÈ¡³ö£¬Ñ¹ÈëµÈ´ıÁ´±í
+					//RSUå†…éƒ¨å‘ç”Ÿäº†ç°‡åˆ‡æ¢ï¼Œå°†å…¶ä»è°ƒåº¦è¡¨ä¸­å–å‡ºï¼Œå‹å…¥ç­‰å¾…é“¾è¡¨
 					if (m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx != clusterIdx) {
-						//Ñ¹Èë¸ÃRSUµÄµÈ´ıÁ´±í
+						//å‹å…¥è¯¥RSUçš„ç­‰å¾…é“¾è¡¨
 						bool isEmergency = getContext()->m_EventVec[eventId].getMessageType() == EMERGENCY;
 						_RSU->getTDM_DRAPoint()->pushToWaitEventIdList(isEmergency, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, eventId);
 
-						//²¢ÊÍ·Å¸Ãµ÷¶ÈĞÅÏ¢µÄ×ÊÔ´
+						//å¹¶é‡Šæ”¾è¯¥è°ƒåº¦ä¿¡æ¯çš„èµ„æº
 						Delete::safeDelete(_RSU->getTDM_DRAPoint()->m_ScheduleInfoTable[clusterIdx][patternIdx]);
 
-						//ÊÍ·ÅPattern×ÊÔ´
+						//é‡Šæ”¾Patternèµ„æº
 						_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx] = true;
 
-						//¸üĞÂÈÕÖ¾
+						//æ›´æ–°æ—¥å¿—
 						getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, SCHEDULETABLE_TO_WAIT, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, -1, "LocationUpdate");
 						writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, SCHEDULETABLE_TO_WAIT, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, -1, "LocationUpdate");
 					}
@@ -490,7 +490,7 @@ void RRM_TDM_DRA::processScheduleInfoTableWhenLocationUpdate() {
 void RRM_TDM_DRA::processWaitEventIdListWhenLocationUpdate() {
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
-		//¿ªÊ¼´¦Àí m_WaitEventIdList
+		//å¼€å§‹å¤„ç† m_WaitEventIdList
 
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
 			/*  EMERGENCY  */
@@ -498,38 +498,38 @@ void RRM_TDM_DRA::processWaitEventIdListWhenLocationUpdate() {
 			while (it != _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].first.end()) {
 				int eventId = *it;
 				int VeUEId = getContext()->m_EventVec[eventId].getVeUEId();
-				//¸ÃVeUEÒÑ¾­²»ÔÚ¸ÃRSU·¶Î§ÄÚ
+				//è¯¥VeUEå·²ç»ä¸åœ¨è¯¥RSUèŒƒå›´å†…
 				if (m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_RSUId != _RSU->getSystemPoint()->getGTTPoint()->m_RSUId) {
 
-					//½«ÆäÌí¼Óµ½System¼¶±ğµÄRSUÇĞ»»Á´±íÖĞ
+					//å°†å…¶æ·»åŠ åˆ°Systemçº§åˆ«çš„RSUåˆ‡æ¢é“¾è¡¨ä¸­
 					_RSU->getTDM_DRAPoint()->pushToSwitchEventIdList(m_SwitchEventIdList, eventId);
 
-					//½«Æä´ÓµÈ´ıÁ´±íÖĞÉ¾³ı
+					//å°†å…¶ä»ç­‰å¾…é“¾è¡¨ä¸­åˆ é™¤
 					it = _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].first.erase(it);
 
-					//½«Ê£Óà´ı´«bitÖØÖÃ
+					//å°†å‰©ä½™å¾…ä¼ bité‡ç½®
 					getContext()->m_EventVec[eventId].reset();
 
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, WAIT_TO_SWITCH, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, -1, -1, -1, "LocationUpdate");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, WAIT_TO_SWITCH, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, -1, -1, -1, "LocationUpdate");
 				}
-				//ÈÔÈ»´¦ÓÚµ±Ç°RSU·¶Î§ÄÚ£¬µ«Î»ÓÚ²»Í¬µÄ´Ø
+				//ä»ç„¶å¤„äºå½“å‰RSUèŒƒå›´å†…ï¼Œä½†ä½äºä¸åŒçš„ç°‡
 				else if (m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx != clusterIdx) {
 
-					//½«ÆäÌí¼Óµ½ËùÔÚ´ØµÄµÈ´ıÁ´±í
+					//å°†å…¶æ·»åŠ åˆ°æ‰€åœ¨ç°‡çš„ç­‰å¾…é“¾è¡¨
 					_RSU->getTDM_DRAPoint()->pushToWaitEventIdList(true, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, eventId);
 
-					//½«Æä´ÓµÈ´ıÁ´±íÖĞµÄµ±Ç°´ØÉ¾³ı
+					//å°†å…¶ä»ç­‰å¾…é“¾è¡¨ä¸­çš„å½“å‰ç°‡åˆ é™¤
 					it = _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].first.erase(it);
 
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, WAIT_TO_WAIT, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, -1, "LocationUpdate");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, WAIT_TO_WAIT, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, -1, "LocationUpdate");
 				}
 				else {
 					it++;
-					continue; //¼ÌĞøÁôÔÚµ±Ç°RSUµÄµÈ´ıÁ´±í
+					continue; //ç»§ç»­ç•™åœ¨å½“å‰RSUçš„ç­‰å¾…é“¾è¡¨
 				}
 			}
 			/*  EMERGENCY  */
@@ -538,38 +538,38 @@ void RRM_TDM_DRA::processWaitEventIdListWhenLocationUpdate() {
 			while (it != _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].second.end()) {
 				int eventId = *it;
 				int VeUEId = getContext()->m_EventVec[eventId].getVeUEId();
-				//¸ÃVeUEÒÑ¾­²»ÔÚ¸ÃRSU·¶Î§ÄÚ
+				//è¯¥VeUEå·²ç»ä¸åœ¨è¯¥RSUèŒƒå›´å†…
 				if (m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_RSUId != _RSU->getSystemPoint()->getGTTPoint()->m_RSUId) {
 
-					//½«ÆäÌí¼Óµ½System¼¶±ğµÄRSUÇĞ»»Á´±íÖĞ
+					//å°†å…¶æ·»åŠ åˆ°Systemçº§åˆ«çš„RSUåˆ‡æ¢é“¾è¡¨ä¸­
 					_RSU->getTDM_DRAPoint()->pushToSwitchEventIdList(m_SwitchEventIdList, eventId);
 
-					//½«Æä´ÓµÈ´ıÁ´±íÖĞÉ¾³ı
+					//å°†å…¶ä»ç­‰å¾…é“¾è¡¨ä¸­åˆ é™¤
 					it = _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].second.erase(it);
 
-					//½«Ê£Óà´ı´«bitÖØÖÃ
+					//å°†å‰©ä½™å¾…ä¼ bité‡ç½®
 					getContext()->m_EventVec[eventId].reset();
 
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, WAIT_TO_SWITCH, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, -1, -1, -1, "LocationUpdate");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, WAIT_TO_SWITCH, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, -1, -1, -1, "LocationUpdate");
 				}
-				//ÈÔÈ»´¦ÓÚµ±Ç°RSU·¶Î§ÄÚ£¬µ«Î»ÓÚ²»Í¬µÄ´Ø
+				//ä»ç„¶å¤„äºå½“å‰RSUèŒƒå›´å†…ï¼Œä½†ä½äºä¸åŒçš„ç°‡
 				else if (m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx != clusterIdx) {
 
-					//½«ÆäÌí¼Óµ½ËùÔÚ´ØµÄµÈ´ıÁ´±í
+					//å°†å…¶æ·»åŠ åˆ°æ‰€åœ¨ç°‡çš„ç­‰å¾…é“¾è¡¨
 					_RSU->getTDM_DRAPoint()->pushToWaitEventIdList(false, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, eventId);
 
-					//½«Æä´ÓµÈ´ıÁ´±íÖĞµÄµ±Ç°´ØÉ¾³ı
+					//å°†å…¶ä»ç­‰å¾…é“¾è¡¨ä¸­çš„å½“å‰ç°‡åˆ é™¤
 					it = _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].second.erase(it);
 
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, WAIT_TO_WAIT, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, -1, "LocationUpdate");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, WAIT_TO_WAIT, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx, -1, "LocationUpdate");
 				}
 				else {
 					it++;
-					continue; //¼ÌĞøÁôÔÚµ±Ç°RSUµÄµÈ´ıÁ´±í
+					continue; //ç»§ç»­ç•™åœ¨å½“å‰RSUçš„ç­‰å¾…é“¾è¡¨
 				}
 			}
 		}
@@ -587,14 +587,14 @@ void RRM_TDM_DRA::processSwitchListWhenLocationUpdate() {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 		int clusterIdx = m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_ClusterIdx;
 
-		//×ªÈëµÈ´ıÁ´±í
+		//è½¬å…¥ç­‰å¾…é“¾è¡¨
 		bool isEmergency = getContext()->m_EventVec[eventId].getMessageType() == EMERGENCY;
 		_RSU->getTDM_DRAPoint()->pushToWaitEventIdList(isEmergency, clusterIdx, eventId);
 
-		//´ÓSwitch±íÖĞ½«ÆäÉ¾³ı
+		//ä»Switchè¡¨ä¸­å°†å…¶åˆ é™¤
 		it = m_SwitchEventIdList.erase(it);
 
-		//¸üĞÂÈÕÖ¾
+		//æ›´æ–°æ—¥å¿—
 		getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, SWITCH_TO_WAIT, -1, -1, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "LocationUpdate");
 		writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, SWITCH_TO_WAIT, eventId, -1, -1, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "LocationUpdate");
 	}
@@ -609,21 +609,21 @@ void RRM_TDM_DRA::processWaitEventIdList() {
 			list<int>::iterator it = _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].first.begin();
 			while (it != _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].first.end()) {
 				int eventId = *it;
-				//Èç¹û¸ÃÊÂ¼ş²»ĞèÒªÍË±Ü£¬Ôò×ªÈë½ÓÈë±í
+				//å¦‚æœè¯¥äº‹ä»¶ä¸éœ€è¦é€€é¿ï¼Œåˆ™è½¬å…¥æ¥å…¥è¡¨
 				if (getContext()->m_EventVec[eventId].tryAcccess()) {
 
-					//Ñ¹Èë½ÓÈëÁ´±í
+					//å‹å…¥æ¥å…¥é“¾è¡¨
 					_RSU->getTDM_DRAPoint()->pushToAccessEventIdList(true, clusterIdx, eventId);
 
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, WAIT_TO_ACCESS, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "CanAccess");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, WAIT_TO_ACCESS, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "CanAccess");
 
-					//½«¸ÃÊÂ¼ş´ÓµÈ´ú±íÖĞÉ¾³ı
+					//å°†è¯¥äº‹ä»¶ä»ç­‰ä»£è¡¨ä¸­åˆ é™¤
 					it = _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].first.erase(it);
 				}
 				else {
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, WITHDRAWING, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, -1, -1, -1, "Withdraw");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, WITHDRAWING, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, -1, -1, -1, "Withdraw");
 
@@ -636,21 +636,21 @@ void RRM_TDM_DRA::processWaitEventIdList() {
 		list<int>::iterator it = _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].second.begin();
 		while (it != _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].second.end()) {
 			int eventId = *it;
-			//Èç¹û¸ÃÊÂ¼ş²»ĞèÒªÍË±Ü£¬Ôò×ªÈë½ÓÈë±í
+			//å¦‚æœè¯¥äº‹ä»¶ä¸éœ€è¦é€€é¿ï¼Œåˆ™è½¬å…¥æ¥å…¥è¡¨
 			if (getContext()->m_EventVec[eventId].tryAcccess()) {
 
-				//Ñ¹Èë½ÓÈëÁ´±í
+				//å‹å…¥æ¥å…¥é“¾è¡¨
 				_RSU->getTDM_DRAPoint()->pushToAccessEventIdList(false, clusterIdx, eventId);
 
-				//¸üĞÂÈÕÖ¾
+				//æ›´æ–°æ—¥å¿—
 				getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, WAIT_TO_ACCESS, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "CanAccess");
 				writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, WAIT_TO_ACCESS, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "CanAccess");
 
-				//½«¸ÃÊÂ¼ş´ÓµÈ´ú±íÖĞÉ¾³ı
+				//å°†è¯¥äº‹ä»¶ä»ç­‰ä»£è¡¨ä¸­åˆ é™¤
 				it = _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].second.erase(it);
 			}
 			else {
-				//¸üĞÂÈÕÖ¾
+				//æ›´æ–°æ—¥å¿—
 				getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, WITHDRAWING, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, -1, -1, -1, "Withdraw");
 				writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, WITHDRAWING, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, -1, -1, -1, "Withdraw");
 
@@ -667,7 +667,7 @@ void RRM_TDM_DRA::selectRBBasedOnP123() {
 
 		/*  EMERGENCY  */
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-			vector<int> curAvaliableEmergencyPatternIdx;//µ±Ç°´Ø¿ÉÓÃµÄEmergencyPattern±àºÅ
+			vector<int> curAvaliableEmergencyPatternIdx;//å½“å‰ç°‡å¯ç”¨çš„EmergencyPatternç¼–å·
 
 			for (int patternIdx = 0; patternIdx < s_PATTERN_NUM_PER_PATTERN_TYPE[EMERGENCY]; patternIdx++) {
 				if (_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx]) {
@@ -678,21 +678,21 @@ void RRM_TDM_DRA::selectRBBasedOnP123() {
 			for (int eventId : _RSU->getTDM_DRAPoint()->m_AccessEventIdList[clusterIdx].first) {
 				int VeUEId = getContext()->m_EventVec[eventId].getVeUEId();
 
-				//Îªµ±Ç°ÓÃ»§ÔÚ¿ÉÓÃµÄEmergencyPattern¿éÖĞËæ»úÑ¡ÔñÒ»¸ö£¬Ã¿¸öÓÃ»§×ÔĞĞËæ»úÑ¡Ôñ¿ÉÓÃEmergencyPattern¿é
+				//ä¸ºå½“å‰ç”¨æˆ·åœ¨å¯ç”¨çš„EmergencyPatternå—ä¸­éšæœºé€‰æ‹©ä¸€ä¸ªï¼Œæ¯ä¸ªç”¨æˆ·è‡ªè¡Œéšæœºé€‰æ‹©å¯ç”¨EmergencyPatternå—
 				int patternIdx = m_VeUEAry[VeUEId]->getTDM_DRAPoint()->selectRBBasedOnP2(curAvaliableEmergencyPatternIdx);
 
-				//ÎŞ¶ÔÓ¦PatternÀàĞÍµÄpattern×ÊÔ´¿ÉÓÃ
+				//æ— å¯¹åº”Patternç±»å‹çš„patternèµ„æºå¯ç”¨
 				if (patternIdx == -1) {
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, ACCESS_TO_WAIT, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "AllBusy");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, ACCESS_TO_WAIT, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "AllBusy");
 
 					continue;
 				}
-				//½«×ÊÔ´±ê¼ÇÎªÕ¼ÓÃ
+				//å°†èµ„æºæ ‡è®°ä¸ºå ç”¨
 				_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx] = false;
 
-				//½«µ÷¶ÈĞÅÏ¢Ñ¹Èëm_EmergencyTransimitEventIdListÖĞ
+				//å°†è°ƒåº¦ä¿¡æ¯å‹å…¥m_EmergencyTransimitEventIdListä¸­
 				_RSU->getTDM_DRAPoint()->pushToTransimitScheduleInfoList(new RRM_RSU::ScheduleInfo(eventId, VeUEId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, -1, patternIdx));
 
 			}
@@ -700,13 +700,13 @@ void RRM_TDM_DRA::selectRBBasedOnP123() {
 		}
 		/*  EMERGENCY  */
 
-		//¿ªÊ¼´¦Àí·ÇEmergencyµÄÊÂ¼ş
+		//å¼€å§‹å¤„ç†éEmergencyçš„äº‹ä»¶
 		int clusterIdx = _RSU->getTDM_DRAPoint()->getClusterIdx(getContext()->m_TTI);
 
 		/*
-		* µ±Ç°TTI¿ÉÓÃµÄPattern¿é±àºÅ
-		* ÏÂ±ê´ú±íµÄPatternÖÖÀàµÄ±àºÅ£¬ÆäÖĞEmergencyÄÇÒ»ÏîÊÇ¿ÕµÄ£¬µ«ÊÇ±£Áô£¬Ïë±ÜÃâ±àºÅ²úÉúÆ«ÒÆ
-		* Ã¿¸öÄÚ²ãvector´ú±í¸ÃÖÖÀàPattern¿ÉÓÃµÄPattern±àºÅ(¾ø¶ÔPattern±àºÅ)
+		* å½“å‰TTIå¯ç”¨çš„Patternå—ç¼–å·
+		* ä¸‹æ ‡ä»£è¡¨çš„Patternç§ç±»çš„ç¼–å·ï¼Œå…¶ä¸­Emergencyé‚£ä¸€é¡¹æ˜¯ç©ºçš„ï¼Œä½†æ˜¯ä¿ç•™ï¼Œæƒ³é¿å…ç¼–å·äº§ç”Ÿåç§»
+		* æ¯ä¸ªå†…å±‚vectorä»£è¡¨è¯¥ç§ç±»Patternå¯ç”¨çš„Patternç¼–å·(ç»å¯¹Patternç¼–å·)
 		*/
 		vector<vector<int>> curAvaliablePatternIdx(s_PATTERN_TYPE_NUM);
 
@@ -721,27 +721,27 @@ void RRM_TDM_DRA::selectRBBasedOnP123() {
 		for (int eventId : _RSU->getTDM_DRAPoint()->m_AccessEventIdList[clusterIdx].second) {
 			int VeUEId = getContext()->m_EventVec[eventId].getVeUEId();
 
-			//Îªµ±Ç°ÓÃ»§ÔÚ¿ÉÓÃµÄ¶ÔÓ¦ÆäÊÂ¼şÀàĞÍµÄPattern¿éÖĞËæ»úÑ¡ÔñÒ»¸ö£¬Ã¿¸öÓÃ»§×ÔĞĞËæ»úÑ¡Ôñ¿ÉÓÃPattern¿é
+			//ä¸ºå½“å‰ç”¨æˆ·åœ¨å¯ç”¨çš„å¯¹åº”å…¶äº‹ä»¶ç±»å‹çš„Patternå—ä¸­éšæœºé€‰æ‹©ä¸€ä¸ªï¼Œæ¯ä¸ªç”¨æˆ·è‡ªè¡Œéšæœºé€‰æ‹©å¯ç”¨Patternå—
 			MessageType messageType = getContext()->m_EventVec[eventId].getMessageType();
 			int patternIdx = m_VeUEAry[VeUEId]->getTDM_DRAPoint()->selectRBBasedOnP2(curAvaliablePatternIdx[messageType]);
 
-			//¸ÃÓÃ»§´«ÊäµÄĞÅÏ¢ÀàĞÍÃ»ÓĞpatternÊ£ÓàÁË
+			//è¯¥ç”¨æˆ·ä¼ è¾“çš„ä¿¡æ¯ç±»å‹æ²¡æœ‰patternå‰©ä½™äº†
 			if (patternIdx == -1) {
-				//¸üĞÂÈÕÖ¾
+				//æ›´æ–°æ—¥å¿—
 				getContext()->m_EventVec[eventId].addEventLog(getContext()->m_TTI, ACCESS_TO_WAIT, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "AllBusy");
 				writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, ACCESS_TO_WAIT, eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "AllBusy");
 
 				continue;
 			}
 
-			//½«×ÊÔ´±ê¼ÇÎªÕ¼ÓÃ
+			//å°†èµ„æºæ ‡è®°ä¸ºå ç”¨
 			_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx] = false;
 
-			//½«µ÷¶ÈĞÅÏ¢Ñ¹Èëm_TransimitEventIdListÖĞ
+			//å°†è°ƒåº¦ä¿¡æ¯å‹å…¥m_TransimitEventIdListä¸­
 			_RSU->getTDM_DRAPoint()->pushToTransimitScheduleInfoList(new RRM_RSU::ScheduleInfo(eventId, VeUEId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx));
 
 		}
-		//½«µ÷¶È±íÖĞµ±Ç°¿ÉÒÔ¼ÌĞø´«ÊäµÄÓÃ»§Ñ¹Èë´«ÊäÁ´±íÖĞ(°üÀ¨½ô¼±ºÍ·Ç½ô¼±)
+		//å°†è°ƒåº¦è¡¨ä¸­å½“å‰å¯ä»¥ç»§ç»­ä¼ è¾“çš„ç”¨æˆ·å‹å…¥ä¼ è¾“é“¾è¡¨ä¸­(åŒ…æ‹¬ç´§æ€¥å’Œéç´§æ€¥)
 		_RSU->getTDM_DRAPoint()->pullFromScheduleInfoTable(getContext()->m_TTI);
 	}
 }
@@ -753,10 +753,10 @@ void RRM_TDM_DRA::delaystatistics() {
 
 		/*  EMERGENCY  */
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-			//´¦ÀíµÈ´ıÁ´±í
+			//å¤„ç†ç­‰å¾…é“¾è¡¨
 			for (int eventId : _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].first)
 				getContext()->m_EventVec[eventId].increaseQueueDelay();
-			//´¦Àí´Ë¿ÌÕıÔÚ½«Òª´«ÊäµÄ´«ÊäÁ´±í
+			//å¤„ç†æ­¤åˆ»æ­£åœ¨å°†è¦ä¼ è¾“çš„ä¼ è¾“é“¾è¡¨
 			for (int patternIdx = 0; patternIdx < s_PATTERN_NUM_PER_PATTERN_TYPE[EMERGENCY]; patternIdx++)
 				for (RRM_RSU::ScheduleInfo* &p : _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx])
 					getContext()->m_EventVec[p->eventId].increaseSendDelay();
@@ -764,20 +764,20 @@ void RRM_TDM_DRA::delaystatistics() {
 		/*  EMERGENCY  */
 
 
-		//´¦ÀíµÈ´ıÁ´±í
+		//å¤„ç†ç­‰å¾…é“¾è¡¨
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
 			for (int eventId : _RSU->getTDM_DRAPoint()->m_WaitEventIdList[clusterIdx].second)
 				getContext()->m_EventVec[eventId].increaseQueueDelay();
 		}
 
-		//´¦Àí´Ë¿ÌÕıÔÚ½«Òª´«ÊäµÄ´«ÊäÁ´±í
+		//å¤„ç†æ­¤åˆ»æ­£åœ¨å°†è¦ä¼ è¾“çš„ä¼ è¾“é“¾è¡¨
 		int clusterIdx = _RSU->getTDM_DRAPoint()->getClusterIdx(getContext()->m_TTI);
 		for (int patternIdx = s_PATTERN_NUM_PER_PATTERN_TYPE[EMERGENCY]; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 			for (RRM_RSU::ScheduleInfo* &p : _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx])
 				getContext()->m_EventVec[p->eventId].increaseSendDelay();
 		}
 
-		//´¦Àí´Ë¿ÌÎ»ÓÚµ÷¶È±íÖĞ£¬µ«²»ÊôÓÚµ±Ç°´ØµÄÊÂ¼ş
+		//å¤„ç†æ­¤åˆ»ä½äºè°ƒåº¦è¡¨ä¸­ï¼Œä½†ä¸å±äºå½“å‰ç°‡çš„äº‹ä»¶
 		for (int otherClusterIdx = 0; otherClusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; otherClusterIdx++) {
 			if (otherClusterIdx == clusterIdx) continue;
 			for (RRM_RSU::ScheduleInfo *p : _RSU->getTDM_DRAPoint()->m_ScheduleInfoTable[otherClusterIdx]) {
@@ -796,23 +796,23 @@ void RRM_TDM_DRA::conflictListener() {
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
 			for (int patternIdx = 0; patternIdx < s_PATTERN_NUM_PER_PATTERN_TYPE[EMERGENCY]; patternIdx++) {
 				list<RRM_RSU::ScheduleInfo*> &lst = _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
-				if (lst.size() > 1) {//¶àÓÚÒ»¸öVeUEÔÚµ±Ç°TTI£¬¸ÃPatternÉÏ´«Êä£¬¼´·¢ÉúÁË³åÍ»£¬½«ÆäÌí¼Óµ½µÈ´ıÁĞ±í
+				if (lst.size() > 1) {//å¤šäºä¸€ä¸ªVeUEåœ¨å½“å‰TTIï¼Œè¯¥Patternä¸Šä¼ è¾“ï¼Œå³å‘ç”Ÿäº†å†²çªï¼Œå°†å…¶æ·»åŠ åˆ°ç­‰å¾…åˆ—è¡¨
 					for (RRM_RSU::ScheduleInfo* &info : lst) {
-						//Ê×ÏÈ½«ÊÂ¼şÑ¹ÈëµÈ´ıÁĞ±í
+						//é¦–å…ˆå°†äº‹ä»¶å‹å…¥ç­‰å¾…åˆ—è¡¨
 						_RSU->getTDM_DRAPoint()->pushToWaitEventIdList(true, clusterIdx, info->eventId);
 
-						//³åÍ»ºó¸üĞÂÊÂ¼şµÄ×´Ì¬
+						//å†²çªåæ›´æ–°äº‹ä»¶çš„çŠ¶æ€
 						getContext()->m_EventVec[info->eventId].conflict();
 
-						//¸üĞÂÈÕÖ¾
+						//æ›´æ–°æ—¥å¿—
 						getContext()->m_EventVec[info->eventId].addEventLog(getContext()->m_TTI, TRANSIMIT_TO_WAIT, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "Conflict");
 						writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, TRANSIMIT_TO_WAIT, info->eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "Conflict");
 
-						//ÊÍ·Åµ÷¶ÈĞÅÏ¢¶ÔÏóµÄÄÚ´æ×ÊÔ´
+						//é‡Šæ”¾è°ƒåº¦ä¿¡æ¯å¯¹è±¡çš„å†…å­˜èµ„æº
 						Delete::safeDelete(info);
 					}
 
-					//ÊÍ·ÅPattern×ÊÔ´
+					//é‡Šæ”¾Patternèµ„æº
 					_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx] = true;
 
 					lst.clear();
@@ -826,22 +826,22 @@ void RRM_TDM_DRA::conflictListener() {
 		for (int patternIdx = s_PATTERN_NUM_PER_PATTERN_TYPE[EMERGENCY]; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 
 			list<RRM_RSU::ScheduleInfo*> &lst = _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
-			if (lst.size() > 1) {//¶àÓÚÒ»¸öVeUEÔÚµ±Ç°TTI£¬¸ÃPatternÉÏ´«Êä£¬¼´·¢ÉúÁË³åÍ»£¬½«ÆäÌí¼Óµ½µÈ´ıÁĞ±í
+			if (lst.size() > 1) {//å¤šäºä¸€ä¸ªVeUEåœ¨å½“å‰TTIï¼Œè¯¥Patternä¸Šä¼ è¾“ï¼Œå³å‘ç”Ÿäº†å†²çªï¼Œå°†å…¶æ·»åŠ åˆ°ç­‰å¾…åˆ—è¡¨
 				for (RRM_RSU::ScheduleInfo* &info : lst) {
-					//Ê×ÏÈ½«ÊÂ¼şÑ¹ÈëµÈ´ıÁĞ±í
+					//é¦–å…ˆå°†äº‹ä»¶å‹å…¥ç­‰å¾…åˆ—è¡¨
 					_RSU->getTDM_DRAPoint()->pushToWaitEventIdList(false, clusterIdx, info->eventId);
 
-					//³åÍ»ºó¸üĞÂÊÂ¼şµÄ×´Ì¬
+					//å†²çªåæ›´æ–°äº‹ä»¶çš„çŠ¶æ€
 					getContext()->m_EventVec[info->eventId].conflict();
 
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[info->eventId].addEventLog(getContext()->m_TTI, TRANSIMIT_TO_WAIT, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "Conflict");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, TRANSIMIT_TO_WAIT, info->eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, -1, "Conflict");
 
-					//ÊÍ·Åµ÷¶ÈĞÅÏ¢¶ÔÏóµÄÄÚ´æ×ÊÔ´
+					//é‡Šæ”¾è°ƒåº¦ä¿¡æ¯å¯¹è±¡çš„å†…å­˜èµ„æº
 					Delete::safeDelete(info);
 				}
-				//ÊÍ·ÅPattern×ÊÔ´
+				//é‡Šæ”¾Patternèµ„æº
 				_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx] = true;
 
 				lst.clear();
@@ -852,25 +852,25 @@ void RRM_TDM_DRA::conflictListener() {
 
 
 void RRM_TDM_DRA::transimitPreparation() {
-	//Ê×ÏÈÇå¿ÕÉÏÒ»´Î¸ÉÈÅĞÅÏ¢
+	//é¦–å…ˆæ¸…ç©ºä¸Šä¸€æ¬¡å¹²æ‰°ä¿¡æ¯
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++)
 		for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++)
 			m_InterferenceVec[VeUEId][patternIdx].clear();
 
-	//Í³¼Æ±¾´ÎµÄ¸ÉÈÅĞÅÏ¢
+	//ç»Ÿè®¡æœ¬æ¬¡çš„å¹²æ‰°ä¿¡æ¯
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
 			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 				list<RRM_RSU::ScheduleInfo*> &curList = _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
-				if (curList.size() == 1) {//Ö»ÓĞÒ»¸öÓÃ»§ÔÚ´«Êä£¬¸ÃÓÃ»§»áÕıÈ·µÄ´«ÊäËùÓĞÊı¾İ£¨ÔÚÀë¿ª´ØÖ®Ç°£©
+				if (curList.size() == 1) {//åªæœ‰ä¸€ä¸ªç”¨æˆ·åœ¨ä¼ è¾“ï¼Œè¯¥ç”¨æˆ·ä¼šæ­£ç¡®çš„ä¼ è¾“æ‰€æœ‰æ•°æ®ï¼ˆåœ¨ç¦»å¼€ç°‡ä¹‹å‰ï¼‰
 					RRM_RSU::ScheduleInfo *curInfo = *curList.begin();
 					int curVeUEId = curInfo->VeUEId;
 					for (int otherClusterIdx = 0; otherClusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; otherClusterIdx++) {
 						if (otherClusterIdx == clusterIdx)continue;
 						list<RRM_RSU::ScheduleInfo*> &otherList = _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[otherClusterIdx][patternIdx];
-						if (otherList.size() == 1) {//ÆäËû´ØÖĞ¸ÃpatternÏÂÓĞ³µÁ¾ÔÚ´«Êä£¬ÄÇÃ´½«¸Ã³µÁ¾×÷Îª¸ÉÈÅ³µÁ¾
+						if (otherList.size() == 1) {//å…¶ä»–ç°‡ä¸­è¯¥patternä¸‹æœ‰è½¦è¾†åœ¨ä¼ è¾“ï¼Œé‚£ä¹ˆå°†è¯¥è½¦è¾†ä½œä¸ºå¹²æ‰°è½¦è¾†
 							RRM_RSU::ScheduleInfo *otherInfo = *otherList.begin();
 							int otherVeUEId = otherInfo->VeUEId;
 							m_InterferenceVec[curVeUEId][patternIdx].push_back(otherVeUEId);
@@ -881,14 +881,14 @@ void RRM_TDM_DRA::transimitPreparation() {
 		}
 	}
 
-	//¸üĞÂÃ¿Á¾³µµÄ¸ÉÈÅ³µÁ¾ÁĞ±í	
+	//æ›´æ–°æ¯è¾†è½¦çš„å¹²æ‰°è½¦è¾†åˆ—è¡¨	
 	for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 		for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
 			list<int>& interList = m_InterferenceVec[VeUEId][patternIdx];
 
-			m_VeUEAry[VeUEId]->m_InterferenceVeUENum[patternIdx] = (int)interList.size();//Ğ´Èë¸ÉÈÅÊıÄ¿
+			m_VeUEAry[VeUEId]->m_InterferenceVeUENum[patternIdx] = (int)interList.size();//å†™å…¥å¹²æ‰°æ•°ç›®
 
-			m_VeUEAry[VeUEId]->m_InterferenceVeUEIdVec[patternIdx].assign(interList.begin(), interList.end());//Ğ´Èë¸ÉÈÅ³µÁ¾ID
+			m_VeUEAry[VeUEId]->m_InterferenceVeUEIdVec[patternIdx].assign(interList.begin(), interList.end());//å†™å…¥å¹²æ‰°è½¦è¾†ID
 
 			if (m_VeUEAry[VeUEId]->m_InterferenceVeUENum[patternIdx]>0) {
 				g_FileTemp << "VeUEId: " << VeUEId << " [";
@@ -899,7 +899,7 @@ void RRM_TDM_DRA::transimitPreparation() {
 		}
 	}
 
-	//ÇëÇóµØÀíÍØÆËµ¥Ôª¼ÆËã¸ÉÈÅÏìÓ¦¾ØÕó
+	//è¯·æ±‚åœ°ç†æ‹“æ‰‘å•å…ƒè®¡ç®—å¹²æ‰°å“åº”çŸ©é˜µ
 	long double start = clock();
 	getContext()->m_GTTPoint->calculateInterference(m_InterferenceVec);
 	long double end = clock();
@@ -919,7 +919,7 @@ void RRM_TDM_DRA::transimitStart() {
 }
 
 void RRM_TDM_DRA::transimitStartThread(int t_FromRSUId, int t_ToRSUId) {
-	WT* copyWTPoint = getContext()->m_WTPoint->getCopy();//ÓÉÓÚÃ¿¸öÏß³ÌµÄ¸ÃÄ£¿é»áÓĞ²»Í¬µÄ×´Ì¬ÇÒÎŞ·¨¹²Ïí£¬Òò´ËÕâÀï¿½±´¸ÃÄ£¿éÓÃÓÚ±¾´Î¼ÆËã
+	WT* copyWTPoint = getContext()->m_WTPoint->getCopy();//ç”±äºæ¯ä¸ªçº¿ç¨‹çš„è¯¥æ¨¡å—ä¼šæœ‰ä¸åŒçš„çŠ¶æ€ä¸”æ— æ³•å…±äº«ï¼Œå› æ­¤è¿™é‡Œæ‹·è´è¯¥æ¨¡å—ç”¨äºæœ¬æ¬¡è®¡ç®—
 	for (int RSUId = t_FromRSUId; RSUId <= t_ToRSUId; RSUId++) {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
@@ -931,18 +931,18 @@ void RRM_TDM_DRA::transimitStartThread(int t_FromRSUId, int t_ToRSUId) {
 					RRM_RSU::ScheduleInfo *info = *lst.begin();
 					int VeUEId = info->VeUEId;
 
-					//¼ÆËãSINR£¬»ñÈ¡µ÷ÖÆ±àÂë·½Ê½
+					//è®¡ç®—SINRï¼Œè·å–è°ƒåˆ¶ç¼–ç æ–¹å¼
 					pair<int, int> subCarrierIdxRange = getOccupiedSubCarrierRange(getContext()->m_EventVec[info->eventId].getMessageType(), patternIdx);
 					g_FileTemp << "Emergency PatternIdx = " << patternIdx << "  [" << subCarrierIdxRange.first << " , " << subCarrierIdxRange.second << " ]  " << endl;
 
 					double factor = m_VeUEAry[VeUEId]->m_ModulationType * m_VeUEAry[VeUEId]->m_CodeRate;
 
-					//¸Ã±àÂë·½Ê½ÏÂ£¬¸ÃPatternÔÚÒ»¸öTTI×î¶à¿É´«ÊäµÄÓĞĞ§ĞÅÏ¢bitÊıÁ¿
+					//è¯¥ç¼–ç æ–¹å¼ä¸‹ï¼Œè¯¥Patternåœ¨ä¸€ä¸ªTTIæœ€å¤šå¯ä¼ è¾“çš„æœ‰æ•ˆä¿¡æ¯bitæ•°é‡
 					int maxEquivalentBitNum = (int)((double)(s_RB_NUM_PER_PATTERN_TYPE[EMERGENCY] * s_BIT_NUM_PER_RB)* factor);
 
-					//¼ÆËãSINR
+					//è®¡ç®—SINR
 					double curSINR = 0;
-					if (m_VeUEAry[VeUEId]->isNeedRecalculateSINR(patternIdx) || !m_VeUEAry[VeUEId]->isAlreadyCalculateSINR(patternIdx)) {//µ÷ÖÆ±àÂë·½Ê½ĞèÒª¸üĞÂÊ±
+					if (m_VeUEAry[VeUEId]->isNeedRecalculateSINR(patternIdx) || !m_VeUEAry[VeUEId]->isAlreadyCalculateSINR(patternIdx)) {//è°ƒåˆ¶ç¼–ç æ–¹å¼éœ€è¦æ›´æ–°æ—¶
 						curSINR = copyWTPoint->SINRCalculate(info->VeUEId, subCarrierIdxRange.first, subCarrierIdxRange.second, patternIdx);
 						m_VeUEAry[VeUEId]->m_PreInterferenceVeUEIdVec[patternIdx] = m_VeUEAry[VeUEId]->m_InterferenceVeUEIdVec[patternIdx];
 						m_VeUEAry[VeUEId]->m_PreSINR[patternIdx] = curSINR;
@@ -950,23 +950,23 @@ void RRM_TDM_DRA::transimitStartThread(int t_FromRSUId, int t_ToRSUId) {
 					else
 						curSINR = m_VeUEAry[VeUEId]->m_PreSINR[patternIdx];
 
-					//¼ÇÂ¼µ÷¶ÈĞÅÏ¢
+					//è®°å½•è°ƒåº¦ä¿¡æ¯
 					double tmpDistance = m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_Distance[RSUId];
 					if (curSINR < s_DROP_SINR_BOUNDARY) {
-						//¼ÇÂ¼¶ª°ü
+						//è®°å½•ä¸¢åŒ…
 						getContext()->m_EventVec[info->eventId].packetLoss(tmpDistance);
 					}
 					info->transimitBitNum = maxEquivalentBitNum;
 					info->currentPackageIdx = getContext()->m_EventVec[info->eventId].getCurrentPackageIdx();
 					info->remainBitNum = getContext()->m_EventVec[info->eventId].getRemainBitNum();
 
-					//¸Ã±àÂë·½Ê½ÏÂ£¬¸ÃPatternÔÚÒ»¸öTTI´«ÊäµÄÊµ¼ÊµÄÓĞĞ§ĞÅÏ¢bitÊıÁ¿£¬²¢¸üĞÂĞÅÏ¢×´Ì¬
+					//è¯¥ç¼–ç æ–¹å¼ä¸‹ï¼Œè¯¥Patternåœ¨ä¸€ä¸ªTTIä¼ è¾“çš„å®é™…çš„æœ‰æ•ˆä¿¡æ¯bitæ•°é‡ï¼Œå¹¶æ›´æ–°ä¿¡æ¯çŠ¶æ€
 					int realEquivalentBitNum = getContext()->m_EventVec[info->eventId].transimit(maxEquivalentBitNum, tmpDistance);
 
-					//ÀÛ¼ÆÍÌÍÂÂÊ
+					//ç´¯è®¡ååç‡
 					getContext()->m_TTIRSUThroughput[getContext()->m_TTI][_RSU->getSystemPoint()->getGTTPoint()->m_RSUId] += realEquivalentBitNum;
 
-					//¸üĞÂÈÕÖ¾
+					//æ›´æ–°æ—¥å¿—
 					getContext()->m_EventVec[info->eventId].addEventLog(getContext()->m_TTI, TRANSIMITTING, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "Transimit");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, TRANSIMITTING, info->eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "Transimit");
 				}
@@ -979,24 +979,24 @@ void RRM_TDM_DRA::transimitStartThread(int t_FromRSUId, int t_ToRSUId) {
 		for (int patternIdx = s_PATTERN_NUM_PER_PATTERN_TYPE[EMERGENCY]; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 
 			list<RRM_RSU::ScheduleInfo*> &lst = _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
-			if (lst.size() == 1) {//Ö»ÓĞÒ»¸öÓÃ»§ÔÚ´«Êä£¬¸ÃÓÃ»§»áÕıÈ·µÄ´«ÊäËùÓĞÊı¾İ£¨ÔÚÀë¿ª´ØÖ®Ç°£©
+			if (lst.size() == 1) {//åªæœ‰ä¸€ä¸ªç”¨æˆ·åœ¨ä¼ è¾“ï¼Œè¯¥ç”¨æˆ·ä¼šæ­£ç¡®çš„ä¼ è¾“æ‰€æœ‰æ•°æ®ï¼ˆåœ¨ç¦»å¼€ç°‡ä¹‹å‰ï¼‰
 				RRM_RSU::ScheduleInfo *info = *lst.begin();
 				int VeUEId = info->VeUEId;
 
 				int patternType = getPatternType(patternIdx);
 
-				//¼ÆËãSINR£¬»ñÈ¡µ÷ÖÆ±àÂë·½Ê½
+				//è®¡ç®—SINRï¼Œè·å–è°ƒåˆ¶ç¼–ç æ–¹å¼
 				pair<int, int> subCarrierIdxRange = getOccupiedSubCarrierRange(getContext()->m_EventVec[info->eventId].getMessageType(), patternIdx);
 				g_FileTemp << "NonEmergencyPatternIdx = " << patternIdx << "  [" << subCarrierIdxRange.first << " , " << subCarrierIdxRange.second << " ]  " << ((patternType == 0) ? "Emergency" : (patternType == 1 ? "Period" : "Data")) << endl;
 
 				double factor = m_VeUEAry[VeUEId]->m_ModulationType * m_VeUEAry[VeUEId]->m_CodeRate;
 
-				//¸Ã±àÂë·½Ê½ÏÂ£¬¸ÃPatternÔÚÒ»¸öTTI×î¶à¿É´«ÊäµÄÓĞĞ§ĞÅÏ¢bitÊıÁ¿
+				//è¯¥ç¼–ç æ–¹å¼ä¸‹ï¼Œè¯¥Patternåœ¨ä¸€ä¸ªTTIæœ€å¤šå¯ä¼ è¾“çš„æœ‰æ•ˆä¿¡æ¯bitæ•°é‡
 				int maxEquivalentBitNum = (int)((double)(s_RB_NUM_PER_PATTERN_TYPE[patternType] * s_BIT_NUM_PER_RB)* factor);
 
-				//¼ÆËãSINR
+				//è®¡ç®—SINR
 				double curSINR = 0;
-				if (m_VeUEAry[VeUEId]->isNeedRecalculateSINR(patternIdx) || !m_VeUEAry[VeUEId]->isAlreadyCalculateSINR(patternIdx)) {//µ÷ÖÆ±àÂë·½Ê½ĞèÒª¸üĞÂÊ±
+				if (m_VeUEAry[VeUEId]->isNeedRecalculateSINR(patternIdx) || !m_VeUEAry[VeUEId]->isAlreadyCalculateSINR(patternIdx)) {//è°ƒåˆ¶ç¼–ç æ–¹å¼éœ€è¦æ›´æ–°æ—¶
 					curSINR = copyWTPoint->SINRCalculate(info->VeUEId, subCarrierIdxRange.first, subCarrierIdxRange.second, patternIdx);
 					m_VeUEAry[VeUEId]->m_PreInterferenceVeUEIdVec[patternIdx] = m_VeUEAry[VeUEId]->m_InterferenceVeUEIdVec[patternIdx];
 					m_VeUEAry[VeUEId]->m_PreSINR[patternIdx] = curSINR;
@@ -1004,29 +1004,29 @@ void RRM_TDM_DRA::transimitStartThread(int t_FromRSUId, int t_ToRSUId) {
 				else
 					curSINR = m_VeUEAry[VeUEId]->m_PreSINR[patternIdx];
 
-				//¼ÇÂ¼µ÷¶ÈĞÅÏ¢
+				//è®°å½•è°ƒåº¦ä¿¡æ¯
 				double tmpDistance = m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_Distance[RSUId];
 				if (curSINR < s_DROP_SINR_BOUNDARY) {
-					//¼ÇÂ¼¶ª°ü
+					//è®°å½•ä¸¢åŒ…
 					getContext()->m_EventVec[info->eventId].packetLoss(tmpDistance);
 				}
 				info->transimitBitNum = maxEquivalentBitNum;
 				info->currentPackageIdx = getContext()->m_EventVec[info->eventId].getCurrentPackageIdx();
 				info->remainBitNum = getContext()->m_EventVec[info->eventId].getRemainBitNum();
 
-				//¸Ã±àÂë·½Ê½ÏÂ£¬¸ÃPatternÔÚÒ»¸öTTI´«ÊäµÄÊµ¼ÊµÄÓĞĞ§ĞÅÏ¢bitÊıÁ¿£¬²¢¸üĞÂĞÅÏ¢×´Ì¬
+				//è¯¥ç¼–ç æ–¹å¼ä¸‹ï¼Œè¯¥Patternåœ¨ä¸€ä¸ªTTIä¼ è¾“çš„å®é™…çš„æœ‰æ•ˆä¿¡æ¯bitæ•°é‡ï¼Œå¹¶æ›´æ–°ä¿¡æ¯çŠ¶æ€
 				int realEquivalentBitNum = getContext()->m_EventVec[info->eventId].transimit(maxEquivalentBitNum, tmpDistance);
 
-				//ÀÛ¼ÆÍÌÍÂÂÊ
+				//ç´¯è®¡ååç‡
 				getContext()->m_TTIRSUThroughput[getContext()->m_TTI][_RSU->getSystemPoint()->getGTTPoint()->m_RSUId] += realEquivalentBitNum;
 
-				//¸üĞÂÈÕÖ¾
+				//æ›´æ–°æ—¥å¿—
 				getContext()->m_EventVec[info->eventId].addEventLog(getContext()->m_TTI, TRANSIMITTING, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "Transimit");
 				writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, TRANSIMITTING, info->eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "Transimit");
 			}
 		}
 	}
-	copyWTPoint->freeCopy();//getCopyÊÇÍ¨¹ınew´´½¨µÄ£¬Òò´ËÕâÀïÊÍ·Å×ÊÔ´
+	copyWTPoint->freeCopy();//getCopyæ˜¯é€šè¿‡newåˆ›å»ºçš„ï¼Œå› æ­¤è¿™é‡Œé‡Šæ”¾èµ„æº
 }
 
 void RRM_TDM_DRA::writeScheduleInfo(ofstream& t_File) {
@@ -1090,20 +1090,20 @@ void RRM_TDM_DRA::transimitEnd() {
 				list<RRM_RSU::ScheduleInfo*> &lst = _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
 				if (lst.size() == 1) {
 					RRM_RSU::ScheduleInfo* &info = *lst.begin();
-					//ÒÑ¾­´«ÊäÍê±Ï£¬½«×ÊÔ´ÊÍ·Å
+					//å·²ç»ä¼ è¾“å®Œæ¯•ï¼Œå°†èµ„æºé‡Šæ”¾
 					if (getContext()->m_EventVec[info->eventId].isFinished()) {
 
-						//¸üĞÂÈÕÖ¾
+						//æ›´æ–°æ—¥å¿—
 						getContext()->m_EventVec[info->eventId].addEventLog(getContext()->m_TTI, SUCCEED, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "Succeed");
 						writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, SUCCEED, info->eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "Succeed");
 
-						//ÊÍ·Åµ÷¶ÈĞÅÏ¢¶ÔÏóµÄÄÚ´æ×ÊÔ´
+						//é‡Šæ”¾è°ƒåº¦ä¿¡æ¯å¯¹è±¡çš„å†…å­˜èµ„æº
 						Delete::safeDelete(info);
 
-						//ÊÍ·ÅPattern×ÊÔ´
+						//é‡Šæ”¾Patternèµ„æº
 						_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx] = true;
 					}
-					else {//ÉĞÎ´´«ÊäÍê±Ï
+					else {//å°šæœªä¼ è¾“å®Œæ¯•
 						_RSU->getTDM_DRAPoint()->pushToScheduleInfoTable(info);
 						info = nullptr;
 					}
@@ -1118,27 +1118,27 @@ void RRM_TDM_DRA::transimitEnd() {
 		for (int patternIdx = s_PATTERN_NUM_PER_PATTERN_TYPE[EMERGENCY]; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 
 			list<RRM_RSU::ScheduleInfo*> &lst = _RSU->getTDM_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
-			if (lst.size() == 1) {//Ö»ÓĞÒ»¸öÓÃ»§ÔÚ´«Êä£¬¸ÃÓÃ»§»áÕıÈ·µÄ´«ÊäËùÓĞÊı¾İ£¨ÔÚÀë¿ª´ØÖ®Ç°£©
+			if (lst.size() == 1) {//åªæœ‰ä¸€ä¸ªç”¨æˆ·åœ¨ä¼ è¾“ï¼Œè¯¥ç”¨æˆ·ä¼šæ­£ç¡®çš„ä¼ è¾“æ‰€æœ‰æ•°æ®ï¼ˆåœ¨ç¦»å¼€ç°‡ä¹‹å‰ï¼‰
 				RRM_RSU::ScheduleInfo* &info = *lst.begin();
-				//ËµÃ÷¸ÃÊı¾İÒÑ¾­´«ÊäÍê±Ï
+				//è¯´æ˜è¯¥æ•°æ®å·²ç»ä¼ è¾“å®Œæ¯•
 				if (getContext()->m_EventVec[info->eventId].isFinished()) {
 
-					//¸üĞÂÈÕÖ¾								
+					//æ›´æ–°æ—¥å¿—								
 					getContext()->m_EventVec[info->eventId].addEventLog(getContext()->m_TTI, SUCCEED, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "Succeed");
 					writeTTILogInfo(g_FileTTILogInfo, getContext()->m_TTI, SUCCEED, info->eventId, _RSU->getSystemPoint()->getGTTPoint()->m_RSUId, clusterIdx, patternIdx, -1, -1, -1, "Succeed");
 
-					//ÊÍ·Åµ÷¶ÈĞÅÏ¢¶ÔÏóµÄÄÚ´æ×ÊÔ´
+					//é‡Šæ”¾è°ƒåº¦ä¿¡æ¯å¯¹è±¡çš„å†…å­˜èµ„æº
 					Delete::safeDelete(info);
 
-					//ÊÍ·ÅPattern×ÊÔ´
+					//é‡Šæ”¾Patternèµ„æº
 					_RSU->getTDM_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx] = true;
 				}
-				else {//¸ÃÊı¾İÈÔÎ´´«Íê£¬½«ÆäÑ¹»Øm_ScheduleInfoTable
+				else {//è¯¥æ•°æ®ä»æœªä¼ å®Œï¼Œå°†å…¶å‹å›m_ScheduleInfoTable
 					_RSU->getTDM_DRAPoint()->pushToScheduleInfoTable(info);
 					info = nullptr;
 				}
 			}
-			//´¦ÀíÍêºó£¬½«¸ÃpatternÉÏµÄÊı¾İÇå¿Õ£¨´ËÊ±Òª²»±¾Éí¾ÍÊÇ¿Õ£¬Òª²»¾ÍÊÇnullptrÖ¸Õë£©
+			//å¤„ç†å®Œåï¼Œå°†è¯¥patternä¸Šçš„æ•°æ®æ¸…ç©ºï¼ˆæ­¤æ—¶è¦ä¸æœ¬èº«å°±æ˜¯ç©ºï¼Œè¦ä¸å°±æ˜¯nullptræŒ‡é’ˆï¼‰
 			lst.clear();
 		}
 	}
@@ -1205,7 +1205,7 @@ void RRM_TDM_DRA::writeClusterPerformInfo(ofstream &t_File) {
 	t_File << "[ TTI = " << left << setw(3) << getContext()->m_TTI << "]" << endl;
 	t_File << "{" << endl;
 
-	//´òÓ¡VeUEĞÅÏ¢
+	//æ‰“å°VeUEä¿¡æ¯
 	t_File << "    VUE Info: " << endl;
 	t_File << "    {" << endl;
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
@@ -1214,7 +1214,7 @@ void RRM_TDM_DRA::writeClusterPerformInfo(ofstream &t_File) {
 	}
 	t_File << "    }\n" << endl;
 
-	////´òÓ¡»ùÕ¾ĞÅÏ¢
+	////æ‰“å°åŸºç«™ä¿¡æ¯
 	//out << "    eNB Info: " << endl;
 	//out << "    {" << endl;
 	//for (int eNBId = 0; eNBId < m_Config.eNBNum; eNBId++) {
@@ -1223,7 +1223,7 @@ void RRM_TDM_DRA::writeClusterPerformInfo(ofstream &t_File) {
 	//}
 	//out << "    }\n" << endl;
 
-	//´òÓ¡RSUĞÅÏ¢
+	//æ‰“å°RSUä¿¡æ¯
 	t_File << "    RSU Info: " << endl;
 	t_File << "    {" << endl;
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
@@ -1250,7 +1250,7 @@ int RRM_TDM_DRA::getMaxIndex(const vector<double>&t_ClusterSize) {
 
 
 int RRM_TDM_DRA::getPatternType(int t_PatternIdx) {
-	//patternIdxÖ¸ËùÓĞÊÂ¼şÀàĞÍµÄPatternµÄ¾ø¶ÔĞòºÅ£¬´Ó0¿ªÊ¼±àºÅ£¬°üÀ¨Emergency
+	//patternIdxæŒ‡æ‰€æœ‰äº‹ä»¶ç±»å‹çš„Patternçš„ç»å¯¹åºå·ï¼Œä»0å¼€å§‹ç¼–å·ï¼ŒåŒ…æ‹¬Emergency
 	for (int patternType = 0; patternType < s_PATTERN_TYPE_NUM; patternType++) {
 		if (t_PatternIdx >= s_PATTERN_TYPE_PATTERN_INDEX_INTERVAL[patternType][0] && t_PatternIdx <= s_PATTERN_TYPE_PATTERN_INDEX_INTERVAL[patternType][1])
 			return patternType;

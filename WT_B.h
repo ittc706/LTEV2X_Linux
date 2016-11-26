@@ -9,128 +9,128 @@
 //<WT_B>: Wireless Transmission Base
 
 class WT_B :public WT {
-	/*------------------¾²Ì¬------------------*/
+	/*------------------é™æ€------------------*/
 public:
 	static std::default_random_engine s_Engine;
 
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 public:
 	/*
-	* ·¢ËÍÌìÏßÊı
+	* å‘é€å¤©çº¿æ•°
 	*/
 	int m_Nt;
 
 	/*
-	* ½ÓÊÕÌìÏßÊı
+	* æ¥æ”¶å¤©çº¿æ•°
 	*/
 	int m_Nr;
 
 	/*
-	* ·¢Éä¹¦ÂÊ
+	* å‘å°„åŠŸç‡
 	*/
 	double m_Pt;
 
 	/*
-	* ¾àÀëÂ·¾¶ËğºÄ
+	* è·ç¦»è·¯å¾„æŸè€—
 	*/
 	double m_Ploss;
 
 	/*
-	* ¸ÉÈÅ¾àÀëÂ·¾¶ËğºÄ
+	* å¹²æ‰°è·ç¦»è·¯å¾„æŸè€—
 	*/
 	std::vector<double> m_PlossInterference;
 
 	/*
-	* ¸ßË¹ÔëÉùµÄ¹¦ÂÊ£¬µ¥Î»ÊÇmw
+	* é«˜æ–¯å™ªå£°çš„åŠŸç‡ï¼Œå•ä½æ˜¯mw
 	*/
 	double m_Sigma;
 
 	/*
-	* Ã¿¸ö×ÓÔØ²¨ÓĞÒ»¸öNr*NtµÄĞÅµÀ¾ØÕó
+	* æ¯ä¸ªå­è½½æ³¢æœ‰ä¸€ä¸ªNr*Ntçš„ä¿¡é“çŸ©é˜µ
 	*/
 	Matrix m_H;
 
 	/*
-	* Ã¿¸ö×ÓÔØ²¨ÓĞÒ»×éNr*NtµÄ¸ÉÈÅĞÅµÀ¾ØÕó
-	* ÏÂ±êÎª¸ÉÈÅÔ´±àºÅ
+	* æ¯ä¸ªå­è½½æ³¢æœ‰ä¸€ç»„Nr*Ntçš„å¹²æ‰°ä¿¡é“çŸ©é˜µ
+	* ä¸‹æ ‡ä¸ºå¹²æ‰°æºç¼–å·
 	*/
 	std::vector<Matrix> m_HInterference;
 
 	/*
-	* ÒÔÏÂ³ÉÔ±ÉèÎªÖ¸Õë£¬ÓÃnew·ÖÅäÄÚ´æ£¬×÷Îª¶à¸ö²»Í¬WT_BÊµÀıµÄ¹²Ïí×ÊÔ´£¬Ö»»áÔÚinitialize()³õÊ¼»¯Ò»´Î
+	* ä»¥ä¸‹æˆå‘˜è®¾ä¸ºæŒ‡é’ˆï¼Œç”¨newåˆ†é…å†…å­˜ï¼Œä½œä¸ºå¤šä¸ªä¸åŒWT_Bå®ä¾‹çš„å…±äº«èµ„æºï¼Œåªä¼šåœ¨initialize()åˆå§‹åŒ–ä¸€æ¬¡
 	*/
 	std::shared_ptr<std::vector<double>> m_QPSK_MI;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* ¹¹Ôìº¯Êı
-	* ¸Ã¹¹Ôìº¯Êı¶¨ÒåÁË¸ÃÄ£¿éµÄÊÓÍ¼
-	* ËùÓĞÖ¸Õë³ÉÔ±¿½±´ÏµÍ³ÀàÖĞµÄ¶ÔÓ¦³ÉÔ±Ö¸Õë£¬¹²ÏíÍ¬Ò»ÊµÌå
+	* æ„é€ å‡½æ•°
+	* è¯¥æ„é€ å‡½æ•°å®šä¹‰äº†è¯¥æ¨¡å—çš„è§†å›¾
+	* æ‰€æœ‰æŒ‡é’ˆæˆå‘˜æ‹·è´ç³»ç»Ÿç±»ä¸­çš„å¯¹åº”æˆå‘˜æŒ‡é’ˆï¼Œå…±äº«åŒä¸€å®ä½“
 	*/
 	WT_B(System* t_Context);
 
 private:
 	/*
-	* ¿½±´¹¹Ôìº¯Êı
-	* ¶¨ÒåÎªË½ÓĞ±ÜÃâÎóÓÃ
+	* æ‹·è´æ„é€ å‡½æ•°
+	* å®šä¹‰ä¸ºç§æœ‰é¿å…è¯¯ç”¨
 	*/
 	WT_B(const WT_B& t_WT_B);
 
 public:
 	/*
-	* ³õÊ¼»¯RSU VeUEÄÚ¸Ãµ¥ÔªµÄÄÚ²¿Àà
+	* åˆå§‹åŒ–RSU VeUEå†…è¯¥å•å…ƒçš„å†…éƒ¨ç±»
 	*/
 	void initialize() override;
 
 	/*
-	* »ñÈ¡¸ÃÄ£¿éµÄÒ»¸ö¿½±´
+	* è·å–è¯¥æ¨¡å—çš„ä¸€ä¸ªæ‹·è´
 	*/
 	WT* getCopy()override;
 
 	/*
-	* ÊÍ·Å¸ÃÄ£¿éµÄ¿½±´
+	* é‡Šæ”¾è¯¥æ¨¡å—çš„æ‹·è´
 	*/
 	void freeCopy()override;
 
 	/*
-	* ¼ÆËãÔØ¸É±È
+	* è®¡ç®—è½½å¹²æ¯”
 	*/
 	double SINRCalculate(int t_VeUEId, int t_SubCarrierIdxStart, int t_SubCarrierIdxEnd, int t_PatternIdx) override;
 
 	/*
-	* ¼ÆËãÔØ¸É±È£ºMRC
+	* è®¡ç®—è½½å¹²æ¯”ï¼šMRC
 	*/
 	double SINRCalculateMRC(int t_VeUEId, int t_SubCarrierIdxStart, int t_SubCarrierIdxEnd, int t_PatternIdx);
 
 	/*
-	* ¼ÆËãÔØ¸É±È£ºMMSE
+	* è®¡ç®—è½½å¹²æ¯”ï¼šMMSE
 	*/
 	double SINRCalculateMMSE(int t_VeUEId, int t_SubCarrierIdxStart, int t_SubCarrierIdxEnd, int t_PatternIdx);
 
 private:
 	/*
-	* Ã¿´Îµ÷ÓÃSINRCalculateÇ°ĞèÒª½øĞĞ²ÎÊıÅäÖÃ
+	* æ¯æ¬¡è°ƒç”¨SINRCalculateå‰éœ€è¦è¿›è¡Œå‚æ•°é…ç½®
 	*/
 	void configuration(int t_VeUEId, int t_PatternIdx, int t_SubCarrierNum);
 
 	/*
-	* ¶ÁÈ¡¶ÔÓ¦×ÓÔØ²¨µÄĞÅµÀÏìÓ¦¾ØÕó
+	* è¯»å–å¯¹åº”å­è½½æ³¢çš„ä¿¡é“å“åº”çŸ©é˜µ
 	*/
 	Matrix readH(int t_VeUEId, int t_SubCarrierIdx);
 
 	/*
-	* ¶ÁÈ¡¶ÔÓ¦³µÁ¾ÔÚ¶ÔÓ¦×ÓÔØ²¨ÉÏµÄ¸ÉÈÅ¾ØÕóÊı×é
+	* è¯»å–å¯¹åº”è½¦è¾†åœ¨å¯¹åº”å­è½½æ³¢ä¸Šçš„å¹²æ‰°çŸ©é˜µæ•°ç»„
 	*/
 	std::vector<Matrix> readInterferenceH(int t_VeUEId, int t_SubCarrierIdx, int t_PatternIdx);
 
 	/*
-	* ¶ş·Ö·¨²éÕÒËã·¨
+	* äºŒåˆ†æ³•æŸ¥æ‰¾ç®—æ³•
 	*/
 	int closest(std::vector<double> t_Vec, double t_Target);
 
 	/*
-	* ²é±í
+	* æŸ¥è¡¨
 	*/
 	double getMutualInformation(std::vector<double> t_Vec, int t_Index);
 };

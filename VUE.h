@@ -1,7 +1,7 @@
 #pragma once
 
 /*
-* г╟жциЫцВ
+* Е┴█Г╫╝Её╟Ф≤▌
 */
 class GTT_VeUE;
 class RRM_VeUE;
@@ -9,53 +9,53 @@ class WT_VeUE;
 class TMC_VeUE;
 
 /*
-* ц©р╩╦Ж╣╔т╙╤╪сп╦ц╣╔т╙╤тс╕╣дVeUEйсм╪
-* ╦цюЮ╣двВсц╬мйглА╧╘╡╩м╛╣╔т╙ж╝╪ДVeUEй╣лЕ╣дпео╒╫╩╩╔
+* Ф╞▐Д╦─Д╦╙Е█∙Е┘┐И┐╫Ф°┴Х╞╔Е█∙Е┘┐Е╞╧Е╨■Г └VeUEХ╖├Е⌡╬
+* Х╞╔Г╠╩Г └Д╫°Г■╗Е╟╠Ф≤╞Ф▐░Д╬⌡Д╦█Е░▄Е█∙Е┘┐Д╧▀И≈╢VeUEЕ╝·Д╫⌠Г └Д©║Ф│╞Д╨╓Д╨▓
 */
 
 class VeUE {
 	friend class System;
-	/*------------------сР------------------*/
+	/*------------------Е÷÷------------------*/
 private:
 	/*
-	* ж╦оРGTTйсм╪об╣дVeUEй╣лЕ╤тоС
+	* Ф▄┤Е░▒GTTХ╖├Е⌡╬Д╦▀Г └VeUEЕ╝·Д╫⌠Е╞╧Х╠║
 	*/
 	GTT_VeUE * m_GTT = nullptr;
 
 	/*
-	* ж╦оРRRMйсм╪об╣дVeUEй╣лЕ╤тоС
+	* Ф▄┤Е░▒RRMХ╖├Е⌡╬Д╦▀Г └VeUEЕ╝·Д╫⌠Е╞╧Х╠║
 	*/
 	RRM_VeUE * m_RRM = nullptr;
 
 	/*
-	* ж╦оРWTйсм╪об╣дVeUEй╣лЕ╤тоС
+	* Ф▄┤Е░▒WTХ╖├Е⌡╬Д╦▀Г └VeUEЕ╝·Д╫⌠Е╞╧Х╠║
 	*/
 	WT_VeUE * m_WT = nullptr;
 
 	/*
-	* ж╦оРTMCйсм╪об╣дVeUEй╣лЕ╤тоС
+	* Ф▄┤Е░▒TMCХ╖├Е⌡╬Д╦▀Г └VeUEЕ╝·Д╫⌠Е╞╧Х╠║
 	*/
 	TMC_VeUE * m_TMC = nullptr;
 
-	/*------------------╥╫╥╗------------------*/
+	/*------------------Ф√╧ФЁ∙------------------*/
 public:
 	/*
-	* ж╦оРGTTйсм╪об╣дVeUE╣дж╦уК
+	* Ф▄┤Е░▒GTTХ╖├Е⌡╬Д╦▀Г └VeUEГ └Ф▄┤И▓┬
 	*/
 	GTT_VeUE* getGTTPoint() { return m_GTT; }
 
 	/*
-	* ж╦оРRRMйсм╪об╣дVeUE╣дж╦уК
+	* Ф▄┤Е░▒RRMХ╖├Е⌡╬Д╦▀Г └VeUEГ └Ф▄┤И▓┬
 	*/
 	RRM_VeUE* getRRMPoint() { return m_RRM; }
 
 	/*
-	* ж╦оРWTйсм╪об╣дVeUE╣дж╦уК
+	* Ф▄┤Е░▒WTХ╖├Е⌡╬Д╦▀Г └VeUEГ └Ф▄┤И▓┬
 	*/
 	WT_VeUE* getWTPoint() { return m_WT; }
 
 	/*
-	* ж╦оРTMCйсм╪об╣дVeUE╣дж╦уК
+	* Ф▄┤Е░▒TMCХ╖├Е⌡╬Д╦▀Г └VeUEГ └Ф▄┤И▓┬
 	*/
 	TMC_VeUE* getTMCPoint() { return m_TMC; }
 };

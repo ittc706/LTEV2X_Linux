@@ -3,7 +3,7 @@
 *
 *       Filename:  TMC.cpp
 *
-*    Description:  TMCƒ£øÈ
+*    Description:  TMCÊ®°Âùó
 *
 *        Version:  1.0
 *        Created:
@@ -16,9 +16,10 @@
 * =====================================================================================
 */
 
+#include"System.h"
 #include"TMC.h"
 #include"Function.h"
-#include"System.h"
+
 
 using namespace std;
 

@@ -3,7 +3,7 @@
 class Delete {
 public:
 	/*
-	* É¾³ıº¯Êı£¬É¾³ıºó»áÖÃ¿ÕÖ¸Õë
+	* åˆ é™¤å‡½æ•°ï¼Œåˆ é™¤åä¼šç½®ç©ºæŒ‡é’ˆ
 	*/
 	template<typename T>
 	static void safeDelete(T*&t_Point, bool t_IsArray = false) {

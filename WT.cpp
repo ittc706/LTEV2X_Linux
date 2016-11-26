@@ -3,7 +3,7 @@
 *
 *       Filename:  WT.cpp
 *
-*    Description:  WTƒ£øÈ
+*    Description:  WTÊ®°Âùó
 *
 *        Version:  1.0
 *        Created:
@@ -16,9 +16,10 @@
 * =====================================================================================
 */
 
+#include"System.h"
 #include"WT.h"
 #include"Function.h"
-#include"System.h"
+
 
 using namespace std;
 

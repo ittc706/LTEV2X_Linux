@@ -16,14 +16,14 @@ void testThread(int count) {
 				{ Complex(u(e),u(e)) },
 			};
 
-			/* ÏÂÃæ¿ªÊ¼¼ÆËãW */
+			/* ä¸‹é¢å¼€å§‹è®¡ç®—W */
 
 			Matrix HHermit(1, 2);
-			HHermit = m_H.hermitian();//ÇóĞÅµÀ¾ØÕóµÄhermitian
+			HHermit = m_H.hermitian();//æ±‚ä¿¡é“çŸ©é˜µçš„hermitian
 
-			Matrix inverseExpLeft = 2 * m_H * HHermit;//ÇóÄæ±í´ïÊ½×ó±ßÄÇÏî
+			Matrix inverseExpLeft = 2 * m_H * HHermit;//æ±‚é€†è¡¨è¾¾å¼å·¦è¾¹é‚£é¡¹
 
-			//¼ÆËã¸ÉÈÅÏî
+			//è®¡ç®—å¹²æ‰°é¡¹
 			Matrix Interference1(2, 2);
 			Matrix m_HInterference{
 				{ Complex(u(e),u(e)) },
@@ -33,33 +33,33 @@ void testThread(int count) {
 				Interference1 = Interference1 + 3 * m_HInterference * m_HInterference.hermitian();
 			}
 
-			//ÇóÄæ±í´ïÊ½ÓÒ±ßÄÇÏî
-			Matrix inverseExpRight = 2 * Matrix::eye(2) + Interference1;//sigmaÉÏ´øÇúÏß
+			//æ±‚é€†è¡¨è¾¾å¼å³è¾¹é‚£é¡¹
+			Matrix inverseExpRight = 2 * Matrix::eye(2) + Interference1;//sigmaä¸Šå¸¦æ›²çº¿
 
-			Matrix W = (inverseExpLeft + inverseExpRight).inverse(true)*sqrt(2)*m_H;//È¨ÖØ¾ØÕó
+			Matrix W = (inverseExpLeft + inverseExpRight).inverse(true)*sqrt(2)*m_H;//æƒé‡çŸ©é˜µ
 
 
-			/* ÏÂÃæ¿ªÊ¼¼ÆËãD */
-			//ÏÈ¼ÆËã·Ö×Ó
+			/* ä¸‹é¢å¼€å§‹è®¡ç®—D */
+			//å…ˆè®¡ç®—åˆ†å­
 			Matrix WHer = W.hermitian();
 			Matrix D = sqrt(2)*WHer*m_H;
 			Matrix DHer = D.hermitian();
-			Matrix molecular = D*DHer;//SINRÔËËãµÄ·Ö×Ó£¬1*1µÄ¾ØÕó
+			Matrix molecular = D*DHer;//SINRè¿ç®—çš„åˆ†å­ï¼Œ1*1çš„çŸ©é˜µ
 
 
-			//È»ºó¼ÆËã·ÖÄ¸
-			Matrix denominatorLeft = WHer*W * 2;//SINRÔËËãµÄ·ÖÄ¸ÖĞµÄµÚÒ»Ïî
+			//ç„¶åè®¡ç®—åˆ†æ¯
+			Matrix denominatorLeft = WHer*W * 2;//SINRè¿ç®—çš„åˆ†æ¯ä¸­çš„ç¬¬ä¸€é¡¹
 			Matrix Iself = WHer*m_H*sqrt(2) - D;
 			Matrix IselfHer = Iself.hermitian();
-			Matrix denominatorMiddle = Iself*IselfHer; //SINRÔËËãµÄ·ÖÄ¸ÖĞµÄµÚ¶şÏî
+			Matrix denominatorMiddle = Iself*IselfHer; //SINRè¿ç®—çš„åˆ†æ¯ä¸­çš„ç¬¬äºŒé¡¹
 
-			/*ÒÔÏÂ¼ÆËã¹«Ê½ÖĞµÄ¸ÉÈÅÏî,¼´¹«Ê½ÖĞµÄµÚÈıÏî*/
+			/*ä»¥ä¸‹è®¡ç®—å…¬å¼ä¸­çš„å¹²æ‰°é¡¹,å³å…¬å¼ä¸­çš„ç¬¬ä¸‰é¡¹*/
 			Matrix denominatorRight(1, 1);
 			for (int i = 0; i < 5; i++) {
 				denominatorRight = denominatorRight + 2 * WHer*m_HInterference * m_HInterference.hermitian()*W;
 			}
 
-			Matrix denominator = denominatorLeft + denominatorMiddle + denominatorRight;//SINRÔËËãµÄ·ÖÄ¸
+			Matrix denominator = denominatorLeft + denominatorMiddle + denominatorRight;//SINRè¿ç®—çš„åˆ†æ¯
 
 		}
 

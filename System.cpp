@@ -3,7 +3,7 @@
 *
 *       Filename:  System.cpp
 *
-*    Description:  TMCÄ£¿é
+*    Description:  TMCæ¨¡å—
 *
 *        Version:  1.0
 *        Created:
@@ -23,11 +23,6 @@
 #include<stdexcept>
 #include"System.h"
 
-#include"VUE.h"
-#include"RSU.h"
-#include"eNB.h"
-#include"Road.h"
-
 #include"GTT.h"
 #include"GTT_HighSpeed.h"
 #include"GTT_Urban.h"
@@ -43,6 +38,11 @@
 #include"WT.h"
 #include"WT_B.h"
 
+#include"VUE.h"
+#include"RSU.h"
+#include"eNB.h"
+#include"Road.h"
+
 #include"Config.h"
 #include"Function.h"
 #include"ConfigLoader.h"
@@ -54,25 +54,25 @@ using namespace std;
 void System::process() {
 	long double programStart = clock();
 
-	//²ÎÊıÅäÖÃ
+	//å‚æ•°é…ç½®
 	configure();
 
-	//·ÂÕæ³õÊ¼»¯
+	//ä»¿çœŸåˆå§‹åŒ–
 	initialization();
 
-	//´´½¨ÊÂ¼şÁ´±í
+	//åˆ›å»ºäº‹ä»¶é“¾è¡¨
 	m_TMCPoint->buildEventList(g_FileEventListInfo);
 
-	//¿ªÊ¼·ÂÕæ
+	//å¼€å§‹ä»¿çœŸ
 	for (int count = 0;count < m_Config.NTTI;count++) {
 		cout << "Current TTI = " << m_TTI << endl;
-		//µØÀíÎ»ÖÃ¸üĞÂ
+		//åœ°ç†ä½ç½®æ›´æ–°
 		if (count % m_Config.locationUpdateNTTI == 0) {
 			m_GTTPoint->channelGeneration();
 			m_GTTPoint->cleanWhenLocationUpdate();
 			m_RRMPoint->cleanWhenLocationUpdate();
 		}
-		//¿ªÊ¼×ÊÔ´·ÖÅä
+		//å¼€å§‹èµ„æºåˆ†é…
 		m_RRMPoint->schedule();
 		m_TTI++;
 	}
@@ -83,11 +83,11 @@ void System::process() {
 		timeFactor = 1000L;
 	else
 		timeFactor = 1000000L;
-	cout << "¸ÉÈÅĞÅµÀ¼ÆËãºÄÊ±£º" << m_RRMPoint->m_GTTTimeConsume / timeFactor << " s\n" << endl;
-	cout << "SINR¼ÆËãºÄÊ±£º" << m_RRMPoint->m_WTTimeConsume / timeFactor << " s\n" << endl;
+	cout << "å¹²æ‰°ä¿¡é“è®¡ç®—è€—æ—¶ï¼š" << m_RRMPoint->m_GTTTimeConsume / timeFactor << " s\n" << endl;
+	cout << "SINRè®¡ç®—è€—æ—¶ï¼š" << m_RRMPoint->m_WTTimeConsume / timeFactor << " s\n" << endl;
 	cout.unsetf(ios::fixed);
 
-	//´¦Àí¸÷ÏîÒµÎñÊ±ÑÓÊı¾İ
+	//å¤„ç†å„é¡¹ä¸šåŠ¡æ—¶å»¶æ•°æ®
 	m_TMCPoint->processStatistics(
 		g_FileStatisticsDescription,
 		g_FileEmergencyDelayStatistics, g_FilePeriodDelayStatistics, g_FileDataDelayStatistics,
@@ -96,40 +96,40 @@ void System::process() {
 		g_FilePackageLoss, g_FilePackageTransimit,
 		g_FileEventLogInfo);
 
-	//´òÓ¡³µÁ¾µØÀíÎ»ÖÃ¸üĞÂÈÕÖ¾ĞÅÏ¢
+	//æ‰“å°è½¦è¾†åœ°ç†ä½ç½®æ›´æ–°æ—¥å¿—ä¿¡æ¯
 	m_GTTPoint->writeVeUELocationUpdateLogInfo(g_FileVeUELocationUpdateLogInfo, g_FileVeUENumPerRSULogInfo);
 
-	//Õû¸ö³ÌĞò¼ÆÊ±
+	//æ•´ä¸ªç¨‹åºè®¡æ—¶
 	long double programEnd = clock();
 	cout.setf(ios::fixed);
 	cout << "\nRunning Time :" << setprecision(1) << (programEnd - programStart) / timeFactor << " s\n" << endl;
 	cout.unsetf(ios::fixed);
 }
 
-void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
-	srand((unsigned)time(NULL));//ÉèÖÃÕæ¸ö·ÂÕæµÄËæ»úÊıÖÖ×Ó
+void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
+	srand((unsigned)time(NULL));//è®¾ç½®çœŸä¸ªä»¿çœŸçš„éšæœºæ•°ç§å­
 
 	ConfigLoader configLoader;
 
-	//Ê×ÏÈÏÈÅĞ¶Ïµ±Ç°µÄÆ½Ì¨£¬ÀûÓÃÂ·¾¶µÄ±íÊ¾ÔÚÁ½¸öÆ½Ì¨ÏÂµÄ²îÒìÀ´ÅĞ¶Ï
+	//é¦–å…ˆå…ˆåˆ¤æ–­å½“å‰çš„å¹³å°ï¼Œåˆ©ç”¨è·¯å¾„çš„è¡¨ç¤ºåœ¨ä¸¤ä¸ªå¹³å°ä¸‹çš„å·®å¼‚æ¥åˆ¤æ–­
 	ifstream inPlatformWindows("Config\\systemConfig.html"),
 		inPlatformLinux("Config/systemConfig.html");
 	
 	if (inPlatformWindows.is_open()) {
 		m_Config.platform = Windows;
-		cout << "Äúµ±Ç°µÄÆ½Ì¨Îª£ºWindows" << endl;	
+		cout << "æ‚¨å½“å‰çš„å¹³å°ä¸ºï¼šWindows" << endl;	
 	}
 	else if (inPlatformLinux.is_open()) {
 		m_Config.platform = Linux;
-		cout << "Äúµ±Ç°µÄÆ½Ì¨Îª£ºLinux" << endl;	
+		cout << "æ‚¨å½“å‰çš„å¹³å°ä¸ºï¼šLinux" << endl;	
 	}
 	else
 		throw logic_error("PlatformError");
 
-	//³õÊ¼»¯Êä³öÁ÷¶ÔÏó
+	//åˆå§‹åŒ–è¾“å‡ºæµå¯¹è±¡
 	logFileConfig(m_Config.platform);
 
-	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>¿ªÊ¼½âÎöÏµÍ³ÅäÖÃÎÄ¼ş<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>å¼€å§‹è§£æç³»ç»Ÿé…ç½®æ–‡ä»¶<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	switch (m_Config.platform) {
 	case Windows:
 		configLoader.resolvConfigPath("Config\\systemConfig.html");
@@ -149,7 +149,7 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("NTTI")) != nullString) {
 		ss << temp;
 		ss >> m_Config.NTTI;
-		ss.clear();//Çå³ı±êÖ¾Î»
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
 	}
 	else
@@ -158,7 +158,7 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("periodicEventNTTI")) != nullString) {
 		ss << temp;
 		ss >> m_Config.periodicEventNTTI;
-		ss.clear();//Çå³ı±êÖ¾Î»
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
 	}
 	else
@@ -168,7 +168,7 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("emergencyLambda")) != nullString) {
 		ss << temp;
 		ss >> m_Config.emergencyLambda;
-		ss.clear();//Çå³ı±êÖ¾Î»
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
 	}
 	else
@@ -177,7 +177,7 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("dataLambda")) != nullString) {
 		ss << temp;
 		ss >> m_Config.dataLambda;
-		ss.clear();//Çå³ı±êÖ¾Î»
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
 	}
 	else
@@ -186,7 +186,7 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("locationUpdateNTTI")) != nullString) {
 		ss << temp;
 		ss >> m_Config.locationUpdateNTTI;
-		ss.clear();//Çå³ı±êÖ¾Î»
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
 	}
 	else
@@ -195,14 +195,14 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("GTTMode")) != nullString) {
 		if (temp == "URBAN") {
 			m_Config._GTTMode = URBAN;
-			cout << "GTTµ¥Ôª£ºURBANÄ£Ê½" << endl;
+			cout << "GTTå•å…ƒï¼šURBANæ¨¡å¼" << endl;
 		}
 		else if (temp == "HIGHSPEED") {
 			m_Config._GTTMode = HIGHSPEED;
-			cout << "GTTµ¥Ôª£ºHIGHSPEEDÄ£Ê½" << endl;
+			cout << "GTTå•å…ƒï¼šHIGHSPEEDæ¨¡å¼" << endl;
 		}
 		else
-			throw logic_error("µØÀíÍØÆËµ¥Ôª²ÎÊıÅäÖÃ´íÎó");
+			throw logic_error("åœ°ç†æ‹“æ‰‘å•å…ƒå‚æ•°é…ç½®é”™è¯¯");
 	}
 	else
 		throw logic_error("ConfigLoaderError");
@@ -210,18 +210,18 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("RRMMode")) != nullString) {
 		if (temp == "TDM_DRA") {
 			m_Config._RRMMode = TDM_DRA;
-			cout << "RRMµ¥Ôª£ºTDM_DRAÄ£Ê½" << endl;
+			cout << "RRMå•å…ƒï¼šTDM_DRAæ¨¡å¼" << endl;
 		}
 		else if (temp == "ICC_DRA") {
 			m_Config._RRMMode = ICC_DRA;
-			cout << "RRMµ¥Ôª£ºICC_DRAÄ£Ê½" << endl;
+			cout << "RRMå•å…ƒï¼šICC_DRAæ¨¡å¼" << endl;
 		}
 		else if (temp == "RR") {
 			m_Config._RRMMode = RR;
-			cout << "RRMµ¥Ôª£ºRRÄ£Ê½" << endl;
+			cout << "RRMå•å…ƒï¼šRRæ¨¡å¼" << endl;
 		}
 		else
-			throw logic_error("ÎŞÏŞ×ÊÔ´¹ÜÀíµ¥Ôª²ÎÊıÅäÖÃ´íÎó");
+			throw logic_error("æ— é™èµ„æºç®¡ç†å•å…ƒå‚æ•°é…ç½®é”™è¯¯");
 	}
 	else
 		throw logic_error("ConfigLoaderError");
@@ -229,9 +229,9 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("ThreadNum")) != nullString) {
 		ss << temp;
 		ss >> m_Config.threadNum;
-		ss.clear();//Çå³ı±êÖ¾Î»
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
-		cout << "¿ª±ÙµÄÏß³ÌÊıÁ¿Îª: " << m_Config.threadNum << endl;
+		cout << "å¼€è¾Ÿçš„çº¿ç¨‹æ•°é‡ä¸º: " << m_Config.threadNum << endl;
 	}
 	else
 		throw logic_error("ConfigLoaderError");
@@ -239,20 +239,20 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 	if ((temp = configLoader.getParam("WTMode")) != nullString) {
 		if (temp == "SINR_MRC") {
 			m_Config._WTMode = SINR_MRC;
-			cout << "WTµ¥Ôª£ºSINR_MRCÄ£Ê½" << endl;
+			cout << "WTå•å…ƒï¼šSINR_MRCæ¨¡å¼" << endl;
 		}
 		else if (temp == "SINR_MMSE") {
 			m_Config._WTMode = SINR_MMSE;
-			cout << "WTµ¥Ôª£ºSINR_MMSEÄ£Ê½" << endl;
+			cout << "WTå•å…ƒï¼šSINR_MMSEæ¨¡å¼" << endl;
 		}
 		else
-			throw logic_error("ÎŞÏß´«Êäµ¥Ôª²ÎÊıÅäÖÃ´íÎó");
+			throw logic_error("æ— çº¿ä¼ è¾“å•å…ƒå‚æ•°é…ç½®é”™è¯¯");
 	}
 	else
 		throw logic_error("ConfigLoaderError");
 
 
-	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>¿ªÊ¼½âÎöÈÕÖ¾ÅäÖÃÎÄ¼ş<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>å¼€å§‹è§£ææ—¥å¿—é…ç½®æ–‡ä»¶<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	switch (m_Config.platform) {
 	case Windows:
 		configLoader.resolvConfigPath("Config\\LogControlConfig.html");
@@ -270,8 +270,8 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 		else if (temp == "OFF")
 			m_Config.TTILogIsOn = false;
 		else
-			throw logic_error("TTIÈÕÖ¾²ÎÊıÅäÖÃ´íÎó");
-		ss.clear();//Çå³ı±êÖ¾Î»
+			throw logic_error("TTIæ—¥å¿—å‚æ•°é…ç½®é”™è¯¯");
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
 	}
 	else
@@ -283,8 +283,8 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 		else if (temp == "OFF")
 			m_Config.eventLogIsOn = false;
 		else
-			throw logic_error("EventÈÕÖ¾²ÎÊıÅäÖÃ´íÎó");
-		ss.clear();//Çå³ı±êÖ¾Î»
+			throw logic_error("Eventæ—¥å¿—å‚æ•°é…ç½®é”™è¯¯");
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
 		Event::s_LogIsOn = m_Config.eventLogIsOn;
 	}
@@ -297,8 +297,8 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 		else if (temp == "OFF")
 			m_Config.scheduleLogIsOn = false;
 		else
-			throw logic_error("ScheduleÈÕÖ¾²ÎÊıÅäÖÃ´íÎó");
-		ss.clear();//Çå³ı±êÖ¾Î»
+			throw logic_error("Scheduleæ—¥å¿—å‚æ•°é…ç½®é”™è¯¯");
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
 		ss.str("");
 	}
 	else
@@ -309,16 +309,16 @@ void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
 void System::initialization() {
 	m_TTI = 0;	
 
-	//GTTÄ£¿é³õÊ¼»¯
+	//GTTæ¨¡å—åˆå§‹åŒ–
 	initializeGTTModule();
 
-	//WTÄ£¿é³õÊ¼»¯
+	//WTæ¨¡å—åˆå§‹åŒ–
 	initializeWTModule();
 
-	//RRMÄ£¿é³õÊ¼»¯
+	//RRMæ¨¡å—åˆå§‹åŒ–
 	initializeRRMModule();
 
-	//TMCÄ£¿é³õÊ¼»¯
+	//TMCæ¨¡å—åˆå§‹åŒ–
 	initializeTMCModule();
 
 	initializeNON();
@@ -334,16 +334,16 @@ void System::initializeGTTModule() {
 		m_GTTPoint = new GTT_HighSpeed(this);
 		break;
 	}
-	//³õÊ¼»¯µØÀíÍØÆË²ÎÊı
+	//åˆå§‹åŒ–åœ°ç†æ‹“æ‰‘å‚æ•°
 	m_GTTPoint->configure();
 
-	//³õÊ¼»¯eNB¡¢Rode¡¢RSU¡¢VUEµÈÈİÆ÷
+	//åˆå§‹åŒ–eNBã€Rodeã€RSUã€VUEç­‰å®¹å™¨
 	m_GTTPoint->initialize();
 }
 
 void System::initializeWTModule() {
 	m_WTPoint = new WT_B(this);
-	m_WTPoint->initialize();//Ä£¿é³õÊ¼»¯
+	m_WTPoint->initialize();//æ¨¡å—åˆå§‹åŒ–
 }
 
 
@@ -361,18 +361,18 @@ void System::initializeRRMModule() {
 	default:
 		break;
 	}
-	m_RRMPoint->initialize();//Ä£¿é³õÊ¼»¯
+	m_RRMPoint->initialize();//æ¨¡å—åˆå§‹åŒ–
 }
 
 
 void System::initializeTMCModule() {
 	m_TMCPoint = new TMC_B(this);
-	m_TMCPoint->initialize();//Ä£¿é³õÊ¼»¯
+	m_TMCPoint->initialize();//æ¨¡å—åˆå§‹åŒ–
 }
 
 
 void System::initializeNON() {
-	//ÏµÍ³VeUEÓë¸÷¸öµ¥ÔªÖĞVeUEÊÓÍ¼½¨Á¢¹ØÁª
+	//ç³»ç»ŸVeUEä¸å„ä¸ªå•å…ƒä¸­VeUEè§†å›¾å»ºç«‹å…³è”
 	m_VeUEAry = new VeUE[m_Config.VeUENum];
 	for (int VeUEId = 0; VeUEId < m_Config.VeUENum; VeUEId++) {
 		m_VeUEAry[VeUEId].m_GTT = m_GTTPoint->m_VeUEAry[VeUEId];
@@ -388,7 +388,7 @@ void System::initializeNON() {
 		m_TMCPoint->m_VeUEAry[VeUEId]->setSystemPoint(&m_VeUEAry[VeUEId]);
 	}
 
-	//ÏµÍ³RSUÓë¸÷¸öµ¥ÔªÖĞRSUÊÓÍ¼½¨Á¢¹ØÁª
+	//ç³»ç»ŸRSUä¸å„ä¸ªå•å…ƒä¸­RSUè§†å›¾å»ºç«‹å…³è”
 	m_RSUAry = new RSU[m_Config.RSUNum];
 	for (int RSUId = 0; RSUId < m_Config.RSUNum; RSUId++) {
 		m_RSUAry[RSUId].m_GTT = m_GTTPoint->m_RSUAry[RSUId];
@@ -403,18 +403,18 @@ void System::initializeNON() {
 		m_RSUAry[RSUId].m_TMC = m_TMCPoint->m_RSUAry[RSUId];
 		m_TMCPoint->m_RSUAry[RSUId]->setSystemPoint(&m_RSUAry[RSUId]);
 
-		//±ØĞëµÈµ½¸÷¸öµ¥ÔªµÄRSU½¨Á¢Á¬½Óºó£¬²ÅÄÜ¶ÔRRMµ¥ÔªÄÚµÄRSU¶ÔÏó½øĞĞ³õÊ¼»¯
+		//å¿…é¡»ç­‰åˆ°å„ä¸ªå•å…ƒçš„RSUå»ºç«‹è¿æ¥åï¼Œæ‰èƒ½å¯¹RRMå•å…ƒå†…çš„RSUå¯¹è±¡è¿›è¡Œåˆå§‹åŒ–
 		m_RRMPoint->m_RSUAry[RSUId]->initialize();
 	}
 
-	//ÏµÍ³eNBÓë¸÷¸öµ¥ÔªÖĞeNBÊÓÍ¼½¨Á¢¹ØÁª
+	//ç³»ç»ŸeNBä¸å„ä¸ªå•å…ƒä¸­eNBè§†å›¾å»ºç«‹å…³è”
 	m_eNBAry = new eNB[m_Config.eNBNum];
 	for (int eNBId = 0; eNBId < m_Config.eNBNum; eNBId++) {
 		m_eNBAry[eNBId].m_GTT = m_GTTPoint->m_eNBAry[eNBId];
 		m_GTTPoint->m_eNBAry[eNBId]->setSystemPoint(&m_eNBAry[eNBId]);
 	}
 
-	//ÏµÍ³RoadÓë¸÷¸öµ¥ÔªÖĞRoadÊÓÍ¼½¨Á¢¹ØÁª
+	//ç³»ç»ŸRoadä¸å„ä¸ªå•å…ƒä¸­Roadè§†å›¾å»ºç«‹å…³è”
 	m_RoadAry = new Road[m_Config.RoadNum];
 	for (int roadId = 0; roadId < m_Config.RoadNum; roadId++) {
 		m_RoadAry[roadId].m_GTT = m_GTTPoint->m_RoadAry[roadId];
@@ -424,19 +424,19 @@ void System::initializeNON() {
 
 
 System::~System() {
-	//ÇåÀíÄ£¿éÖ¸Õë
+	//æ¸…ç†æ¨¡å—æŒ‡é’ˆ
 	Delete::safeDelete(m_TMCPoint);
 	Delete::safeDelete(m_RRMPoint);
 	Delete::safeDelete(m_GTTPoint);
 	Delete::safeDelete(m_WTPoint);
 
-	//ÇåÀí¸÷ÊµÌåÀàÊı×é
+	//æ¸…ç†å„å®ä½“ç±»æ•°ç»„
 	Delete::safeDelete(m_eNBAry, true);
 	Delete::safeDelete(m_RSUAry, true);
 	Delete::safeDelete(m_VeUEAry, true);
 	Delete::safeDelete(m_RoadAry, true);
 
-    //¹Ø±ÕÎÄ¼şÁ÷
+    //å…³é—­æ–‡ä»¶æµ
 	g_FileTemp.close();
 
 	g_FileVeUELocationUpdateLogInfo.close();

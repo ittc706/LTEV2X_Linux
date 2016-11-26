@@ -5,22 +5,22 @@
 // <GTT_Urban>: Geographical Topology and Transport Urban
 
 class GTT_Urban_VeUE :public GTT_VeUE {
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 public:
 	/*
 	* <?>
 	*/
 	int m_LocationId;
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* ¹¹Ôìº¯Êı
+	* æ„é€ å‡½æ•°
 	*/
 	GTT_Urban_VeUE() = delete;
 	GTT_Urban_VeUE(VeUEConfig &t_VeUEConfig);
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	GTT_Urban_VeUE  *const getUrbanPoint()override { return this; }
 	GTT_HighSpeed_VeUE  *const getHighSpeedPoint()override { throw std::logic_error("RuntimeException"); }
@@ -30,12 +30,12 @@ public:
 class GTT_Urban_RSU :public GTT_RSU {
 public:
 	/*
-	* ¹¹Ôìº¯Êı
+	* æ„é€ å‡½æ•°
 	*/
 	GTT_Urban_RSU();
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	GTT_Urban_RSU  *const getUrbanPoint()override { return this; }
 	GTT_HighSpeed_RSU  *const getHighSpeedPoint()override { throw std::logic_error("RuntimeException"); }
@@ -45,13 +45,13 @@ public:
 class GTT_Urban_eNB :public GTT_eNB {
 public:
 	/*
-	* ³õÊ¼»¯·½·¨
-	* ²»ÓÃ¹¹Ôìº¯ÊıµÄÔ­ÒòÊÇ¹¹ÔìµÄÊ±¿ÌÆäÒÀÀµÏî»¹Ã»´´½¨Íê±Ï
+	* åˆå§‹åŒ–æ–¹æ³•
+	* ä¸ç”¨æ„é€ å‡½æ•°çš„åŸå› æ˜¯æ„é€ çš„æ—¶åˆ»å…¶ä¾èµ–é¡¹è¿˜æ²¡åˆ›å»ºå®Œæ¯•
 	*/
 	void initialize(eNBConfig &t_eNBConfig)override;
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	GTT_Urban_eNB  *const getUrbanPoint()override { return this; }
 	GTT_HighSpeed_eNB  *const getHighSpeedPoint()override { throw std::logic_error("RuntimeException"); }
@@ -59,32 +59,32 @@ public:
 
 
 class GTT_Urban_Road :public GTT_Road {
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 public:
 	/*
-	* »ùÕ¾ÊıÄ¿
+	* åŸºç«™æ•°ç›®
 	*/
 	int m_eNBNum;
 
 	/*
-	* »ùÕ¾Id
+	* åŸºç«™Id
 	*/
 	int m_eNBId;
 
 	/*
-	* ³ÖÓĞÖ¸ÏòÆäËùÔÚ»ùÕ¾¶ÔÏóµÄÖ¸Õë
+	* æŒæœ‰æŒ‡å‘å…¶æ‰€åœ¨åŸºç«™å¯¹è±¡çš„æŒ‡é’ˆ
 	*/
 	GTT_eNB *m_eNB;
 
 public:
 	/*
-	* ³õÊ¼»¯·½·¨
-	* ²»ÓÃ¹¹Ôìº¯ÊıµÄÔ­ÒòÊÇ¹¹ÔìµÄÊ±¿ÌÆäÒÀÀµÏî»¹Ã»´´½¨Íê±Ï
+	* åˆå§‹åŒ–æ–¹æ³•
+	* ä¸ç”¨æ„é€ å‡½æ•°çš„åŸå› æ˜¯æ„é€ çš„æ—¶åˆ»å…¶ä¾èµ–é¡¹è¿˜æ²¡åˆ›å»ºå®Œæ¯•
 	*/
 	GTT_Urban_Road(UrbanRoadConfig &t_RoadConfig);
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	GTT_Urban_Road  *const getUrbanPoint()override { return this; }
 	GTT_HighSpeed_Road  *const getHighSpeedPoint()override { throw std::logic_error("RuntimeException"); }
@@ -92,40 +92,40 @@ public:
 
 
 class GTT_Urban :public GTT {
-	/*------------------¾²Ì¬------------------*/
+	/*------------------é™æ€------------------*/
 public:
 	/*
-	* Ëæ»úÊıÒıÇæ£¬¸ÃÀà¹²Ïí
+	* éšæœºæ•°å¼•æ“ï¼Œè¯¥ç±»å…±äº«
 	*/
 	static std::default_random_engine s_Engine;
 
 	/*
-	* »ùÕ¾ÊıÁ¿
+	* åŸºç«™æ•°é‡
 	*/
 	static const int s_eNB_NUM = 7;
 
 	/*
-	* µÀÂ·ÊıÁ¿
+	* é“è·¯æ•°é‡
 	*/
 	static const int s_ROAD_NUM = 14;
 
 	/*
-	* RSUÊıÁ¿
+	* RSUæ•°é‡
 	*/
 	static const int s_RSU_NUM = 24;
 
 	/*
-	* ÄÏ±±ÏòÂ·³¤
+	* å—åŒ—å‘è·¯é•¿
 	*/
 	static const int s_ROAD_LENGTH_SN = 250;
 
 	/*
-	* ¶«Î÷ÏòÂ·³¤
+	* ä¸œè¥¿å‘è·¯é•¿
 	*/
 	static const int s_ROAD_LENGTH_EW = 433;
 
 	/*
-	* Â·¿í
+	* è·¯å®½
 	*/
 	static const double s_ROAD_WIDTH;
 
@@ -153,25 +153,25 @@ public:
 	* ???
 	*/
 	static const int s_RSU_IN_ROAD[s_ROAD_NUM][4];
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* ueTopo xÖá ¸ñÊı
+	* ueTopo xè½´ æ ¼æ•°
 	*/
 	int m_xNum;
 
 	/*
-	* ueTopo yÖá ¸ñÊı
+	* ueTopo yè½´ æ ¼æ•°
 	*/
 	int m_yNum;
 
 	/*
-	* £¿
+	* ï¼Ÿ
 	*/
 	int m_ueTopoNum;
 
 	/*
-	* Ò»¸öRoadÖĞueÏà¶Ô×ø±ê
+	* ä¸€ä¸ªRoadä¸­ueç›¸å¯¹åæ ‡
 	*/
 	double *m_pueTopo;
 
@@ -181,68 +181,68 @@ private:
 	int* m_pupr;
 
 	/*
-	* ³µÁ¾³µËÙ
+	* è½¦è¾†è½¦é€Ÿ
 	*/
 	double m_Speed;
 
 public:
 	/*
-	* Í³¼ÆÃ¿¸öRSUÏÂµÄ³µÁ¾ÊıÄ¿
-	* Íâ²ãÏÂ±ê´ú±íµÚ¼¸´ÎÎ»ÖÃ¸üĞÂ(´Ó0¿ªÊ¼)£¬ÄÚ²ãÏÂ±ê´ú±íRSU±àºÅ
+	* ç»Ÿè®¡æ¯ä¸ªRSUä¸‹çš„è½¦è¾†æ•°ç›®
+	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç¬¬å‡ æ¬¡ä½ç½®æ›´æ–°(ä»0å¼€å§‹)ï¼Œå†…å±‚ä¸‹æ ‡ä»£è¡¨RSUç¼–å·
 	*/
 	std::vector<std::vector<int>> m_VeUENumPerRSU;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* Ä¬ÈÏ¹¹Ôìº¯Êı¶¨ÒåÎªÉ¾³ı
+	* é»˜è®¤æ„é€ å‡½æ•°å®šä¹‰ä¸ºåˆ é™¤
 	*/
 	GTT_Urban() = delete;
 
 	/*
-	* ¹¹Ôìº¯Êı
-	* ÕâÀïÖ¸Õë¶¼ÊÇÒıÓÃÀàĞÍ£¬ÒòÎªĞèÒª³õÊ¼»¯ÏµÍ³µÄ¸÷¸öÊµÌåÊı×é
-	* ¸Ã¹¹Ôìº¯ÊıÒ²¶¨ÒåÁË¸ÃÄ£¿éµÄÊÓÍ¼
+	* æ„é€ å‡½æ•°
+	* è¿™é‡ŒæŒ‡é’ˆéƒ½æ˜¯å¼•ç”¨ç±»å‹ï¼Œå› ä¸ºéœ€è¦åˆå§‹åŒ–ç³»ç»Ÿçš„å„ä¸ªå®ä½“æ•°ç»„
+	* è¯¥æ„é€ å‡½æ•°ä¹Ÿå®šä¹‰äº†è¯¥æ¨¡å—çš„è§†å›¾
 	*/
 	GTT_Urban(System* t_Context);
 
 	/*
-	* ²ÎÊıÅäÖÃ
+	* å‚æ•°é…ç½®
 	*/
 	void configure()override;
 
 	/*
-	* µ±·¢ÉúÎ»ÖÃ¸üĞÂÊ±£¬Çå³ı»º´æµÄµ÷¶ÈÏà¹ØĞÅÏ¢
+	* å½“å‘ç”Ÿä½ç½®æ›´æ–°æ—¶ï¼Œæ¸…é™¤ç¼“å­˜çš„è°ƒåº¦ç›¸å…³ä¿¡æ¯
 	*/
 	void cleanWhenLocationUpdate()override;
 
 	/*
-	* ³õÊ¼»¯¸÷¸öÊµÌåÊı×é
+	* åˆå§‹åŒ–å„ä¸ªå®ä½“æ•°ç»„
 	*/
 	void initialize()override;
 
 	/*
-	* ĞÅµÀ²úÉú
+	* ä¿¡é“äº§ç”Ÿ
 	*/
 	void channelGeneration()override;
 
 	/*
-	* ĞÅµÀË¢ĞÂ
+	* ä¿¡é“åˆ·æ–°
 	*/
 	void freshLoc() override;
 
 	/*
-	* Ğ´ÈëµØÀíÎ»ÖÃ¸üĞÂÈÕÖ¾
+	* å†™å…¥åœ°ç†ä½ç½®æ›´æ–°æ—¥å¿—
 	*/
 	void writeVeUELocationUpdateLogInfo(std::ofstream &t_File1, std::ofstream &t_File2) override;
 
 	/*
-	* ¼ÆËã¸ÉÈÅ¾ØÕó
-	* ´«ÈëµÄ²ÎÊı½âÊÍ
-	*		Íâ²ãÏÂ±êÎª³µÁ¾±àºÅ
-	*		ÄÚ²ãÏÂ±êÎªPattern±àºÅ
-	*		×îÄÚ²ãlistÎª¸Ã³µÁ¾ÔÚ¸ÃPatternÏÂµÄ¸ÉÈÅÁĞ±í
-	* Ä¿Ç°½öÓĞ´Ø¼ä¸ÉÈÅ£¬ÒòÎªRSU¼ä¸ÉÈÅÌ«Ğ¡£¬¼¸ºõ¿ÉÒÔºöÂÔ
+	* è®¡ç®—å¹²æ‰°çŸ©é˜µ
+	* ä¼ å…¥çš„å‚æ•°è§£é‡Š
+	*		å¤–å±‚ä¸‹æ ‡ä¸ºè½¦è¾†ç¼–å·
+	*		å†…å±‚ä¸‹æ ‡ä¸ºPatternç¼–å·
+	*		æœ€å†…å±‚listä¸ºè¯¥è½¦è¾†åœ¨è¯¥Patternä¸‹çš„å¹²æ‰°åˆ—è¡¨
+	* ç›®å‰ä»…æœ‰ç°‡é—´å¹²æ‰°ï¼Œå› ä¸ºRSUé—´å¹²æ‰°å¤ªå°ï¼Œå‡ ä¹å¯ä»¥å¿½ç•¥
 	*/
 	void calculateInterference(const std::vector<std::vector<std::list<int>>>& t_RRMInterferenceVec) override;
 };

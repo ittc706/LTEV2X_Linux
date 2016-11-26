@@ -7,27 +7,27 @@
 class ConfigLoader {
 private:
 	/*
-	* ÅäÖÃÎÄ¼ş×Ö·û´®
+	* é…ç½®æ–‡ä»¶å­—ç¬¦ä¸²
 	*/
 	std::string m_Content;
 
 	/*
-	* [±êÇ©-Öµ]¶Ô
+	* [æ ‡ç­¾-å€¼]å¯¹
 	*/
 	std::map<std::string, std::string> m_TagContentMap;
 public:
 	/*
-	* Ä¬ÈÏ¹¹Ôìº¯Êı
+	* é»˜è®¤æ„é€ å‡½æ•°
 	*/
 	ConfigLoader() {}
 
 	/*
-	* ½ÓÊÜÎÄ¼şÃûµÄ¹¹Ôìº¯Êı
+	* æ¥å—æ–‡ä»¶åçš„æ„é€ å‡½æ•°
 	*/
 	void resolvConfigPath(std::string t_FilePath);
 
 	/*
-	* ´Óm_TagContentMap¸ù¾İ±êÇ©ÃûÈ¡³öÖµ
+	* ä»m_TagContentMapæ ¹æ®æ ‡ç­¾åå–å‡ºå€¼
 	*/
 	std::string getParam(std::string t_Param);
 };

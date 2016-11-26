@@ -3,7 +3,7 @@
 *
 *       Filename:  WT_B.cpp
 *
-*    Description:  WTÄ£¿é
+*    Description:  WTæ¨¡å—
 *
 *        Version:  1.0
 *        Created:
@@ -49,7 +49,7 @@ WT_B::WT_B(const WT_B& t_WT_B) : WT(t_WT_B.m_Context) {
 
 
 void WT_B::initialize() {
-	//¶ÁÈëĞÅÔë±ÈºÍ»¥ĞÅÏ¢µÄ¶ÔÓ¦±í(QPSK),Î¬¶ÈÊÇ1*95
+	//è¯»å…¥ä¿¡å™ªæ¯”å’Œäº’ä¿¡æ¯çš„å¯¹åº”è¡¨(QPSK),ç»´åº¦æ˜¯1*95
 	ifstream in;
 	if (getContext()->m_Config.platform == Windows) {
 		in.open("WT\\QPSK_MI.md");
@@ -62,13 +62,13 @@ void WT_B::initialize() {
 	m_QPSK_MI->assign(inIter2, eof2);
 	in.close();
 
-	//³õÊ¼»¯VeUEµÄ¸ÃÄ£¿é²ÎÊı²¿·Ö
+	//åˆå§‹åŒ–VeUEçš„è¯¥æ¨¡å—å‚æ•°éƒ¨åˆ†
 	m_VeUEAry = new WT_VeUE*[getContext()->m_Config.VeUENum];
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
 		m_VeUEAry[VeUEId] = new WT_VeUE();
 	}
 
-	//³õÊ¼»¯RSUµÄ¸ÃÄ£¿é²ÎÊı²¿·Ö
+	//åˆå§‹åŒ–RSUçš„è¯¥æ¨¡å—å‚æ•°éƒ¨åˆ†
 	m_RSUAry = new WT_RSU*[getContext()->m_Config.RSUNum];
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		m_RSUAry[RSUId] = new WT_RSU();
@@ -99,19 +99,19 @@ double WT_B::SINRCalculate(int t_VeUEId, int t_SubCarrierIdxStart, int t_SubCarr
 
 
 double WT_B::SINRCalculateMRC(int t_VeUEId, int t_SubCarrierIdxStart, int t_SubCarrierIdxEnd, int t_PatternIdx) {
-	//×ÓÔØ²¨ÊıÁ¿
+	//å­è½½æ³¢æ•°é‡
 	int subCarrierNum = t_SubCarrierIdxEnd - t_SubCarrierIdxStart + 1;
 
-	//ÅäÖÃ±¾´Îº¯Êıµ÷ÓÃµÄ²ÎÊı
+	//é…ç½®æœ¬æ¬¡å‡½æ•°è°ƒç”¨çš„å‚æ•°
 	configuration(t_VeUEId, t_PatternIdx, subCarrierNum);
 
-	/*****ÇóÃ¿¸ö×ÓÔØ²¨ÉÏµÄĞÅÔë±È****/
-	vector<double> SINR(subCarrierNum);//Ã¿¸ö×ÓÔØ²¨ÉÏµÄĞÅÔë±È£¬Î¬¶ÈÎªNtµÄÏòÁ¿
+	/*****æ±‚æ¯ä¸ªå­è½½æ³¢ä¸Šçš„ä¿¡å™ªæ¯”****/
+	vector<double> SINR(subCarrierNum);//æ¯ä¸ªå­è½½æ³¢ä¸Šçš„ä¿¡å™ªæ¯”ï¼Œç»´åº¦ä¸ºNtçš„å‘é‡
 	for (int subCarrierIdx = t_SubCarrierIdxStart; subCarrierIdx <= t_SubCarrierIdxEnd; subCarrierIdx++) {
-		int relativeSubCarrierIdx = subCarrierIdx - t_SubCarrierIdxStart;//Ïà¶ÔµÄ×ÓÔØ²¨ÏÂ±ê
+		int relativeSubCarrierIdx = subCarrierIdx - t_SubCarrierIdxStart;//ç›¸å¯¹çš„å­è½½æ³¢ä¸‹æ ‡
 
-		m_H = readH(t_VeUEId, subCarrierIdx);//¶ÁÈëµ±Ç°×ÓÔØ²¨µÄĞÅµÀÏìÓ¦¾ØÕó
-		m_HInterference = readInterferenceH(t_VeUEId, subCarrierIdx, t_PatternIdx);//¶ÁÈëµ±Ç°×ÓÔØ²¨¸ÉÈÅÏàÓ¦¾ØÕóÊı×é
+		m_H = readH(t_VeUEId, subCarrierIdx);//è¯»å…¥å½“å‰å­è½½æ³¢çš„ä¿¡é“å“åº”çŸ©é˜µ
+		m_HInterference = readInterferenceH(t_VeUEId, subCarrierIdx, t_PatternIdx);//è¯»å…¥å½“å‰å­è½½æ³¢å¹²æ‰°ç›¸åº”çŸ©é˜µæ•°ç»„
 
 		double HSum1 = 0;
 		for (int r = 0; r < m_Nr; r++) {
@@ -135,7 +135,7 @@ double WT_B::SINRCalculateMRC(int t_VeUEId, int t_SubCarrierIdxStart, int t_SubC
 		SINR[relativeSubCarrierIdx] = 10 * log10(molecule / denominator);
 	}
 
-	//»¥ĞÅÏ¢·½·¨ÇóÓĞĞ§ĞÅÔë±ÈSinreff
+	//äº’ä¿¡æ¯æ–¹æ³•æ±‚æœ‰æ•ˆä¿¡å™ªæ¯”Sinreff
 
 	double sum_MI = 0, ave_MI = 0;
 	double Sinreff = 0;
@@ -164,66 +164,66 @@ double WT_B::SINRCalculateMRC(int t_VeUEId, int t_SubCarrierIdxStart, int t_SubC
 
 
 double WT_B::SINRCalculateMMSE(int t_VeUEId,int t_SubCarrierIdxStart,int t_SubCarrierIdxEnd, int t_PatternIdx) {
-	//×ÓÔØ²¨ÊıÁ¿
+	//å­è½½æ³¢æ•°é‡
 	int subCarrierNum = t_SubCarrierIdxEnd - t_SubCarrierIdxStart + 1;
 
-	//ÅäÖÃ±¾´Îº¯Êıµ÷ÓÃµÄ²ÎÊı
+	//é…ç½®æœ¬æ¬¡å‡½æ•°è°ƒç”¨çš„å‚æ•°
 	configuration(t_VeUEId, t_PatternIdx, subCarrierNum);
 
-	/*****ÇóÃ¿¸ö×ÓÔØ²¨ÉÏµÄĞÅÔë±È****/
-	vector<double> SINR(subCarrierNum);//Ã¿¸ö×ÓÔØ²¨ÉÏµÄĞÅÔë±È£¬Î¬¶ÈÎªNtµÄÏòÁ¿
+	/*****æ±‚æ¯ä¸ªå­è½½æ³¢ä¸Šçš„ä¿¡å™ªæ¯”****/
+	vector<double> SINR(subCarrierNum);//æ¯ä¸ªå­è½½æ³¢ä¸Šçš„ä¿¡å™ªæ¯”ï¼Œç»´åº¦ä¸ºNtçš„å‘é‡
 	for (int subCarrierIdx = t_SubCarrierIdxStart; subCarrierIdx <= t_SubCarrierIdxEnd; subCarrierIdx++) {
 		
-		int relativeSubCarrierIdx = subCarrierIdx - t_SubCarrierIdxStart;//Ïà¶ÔµÄ×ÓÔØ²¨ÏÂ±ê
+		int relativeSubCarrierIdx = subCarrierIdx - t_SubCarrierIdxStart;//ç›¸å¯¹çš„å­è½½æ³¢ä¸‹æ ‡
 
-		m_H=readH(t_VeUEId, subCarrierIdx);//¶ÁÈëµ±Ç°×ÓÔØ²¨µÄĞÅµÀÏìÓ¦¾ØÕó
-		m_HInterference = readInterferenceH(t_VeUEId, subCarrierIdx, t_PatternIdx);//¶ÁÈëµ±Ç°×ÓÔØ²¨¸ÉÈÅÏàÓ¦¾ØÕóÊı×é
+		m_H=readH(t_VeUEId, subCarrierIdx);//è¯»å…¥å½“å‰å­è½½æ³¢çš„ä¿¡é“å“åº”çŸ©é˜µ
+		m_HInterference = readInterferenceH(t_VeUEId, subCarrierIdx, t_PatternIdx);//è¯»å…¥å½“å‰å­è½½æ³¢å¹²æ‰°ç›¸åº”çŸ©é˜µæ•°ç»„
 
-		/* ÏÂÃæ¿ªÊ¼¼ÆËãW */
-		Matrix HHermit = m_H.hermitian();//ÇóĞÅµÀ¾ØÕóµÄhermitian
+		/* ä¸‹é¢å¼€å§‹è®¡ç®—W */
+		Matrix HHermit = m_H.hermitian();//æ±‚ä¿¡é“çŸ©é˜µçš„hermitian
 
-		Matrix inverseExpLeft = m_Pt*m_Ploss*m_H * HHermit;//ÇóÄæ±í´ïÊ½×ó±ßÄÇÏî
+		Matrix inverseExpLeft = m_Pt*m_Ploss*m_H * HHermit;//æ±‚é€†è¡¨è¾¾å¼å·¦è¾¹é‚£é¡¹
 
-		//¼ÆËã¸ÉÈÅÏî
+		//è®¡ç®—å¹²æ‰°é¡¹
 		Matrix Interference1(m_Nr, m_Nr);
 
 		for (int i = 0; i < (int)m_HInterference.size(); i++) {
 			Interference1 = Interference1 + m_Pt*m_PlossInterference[i] * m_HInterference[i] * m_HInterference[i].hermitian();
 		}
 
-		//ÇóÄæ±í´ïÊ½ÓÒ±ßÄÇÏî
-		Matrix inverseExpRight = m_Sigma*Matrix::eye(m_Nr) + Interference1;//sigmaÉÏ´øÇúÏß
+		//æ±‚é€†è¡¨è¾¾å¼å³è¾¹é‚£é¡¹
+		Matrix inverseExpRight = m_Sigma*Matrix::eye(m_Nr) + Interference1;//sigmaä¸Šå¸¦æ›²çº¿
 		
-		Matrix W = (inverseExpLeft + inverseExpRight).inverse(true)*sqrt(m_Pt*m_Ploss)*m_H;//È¨ÖØ¾ØÕó
+		Matrix W = (inverseExpLeft + inverseExpRight).inverse(true)*sqrt(m_Pt*m_Ploss)*m_H;//æƒé‡çŸ©é˜µ
 
 
-		/* ÏÂÃæ¿ªÊ¼¼ÆËãD */
-		//ÏÈ¼ÆËã·Ö×Ó
+		/* ä¸‹é¢å¼€å§‹è®¡ç®—D */
+		//å…ˆè®¡ç®—åˆ†å­
 		Matrix WHer = W.hermitian();
 		Matrix D = sqrt(m_Ploss*m_Pt)*WHer*m_H;
 		Matrix DHer = D.hermitian();
-		Matrix molecular = D*DHer;//SINRÔËËãµÄ·Ö×Ó£¬1*1µÄ¾ØÕó
+		Matrix molecular = D*DHer;//SINRè¿ç®—çš„åˆ†å­ï¼Œ1*1çš„çŸ©é˜µ
 		
 
-		//È»ºó¼ÆËã·ÖÄ¸
-		Matrix denominatorLeft = WHer*W*m_Sigma;//SINRÔËËãµÄ·ÖÄ¸ÖĞµÄµÚÒ»Ïî
+		//ç„¶åè®¡ç®—åˆ†æ¯
+		Matrix denominatorLeft = WHer*W*m_Sigma;//SINRè¿ç®—çš„åˆ†æ¯ä¸­çš„ç¬¬ä¸€é¡¹
 		Matrix Iself = WHer*m_H*sqrt(m_Pt*m_Ploss) - D;
 		Matrix IselfHer = Iself.hermitian();
-		Matrix denominatorMiddle = Iself*IselfHer; //SINRÔËËãµÄ·ÖÄ¸ÖĞµÄµÚ¶şÏî
+		Matrix denominatorMiddle = Iself*IselfHer; //SINRè¿ç®—çš„åˆ†æ¯ä¸­çš„ç¬¬äºŒé¡¹
 
-		/*ÒÔÏÂ¼ÆËã¹«Ê½ÖĞµÄ¸ÉÈÅÏî,¼´¹«Ê½ÖĞµÄµÚÈıÏî*/
+		/*ä»¥ä¸‹è®¡ç®—å…¬å¼ä¸­çš„å¹²æ‰°é¡¹,å³å…¬å¼ä¸­çš„ç¬¬ä¸‰é¡¹*/
 		Matrix denominatorRight(m_Nt, m_Nt);
 		for (int i = 0; i < (int)m_HInterference.size(); i++) {
 			denominatorRight = denominatorRight + m_Pt*m_PlossInterference[i]*WHer*m_HInterference[i] * m_HInterference[i].hermitian()*W;
 		}
 
-		Matrix denominator = denominatorLeft + denominatorMiddle + denominatorRight;//SINRÔËËãµÄ·ÖÄ¸
+		Matrix denominator = denominatorLeft + denominatorMiddle + denominatorRight;//SINRè¿ç®—çš„åˆ†æ¯
 
 
 		SINR[relativeSubCarrierIdx] = 10*log10((molecular[0][0] / denominator[0][0]).real);
 	}
 
-	//»¥ĞÅÏ¢·½·¨ÇóÓĞĞ§ĞÅÔë±ÈSinreff
+	//äº’ä¿¡æ¯æ–¹æ³•æ±‚æœ‰æ•ˆä¿¡å™ªæ¯”Sinreff
 	double sum_MI = 0, ave_MI = 0;
 	double Sinreff = 0;
 

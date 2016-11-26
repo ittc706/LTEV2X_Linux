@@ -1,27 +1,28 @@
 #pragma once
 #include<list>
 #include<vector>
+#include<fstream>
 
 //<TMC>: Traffic Model and Control
 class VeUE;
 
 class TMC_VeUE {
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÓÃÓÚ²»Í¬µ¥ÔªVeUEÊı¾İ½»»¥µÄÏµÍ³¼¶VeUE¶ÔÏó
+	* æŒ‡å‘ç”¨äºä¸åŒå•å…ƒVeUEæ•°æ®äº¤äº’çš„ç³»ç»Ÿçº§VeUEå¯¹è±¡
 	*/
 	VeUE* m_This;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* È¡µÃÏµÍ³¼¶SystemµÄVeUEµÄÖ¸Õë
+	* å–å¾—ç³»ç»Ÿçº§Systemçš„VeUEçš„æŒ‡é’ˆ
 	*/
 	VeUE* getSystemPoint() { return m_This; }
 
 	/*
-	* ÉèÖÃÏµÍ³¼¶SystemµÄVeUEµÄÖ¸Õë
+	* è®¾ç½®ç³»ç»Ÿçº§Systemçš„VeUEçš„æŒ‡é’ˆ
 	*/
 	void setSystemPoint(VeUE* t_Point) { m_This = t_Point; }
 };
@@ -29,104 +30,104 @@ public:
 class RSU;
 
 class TMC_RSU {
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÓÃÓÚ²»Í¬µ¥ÔªRSUÊı¾İ½»»¥µÄÏµÍ³¼¶RSU¶ÔÏó
+	* æŒ‡å‘ç”¨äºä¸åŒå•å…ƒRSUæ•°æ®äº¤äº’çš„ç³»ç»Ÿçº§RSUå¯¹è±¡
 	*/
 	RSU* m_This;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* È¡µÃÏµÍ³¼¶SystemµÄRSUµÄÖ¸Õë
+	* å–å¾—ç³»ç»Ÿçº§Systemçš„RSUçš„æŒ‡é’ˆ
 	*/
 	RSU* getSystemPoint() { return m_This; }
 
 	/*
-	* ÉèÖÃÏµÍ³¼¶SystemµÄRSUµÄÖ¸Õë
+	* è®¾ç½®ç³»ç»Ÿçº§Systemçš„RSUçš„æŒ‡é’ˆ
 	*/
 	void setSystemPoint(RSU* t_Point) { m_This = t_Point; }
 };
 
 class System;
 class TMC {
-	/*------------------¾²Ì¬------------------*/
+	/*------------------é™æ€------------------*/
 public:
 	/*
-	* ½ô¼±ÊÂ¼ş/ÖÜÆÚÊÂ¼ş/Êı¾İÒµÎñÊÂ¼ş µÄÊı¾İ°üÊıÁ¿
-	* ÏÂ±êÒÔMessageTypeµÄ¶¨ÒåÎª×¼
+	* ç´§æ€¥äº‹ä»¶/å‘¨æœŸäº‹ä»¶/æ•°æ®ä¸šåŠ¡äº‹ä»¶ çš„æ•°æ®åŒ…æ•°é‡
+	* ä¸‹æ ‡ä»¥MessageTypeçš„å®šä¹‰ä¸ºå‡†
 	*/
 	static const std::vector<int> s_MESSAGE_PACKAGE_NUM;
 
 	/*
-	* ½ô¼±ÊÂ¼ş/ÖÜÆÚÊÂ¼ş/Êı¾İÒµÎñÊÂ¼ş Ã¿¸öÊı¾İ°üµÄbitÊıÁ¿
-	* ÏÂ±êÒÔMessageTypeµÄ¶¨ÒåÎª×¼
+	* ç´§æ€¥äº‹ä»¶/å‘¨æœŸäº‹ä»¶/æ•°æ®ä¸šåŠ¡äº‹ä»¶ æ¯ä¸ªæ•°æ®åŒ…çš„bitæ•°é‡
+	* ä¸‹æ ‡ä»¥MessageTypeçš„å®šä¹‰ä¸ºå‡†
 	*/
 	static const std::vector<std::vector<int>> s_MESSAGE_BIT_NUM_PER_PACKAGE;
 
 	/*
-	* ½ô¼±ÊÂ¼ş/ÖÜÆÚÊÂ¼ş/Êı¾İÒµÎñÊÂ¼ş ³õÊ¼µÄÍË±Ü´°´óĞ¡
-	* ÏÂ±êÒÔMessageTypeµÄ¶¨ÒåÎª×¼
+	* ç´§æ€¥äº‹ä»¶/å‘¨æœŸäº‹ä»¶/æ•°æ®ä¸šåŠ¡äº‹ä»¶ åˆå§‹çš„é€€é¿çª—å¤§å°
+	* ä¸‹æ ‡ä»¥MessageTypeçš„å®šä¹‰ä¸ºå‡†
 	*/
 	static const std::vector<int> s_INITIAL_WINDOW_SIZE;
 
 	/*
-	* ½ô¼±ÊÂ¼ş/ÖÜÆÚÊÂ¼ş/Êı¾İÒµÎñÊÂ¼ş ×î´óµÄÍË±Ü´°´óĞ¡
-	* ÏÂ±êÒÔMessageTypeµÄ¶¨ÒåÎª×¼
+	* ç´§æ€¥äº‹ä»¶/å‘¨æœŸäº‹ä»¶/æ•°æ®ä¸šåŠ¡äº‹ä»¶ æœ€å¤§çš„é€€é¿çª—å¤§å°
+	* ä¸‹æ ‡ä»¥MessageTypeçš„å®šä¹‰ä¸ºå‡†
 	*/
 	static const std::vector<int> s_MAX_WINDOW_SIZE;
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÏµÍ³µÄÖ¸Õë
+	* æŒ‡å‘ç³»ç»Ÿçš„æŒ‡é’ˆ
 	*/
 	System* m_Context;
 public:
 	/*
-	* TMCÊÓÍ¼ÏÂµÄRSUÈİÆ÷
+	* TMCè§†å›¾ä¸‹çš„RSUå®¹å™¨
 	*/
 	TMC_RSU** m_RSUAry;
 
 	/*
-	* TMCÊÓÍ¼ÏÂµÄVeUEÈİÆ÷
+	* TMCè§†å›¾ä¸‹çš„VeUEå®¹å™¨
 	*/
 	TMC_VeUE** m_VeUEAry;
 
-	/*------------------½Ó¿Ú------------------*/
+	/*------------------æ¥å£------------------*/
 public:
 	/*
-	* Ä¬ÈÏ¹¹Ôìº¯Êı¶¨ÒåÎªÉ¾³ı
+	* é»˜è®¤æ„é€ å‡½æ•°å®šä¹‰ä¸ºåˆ é™¤
 	*/
 	TMC() = delete;
 
 	/*
-	* ¹¹Ôìº¯Êı
+	* æ„é€ å‡½æ•°
 	*/
 	TMC(System* t_Context) : m_Context(t_Context) {}
 
 	/*
-	* Îö¹¹º¯Êı
+	* ææ„å‡½æ•°
 	*/
 	~TMC();
 
 	/*
-	* »ñÈ¡ÏµÍ³ÀàµÄÖ¸Õë
+	* è·å–ç³»ç»Ÿç±»çš„æŒ‡é’ˆ
 	*/
 	System* getContext() { return m_Context; }
 
 	/*
-	* ³õÊ¼»¯RSU VeUEÄÚ¸Ãµ¥ÔªµÄÄÚ²¿Àà
+	* åˆå§‹åŒ–RSU VeUEå†…è¯¥å•å…ƒçš„å†…éƒ¨ç±»
 	*/
 	virtual void initialize() = 0;
 
 	/*
-	* Éú³ÉÊÂ¼şÁ´±í
+	* ç”Ÿæˆäº‹ä»¶é“¾è¡¨
 	*/
 	virtual void buildEventList(std::ofstream& t_File)=0;
 
 	/*
-	* ·ÂÕæ½áÊøºóÍ³¼Æ¸÷ÖÖÊı¾İ
+	* ä»¿çœŸç»“æŸåç»Ÿè®¡å„ç§æ•°æ®
 	*/
 	virtual void processStatistics(
 		std::ofstream& t_FileStatisticsDescription,

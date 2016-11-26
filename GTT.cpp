@@ -3,7 +3,7 @@
 *
 *       Filename:  GTT.cpp
 *
-*    Description:  TMCÄ£¿é
+*    Description:  TMCæ¨¡å—
 *
 *        Version:  1.0
 *        Created:

@@ -2,9 +2,8 @@
 #include<vector>
 #include<list>
 #include<thread>
+#include<stdexcept>
 #include"RRM.h"
-#include"Exception.h"
-#include"Global.h"
 
 //<RRM_RR>: Radio Resource Management Round-Robin
 
@@ -25,8 +24,8 @@ public:
 	/*
 	* 用于取得指向实际类型的指针
 	*/
-	RRM_TDM_DRA_VeUE *const getTDM_DRAPoint()override { throw LTEV2X_Exception("RuntimeException"); }
-	RRM_ICC_DRA_VeUE *const getICC_DRAPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	RRM_TDM_DRA_VeUE *const getTDM_DRAPoint()override { throw std::logic_error("RuntimeException"); }
+	RRM_ICC_DRA_VeUE *const getICC_DRAPoint()override { throw std::logic_error("RuntimeException"); }
 	RRM_RR_VeUE *const getRRPoint()override { return this; }
 };
 
@@ -99,13 +98,24 @@ public:
 	/*
 	* 用于取得指向实际类型的指针
 	*/
-	RRM_TDM_DRA_RSU *const getTDM_DRAPoint()override { throw LTEV2X_Exception("RuntimeException"); }
-	RRM_ICC_DRA_RSU *const getICC_DRAPoint() override { throw LTEV2X_Exception("RuntimeException"); }
+	RRM_TDM_DRA_RSU *const getTDM_DRAPoint()override { throw std::logic_error("RuntimeException"); }
+	RRM_ICC_DRA_RSU *const getICC_DRAPoint() override { throw std::logic_error("RuntimeException"); }
 	RRM_RR_RSU *const getRRPoint() override { return this; }
 };
 
 
 class RRM_RR :public RRM {
+	/*------------------静态------------------*/
+public:
+	/*
+	* 每个Pattern的RB数量
+	*/
+	static const int s_RB_NUM_PER_PATTERN = 10;
+
+	/*
+	* 总的Pattern数量
+	*/
+	static const int s_TOTAL_PATTERN_NUM = s_TOTAL_BANDWIDTH / s_BANDWIDTH_OF_RB / s_RB_NUM_PER_PATTERN;
 	/*------------------域------------------*/
 public:
 	/*
@@ -241,29 +251,3 @@ private:
 	std::pair<int, int> getOccupiedSubCarrierRange(int t_PatternIdx);
 };
 
-
-
-inline
-void RRM_RR_RSU::pushToAccessEventIdList(int t_ClusterIdx, int t_EventId) {
-	m_AccessEventIdList[t_ClusterIdx].push_back(t_EventId);
-}
-
-inline
-void RRM_RR_RSU::pushToWaitEventIdList(bool t_IsEmergency, int t_ClusterIdx, int t_EventId) {
-	if (t_IsEmergency)
-		m_WaitEventIdList[t_ClusterIdx].insert(m_WaitEventIdList[t_ClusterIdx].begin(), t_EventId);
-	else
-		m_WaitEventIdList[t_ClusterIdx].push_back(t_EventId);
-}
-
-
-inline
-void RRM_RR_RSU::pushToSwitchEventIdList(int t_EventId, std::list<int>& t_SwitchVeUEIdList) {
-	t_SwitchVeUEIdList.push_back(t_EventId);
-}
-
-
-inline
-void RRM_RR_RSU::pushToTransimitScheduleInfoTable(ScheduleInfo* t_Info) {
-	m_TransimitScheduleInfoTable[t_Info->clusterIdx][t_Info->patternIdx] = t_Info;
-}

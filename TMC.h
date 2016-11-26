@@ -1,11 +1,9 @@
 #pragma once
 #include<list>
-#include"VUE.h"
-#include"RSU.h"
-#include"Config.h"
-#include"Event.h"
+#include<vector>
 
 //<TMC>: Traffic Model and Control
+class VeUE;
 
 class TMC_VeUE {
 	/*------------------域------------------*/
@@ -28,6 +26,7 @@ public:
 	void setSystemPoint(VeUE* t_Point) { m_This = t_Point; }
 };
 
+class RSU;
 
 class TMC_RSU {
 	/*------------------域------------------*/
@@ -52,6 +51,31 @@ public:
 
 class System;
 class TMC {
+	/*------------------静态------------------*/
+public:
+	/*
+	* 紧急事件/周期事件/数据业务事件 的数据包数量
+	* 下标以MessageType的定义为准
+	*/
+	static const std::vector<int> s_MESSAGE_PACKAGE_NUM;
+
+	/*
+	* 紧急事件/周期事件/数据业务事件 每个数据包的bit数量
+	* 下标以MessageType的定义为准
+	*/
+	static const std::vector<std::vector<int>> s_MESSAGE_BIT_NUM_PER_PACKAGE;
+
+	/*
+	* 紧急事件/周期事件/数据业务事件 初始的退避窗大小
+	* 下标以MessageType的定义为准
+	*/
+	static const std::vector<int> s_INITIAL_WINDOW_SIZE;
+
+	/*
+	* 紧急事件/周期事件/数据业务事件 最大的退避窗大小
+	* 下标以MessageType的定义为准
+	*/
+	static const std::vector<int> s_MAX_WINDOW_SIZE;
 	/*------------------域------------------*/
 private:
 	/*

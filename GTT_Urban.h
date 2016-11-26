@@ -1,4 +1,5 @@
 #pragma once
+#include<stdexcept>
 #include"GTT.h"
 
 // <GTT_Urban>: Geographical Topology and Transport Urban
@@ -22,7 +23,7 @@ public:
 	* 用于取得指向实际类型的指针
 	*/
 	GTT_Urban_VeUE  *const getUrbanPoint()override { return this; }
-	GTT_HighSpeed_VeUE  *const getHighSpeedPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	GTT_HighSpeed_VeUE  *const getHighSpeedPoint()override { throw std::logic_error("RuntimeException"); }
 };
 
 
@@ -37,7 +38,7 @@ public:
 	* 用于取得指向实际类型的指针
 	*/
 	GTT_Urban_RSU  *const getUrbanPoint()override { return this; }
-	GTT_HighSpeed_RSU  *const getHighSpeedPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	GTT_HighSpeed_RSU  *const getHighSpeedPoint()override { throw std::logic_error("RuntimeException"); }
 };
 
 
@@ -53,7 +54,7 @@ public:
 	* 用于取得指向实际类型的指针
 	*/
 	GTT_Urban_eNB  *const getUrbanPoint()override { return this; }
-	GTT_HighSpeed_eNB  *const getHighSpeedPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	GTT_HighSpeed_eNB  *const getHighSpeedPoint()override { throw std::logic_error("RuntimeException"); }
 };
 
 
@@ -86,7 +87,7 @@ public:
 	* 用于取得指向实际类型的指针
 	*/
 	GTT_Urban_Road  *const getUrbanPoint()override { return this; }
-	GTT_HighSpeed_Road  *const getHighSpeedPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	GTT_HighSpeed_Road  *const getHighSpeedPoint()override { throw std::logic_error("RuntimeException"); }
 };
 
 
@@ -97,6 +98,61 @@ public:
 	* 随机数引擎，该类共享
 	*/
 	static std::default_random_engine s_Engine;
+
+	/*
+	* 基站数量
+	*/
+	static const int s_eNB_NUM = 7;
+
+	/*
+	* 道路数量
+	*/
+	static const int s_ROAD_NUM = 14;
+
+	/*
+	* RSU数量
+	*/
+	static const int s_RSU_NUM = 24;
+
+	/*
+	* 南北向路长
+	*/
+	static const int s_ROAD_LENGTH_SN = 250;
+
+	/*
+	* 东西向路长
+	*/
+	static const int s_ROAD_LENGTH_EW = 433;
+
+	/*
+	* 路宽
+	*/
+	static const double s_ROAD_WIDTH;
+
+	/*
+	* ???
+	*/
+	static const double s_ROAD_TOPO_RATIO[s_ROAD_NUM * 2];
+
+	/*
+	* ???
+	*/
+	static const int s_WRAP_AROUND_ROAD[s_ROAD_NUM][9];
+
+	/*
+	* ???
+	*/
+	static const int s_RSU_CLUSTER_NUM[s_RSU_NUM];
+
+	/*
+	* ???
+	*/
+	static const double s_RSU_TOPO_RATIO[s_RSU_NUM * 2];
+
+	/*
+	* ???
+	*/
+	static const int s_RSU_IN_ROAD[s_ROAD_NUM][4];
 	/*------------------域------------------*/
 private:
 	/*

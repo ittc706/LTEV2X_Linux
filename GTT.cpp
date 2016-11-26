@@ -18,9 +18,10 @@
 
 #include<iomanip>
 #include<sstream>
-#include"GTT.h"
-#include"Function.h"
 #include"System.h"
+#include"GTT.h"
+#include"IMTA.h"
+#include"Function.h"
 
 using namespace std;
 
@@ -106,6 +107,7 @@ std::string GTT_Road::toString(int t_NumTab) {
 	ss << indent << "Road[" << m_RoadId << "]: (" << m_AbsX << "," << m_AbsY << ")" << endl;
 	return ss.str();
 }
+
 
 GTT::~GTT(){
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++)

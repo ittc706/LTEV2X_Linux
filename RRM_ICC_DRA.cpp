@@ -18,16 +18,33 @@
 
 #include<iomanip>
 #include<sstream>
-#include"RRM_ICC_DRA.h"
-#include"Function.h"
+#include<stdexcept>
 #include"System.h"
+
+#include"GTT.h"
+#include"RRM_ICC_DRA.h"
+#include"WT.h"
+
+#include"VUE.h"
+#include"RSU.h"
+
+#include"Function.h"
+#include"Log.h"
 
 using namespace std;
 
 default_random_engine RRM_ICC_DRA_VeUE::s_Engine((unsigned)time(NULL));
 
 
-RRM_ICC_DRA_VeUE::RRM_ICC_DRA_VeUE() :RRM_VeUE(ns_RRM_ICC_DRA::gc_TotalPatternNum) {}
+RRM_ICC_DRA_VeUE::RRM_ICC_DRA_VeUE() :RRM_VeUE(RRM_ICC_DRA::s_TOTAL_PATTERN_NUM) {}
+
+
+int RRM_ICC_DRA_VeUE::selectRBBasedOnP2(const std::vector<int>&t_CurAvaliablePatternIdx) {
+	int size = static_cast<int>(t_CurAvaliablePatternIdx.size());
+	if (size == 0) return -1;
+	std::uniform_int_distribution<int> u(0, size - 1);
+	return t_CurAvaliablePatternIdx[u(s_Engine)];
+}
 
 
 std::string RRM_ICC_DRA_VeUE::toString(int t_NumTab) {
@@ -49,9 +66,9 @@ RRM_ICC_DRA_RSU::RRM_ICC_DRA_RSU() {}
 void RRM_ICC_DRA_RSU::initialize() {
 	m_AccessEventIdList = vector<list<int>>(getSystemPoint()->getGTTPoint()->m_ClusterNum);
 	m_WaitEventIdList = vector<list<int>>(getSystemPoint()->getGTTPoint()->m_ClusterNum);
-	m_PatternIsAvailable = vector<vector<bool>>(getSystemPoint()->getGTTPoint()->m_ClusterNum, vector<bool>(ns_RRM_ICC_DRA::gc_TotalPatternNum, true));
-	m_ScheduleInfoTable = vector<vector<ScheduleInfo*>>(getSystemPoint()->getGTTPoint()->m_ClusterNum, vector<ScheduleInfo*>(ns_RRM_ICC_DRA::gc_TotalPatternNum, nullptr));
-	m_TransimitScheduleInfoList = vector<vector<list<ScheduleInfo*>>>(getSystemPoint()->getGTTPoint()->m_ClusterNum, vector<list<ScheduleInfo*>>(ns_RRM_ICC_DRA::gc_TotalPatternNum));
+	m_PatternIsAvailable = vector<vector<bool>>(getSystemPoint()->getGTTPoint()->m_ClusterNum, vector<bool>(RRM_ICC_DRA::s_TOTAL_PATTERN_NUM, true));
+	m_ScheduleInfoTable = vector<vector<ScheduleInfo*>>(getSystemPoint()->getGTTPoint()->m_ClusterNum, vector<ScheduleInfo*>(RRM_ICC_DRA::s_TOTAL_PATTERN_NUM, nullptr));
+	m_TransimitScheduleInfoList = vector<vector<list<ScheduleInfo*>>>(getSystemPoint()->getGTTPoint()->m_ClusterNum, vector<list<ScheduleInfo*>>(RRM_ICC_DRA::s_TOTAL_PATTERN_NUM));
 }
 
 
@@ -93,12 +110,48 @@ string RRM_ICC_DRA_RSU::toString(int t_NumTab) {
 }
 
 
+void RRM_ICC_DRA_RSU::pushToAccessEventIdList(int t_ClusterIdx, int t_EventId) {
+	m_AccessEventIdList[t_ClusterIdx].push_back(t_EventId);
+}
+
+
+void RRM_ICC_DRA_RSU::pushToWaitEventIdList(int t_ClusterIdx, int t_EventId) {
+	m_WaitEventIdList[t_ClusterIdx].push_back(t_EventId);
+}
+
+
+void RRM_ICC_DRA_RSU::pushToSwitchEventIdList(std::list<int>& t_SwitchVeUEIdList, int t_EventId) {
+	t_SwitchVeUEIdList.push_back(t_EventId);
+}
+
+
+void RRM_ICC_DRA_RSU::pushToTransmitScheduleInfoList(ScheduleInfo* t_Info) {
+	m_TransimitScheduleInfoList[t_Info->clusterIdx][t_Info->patternIdx].push_back(t_Info);
+}
+
+
+void RRM_ICC_DRA_RSU::pushToScheduleInfoTable(ScheduleInfo* t_Info) {
+	m_ScheduleInfoTable[t_Info->clusterIdx][t_Info->patternIdx] = t_Info;
+}
+
+
+void RRM_ICC_DRA_RSU::pullFromScheduleInfoTable(int t_TTI) {
+	for (int clusterIdx = 0; clusterIdx < getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
+		for (int patternIdx = 0; patternIdx < RRM_ICC_DRA::s_TOTAL_PATTERN_NUM; patternIdx++) {
+			if (m_ScheduleInfoTable[clusterIdx][patternIdx] != nullptr) {
+				m_TransimitScheduleInfoList[clusterIdx][patternIdx].push_back(m_ScheduleInfoTable[clusterIdx][patternIdx]);
+				m_ScheduleInfoTable[clusterIdx][patternIdx] = nullptr;
+			}
+		}
+	}
+}
+
 
 RRM_ICC_DRA::RRM_ICC_DRA(System* t_Context) :
 	RRM(t_Context) {
 	m_ThreadNum = t_Context->m_Config.threadNum;
 
-	m_InterferenceVec = vector<vector<list<int>>>(getContext()->m_Config.VeUENum, vector<list<int>>(ns_RRM_ICC_DRA::gc_TotalPatternNum));
+	m_InterferenceVec = vector<vector<list<int>>>(getContext()->m_Config.VeUENum, vector<list<int>>(s_TOTAL_PATTERN_NUM));
 	m_ThreadsRSUIdRange = vector<pair<int, int>>(m_ThreadNum);
 
 	int num = getContext()->m_Config.RSUNum / m_ThreadNum;
@@ -129,7 +182,7 @@ void RRM_ICC_DRA::cleanWhenLocationUpdate() {
 		for (vector<int>& preInterferenceVeUEIdVec : m_VeUEAry[VeUEId]->m_PreInterferenceVeUEIdVec)
 			preInterferenceVeUEIdVec.clear();
 
-		m_VeUEAry[VeUEId]->m_PreSINR.assign(ns_RRM_ICC_DRA::gc_TotalPatternNum, (numeric_limits<double>::min)());
+		m_VeUEAry[VeUEId]->m_PreSINR.assign(s_TOTAL_PATTERN_NUM, (numeric_limits<double>::min)());
 	}
 }
 
@@ -221,7 +274,7 @@ void RRM_ICC_DRA::processScheduleInfoTableWhenLocationUpdate() {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-			for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 				if (_RSU->getICC_DRAPoint()->m_ScheduleInfoTable[clusterIdx][patternIdx] == nullptr) continue;
 
 				int eventId = _RSU->getICC_DRAPoint()->m_ScheduleInfoTable[clusterIdx][patternIdx]->eventId;
@@ -383,7 +436,7 @@ void RRM_ICC_DRA::selectRBBasedOnP123() {
 			*/
 			vector<int> curAvaliablePatternIdx;
 
-			for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 				if (_RSU->getICC_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx]) {
 					curAvaliablePatternIdx.push_back(patternIdx);
 				}
@@ -430,7 +483,7 @@ void RRM_ICC_DRA::delaystatistics() {
 				getContext()->m_EventVec[eventId].increaseQueueDelay();
 
 			//处理此刻正在将要传输的传输链表
-			for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 				for (RRM_RSU::ScheduleInfo* &p : _RSU->getICC_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx])
 					getContext()->m_EventVec[p->eventId].increaseSendDelay();
 			}
@@ -444,7 +497,7 @@ void RRM_ICC_DRA::conflictListener() {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-			for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 
 				list<RRM_RSU::ScheduleInfo*> &lst = _RSU->getICC_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
 				if (lst.size() > 1) {//多于一个VeUE在当前TTI，该Pattern上传输，即发生了冲突，将其添加到等待列表
@@ -476,7 +529,7 @@ void RRM_ICC_DRA::conflictListener() {
 void RRM_ICC_DRA::transimitPreparation() {
 	//首先清空上一次干扰信息
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++)
-		for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++)
+		for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++)
 			m_InterferenceVec[VeUEId][patternIdx].clear();
 
 	//统计本次的干扰信息
@@ -484,7 +537,7 @@ void RRM_ICC_DRA::transimitPreparation() {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-			for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 				list<RRM_RSU::ScheduleInfo*> &curList = _RSU->getICC_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
 				if (curList.size() == 1) {//只有一个用户在传输，该用户会正确的传输所有数据（在离开簇之前）
 					RRM_RSU::ScheduleInfo *curInfo = *curList.begin();
@@ -504,7 +557,7 @@ void RRM_ICC_DRA::transimitPreparation() {
 	}
 
 	//更新每辆车的干扰车辆列表	
-	for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+	for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 		for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
 			list<int>& interList = m_InterferenceVec[VeUEId][patternIdx];
 
@@ -547,7 +600,7 @@ void RRM_ICC_DRA::transimitStartThread(int t_FromRSUId, int t_ToRSUId) {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-			for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 
 				list<RRM_RSU::ScheduleInfo*> &lst = _RSU->getICC_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
 				if (lst.size() == 1) {//只有一个用户在传输，该用户会正确的传输所有数据（在离开簇之前）
@@ -561,7 +614,7 @@ void RRM_ICC_DRA::transimitStartThread(int t_FromRSUId, int t_ToRSUId) {
 					double factor = m_VeUEAry[VeUEId]->m_ModulationType * m_VeUEAry[VeUEId]->m_CodeRate;
 
 					//该编码方式下，该Pattern在一个TTI最多可传输的有效信息bit数量
-					int maxEquivalentBitNum = (int)((double)(ns_RRM_ICC_DRA::gc_RBNumPerPattern * gc_BitNumPerRB)* factor);
+					int maxEquivalentBitNum = (int)((double)(s_RB_NUM_PER_PATTERN * s_BIT_NUM_PER_RB)* factor);
 
 					//计算SINR
 					double curSINR = 0;
@@ -575,7 +628,7 @@ void RRM_ICC_DRA::transimitStartThread(int t_FromRSUId, int t_ToRSUId) {
 
 					//记录调度信息
 					double tmpDistance = m_VeUEAry[VeUEId]->getSystemPoint()->getGTTPoint()->m_Distance[RSUId];
-					if (curSINR < gc_CriticalPoint) {
+					if (curSINR < s_DROP_SINR_BOUNDARY) {
 						//记录丢包
 						getContext()->m_EventVec[info->eventId].packetLoss(tmpDistance);
 					}
@@ -614,12 +667,12 @@ void RRM_ICC_DRA::writeScheduleInfo(ofstream& t_File) {
 			t_File << "    {" << endl;
 			t_File << "        Cluster[" << clusterIdx << "] :" << endl;
 			t_File << "        {" << endl;
-			for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 				t_File << "            Pattern[ " << left << setw(3) << patternIdx << "] : " << endl;
 				bool isAvaliable = _RSU->getICC_DRAPoint()->m_PatternIsAvailable[clusterIdx][patternIdx];
 				if (!isAvaliable) {
 					RRM_RSU::ScheduleInfo* &info = *(_RSU->getICC_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx].begin());
-					if (info == nullptr) throw LTEV2X_Exception("logic error");
+					if (info == nullptr) throw logic_error("logic error");
 					t_File << info->toScheduleString(3) << endl;
 				}
 			}
@@ -638,7 +691,7 @@ void RRM_ICC_DRA::transimitEnd() {
 		RRM_RSU *_RSU = m_RSUAry[RSUId];
 
 		for (int clusterIdx = 0; clusterIdx < _RSU->getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-			for (int patternIdx = 0; patternIdx < ns_RRM_ICC_DRA::gc_TotalPatternNum; patternIdx++) {
+			for (int patternIdx = 0; patternIdx < s_TOTAL_PATTERN_NUM; patternIdx++) {
 
 				list<RRM_RSU::ScheduleInfo*> &lst = _RSU->getICC_DRAPoint()->m_TransimitScheduleInfoList[clusterIdx][patternIdx];
 				if (lst.size() == 1) {//只有一个用户在传输，该用户会正确的传输所有数据（在离开簇之前）
@@ -763,8 +816,8 @@ void RRM_ICC_DRA::writeClusterPerformInfo(bool isLocationUpdate, ofstream& t_Fil
 pair<int, int> RRM_ICC_DRA::getOccupiedSubCarrierRange(int t_PatternIdx) {
 	pair<int, int> res;
 
-	res.first = ns_RRM_ICC_DRA::gc_RBNumPerPattern * t_PatternIdx;
-	res.second = ns_RRM_ICC_DRA::gc_RBNumPerPattern * (t_PatternIdx + 1) - 1;
+	res.first = s_RB_NUM_PER_PATTERN * t_PatternIdx;
+	res.second = s_RB_NUM_PER_PATTERN * (t_PatternIdx + 1) - 1;
 
 	res.first *= 12;
 	res.second = (res.second + 1) * 12 - 1;

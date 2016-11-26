@@ -1,4 +1,5 @@
 #pragma once
+#include<stdexcept>
 #include"GTT.h"
 
 // <GTT_HighSpeed>: Geographical Topology and Transport HighSpeed
@@ -16,7 +17,7 @@ public:
 	/*
 	* 用于取得指向实际类型的指针
 	*/
-	GTT_Urban_VeUE  *const getUrbanPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	GTT_Urban_VeUE  *const getUrbanPoint()override { throw std::logic_error("RuntimeException"); }
 	GTT_HighSpeed_VeUE  *const getHighSpeedPoint()override { return this; }
 };
 
@@ -31,7 +32,7 @@ public:
 	/*
 	* 用于取得指向实际类型的指针
 	*/
-	GTT_Urban_RSU  *const getUrbanPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	GTT_Urban_RSU  *const getUrbanPoint()override { throw std::logic_error("RuntimeException"); }
 	GTT_HighSpeed_RSU  *const getHighSpeedPoint()override { return this; }
 };
 
@@ -47,7 +48,7 @@ public:
 	/*
 	* 用于取得指向实际类型的指针
 	*/
-	GTT_Urban_eNB  *const getUrbanPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	GTT_Urban_eNB  *const getUrbanPoint()override { throw std::logic_error("RuntimeException"); }
 	GTT_HighSpeed_eNB  *const getHighSpeedPoint()override { return this; }
 };
 
@@ -62,7 +63,7 @@ public:
 	/*
 	* 用于取得指向实际类型的指针
 	*/
-	GTT_Urban_Road  *const getUrbanPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	GTT_Urban_Road  *const getUrbanPoint()override { throw std::logic_error("RuntimeException"); }
 	GTT_HighSpeed_Road  *const getHighSpeedPoint()override { return this; }
 };
 
@@ -74,6 +75,56 @@ public:
 	* 随机数引擎，该类共享
 	*/
 	static std::default_random_engine s_Engine;
+
+	/*
+	* 基站数量
+	*/
+	static const int s_eNB_NUM = 2;
+
+	/*
+	* 道路数量
+	*/
+	static const int s_ROAD_NUM = 6;
+
+	/*
+	* RSU数量
+	*/
+	static const int s_RSU_NUM = 35;
+
+	/*
+	* RSU内簇数量
+	*/
+	static const int s_RSU_CLUSTER_NUM = 2;
+
+	/*
+	* 路长
+	*/
+	static const int s_ROAD_LENGTH = 3464;
+
+	/*
+	* 路宽
+	*/
+	static const double s_ROAD_WIDTH;
+
+	/*
+	* ???
+	*/
+	static const double s_ISD;
+
+	/*
+	* ???
+	*/
+	static const double s_ROAD_TOPO_RATIO[s_ROAD_NUM * 2];
+
+	/*
+	* ???
+	*/
+	static const double s_RSU_TOPO_RATIO[s_RSU_NUM * 2];
+
+	/*
+	* ???
+	*/
+	static const double s_eNB_TOPO[s_eNB_NUM * 2];
 	/*------------------域------------------*/
 private:
 	/*

@@ -20,8 +20,9 @@
 #include<cmath>
 #include<algorithm>
 #include<sstream>
+#include<stdexcept>
 #include"Event.h"
-#include"Exception.h"
+#include"TMC.h"
 
 using namespace std;
 
@@ -36,14 +37,14 @@ Event::Event(int t_VeUEId, int t_TTI, MessageType t_MessageType) :
 	m_VeUEId(t_VeUEId),
 	m_TriggerTTI(t_TTI),
 	m_MessageType(t_MessageType),
-	m_PackageNum(gc_MessagePackageNum[t_MessageType]),
+	m_PackageNum(TMC::s_MESSAGE_PACKAGE_NUM[t_MessageType]),
 	m_TransimitPackageNum(0),
 	m_PackageLossNum(0),
-	m_BitNumPerPackage(gc_MessageBitNumPerPackage[t_MessageType]),
+	m_BitNumPerPackage(TMC::s_MESSAGE_BIT_NUM_PER_PACKAGE[t_MessageType]),
 	m_IsFinished(false),
 	m_CurrentPackageIdx(0),
-	m_InitialWindowSize(gc_InitialWindowSize[t_MessageType]),
-	m_MaxWindowSize(gc_MaxWindowSize[t_MessageType]),
+	m_InitialWindowSize(TMC::s_INITIAL_WINDOW_SIZE[t_MessageType]),
+	m_MaxWindowSize(TMC::s_MAX_WINDOW_SIZE[t_MessageType]),
 	m_WithdrawalTime(0),
 	m_ConflictNum(0),
 	m_SendDelay(0),
@@ -56,7 +57,7 @@ Event::Event(int t_VeUEId, int t_TTI, MessageType t_MessageType) :
 
 
 void Event::reset() {
-	if (m_IsFinished)throw LTEV2X_Exception("error");
+	if (m_IsFinished)throw logic_error("error");
 	m_CurrentPackageIdx = 0;
 	m_WithdrawalTime = 0;
 	m_RemainBitNum = m_BitNumPerPackage[0];

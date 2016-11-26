@@ -2,11 +2,8 @@
 #include<vector>
 #include<random>
 #include<thread>
+#include<stdexcept>
 #include"RRM.h"
-#include"GTT.h"
-#include"Enumeration.h"
-#include"Exception.h"
-#include"Global.h"
 
 //<RRM_TDM_DRA> :Radio Resource Management Time Division Dultiplexing based Distributed Resource Allocation
 
@@ -44,8 +41,8 @@ public:
 	* 用于取得指向实际类型的指针
 	*/
 	RRM_TDM_DRA_VeUE *const getTDM_DRAPoint()override { return this; }
-	RRM_ICC_DRA_VeUE *const getICC_DRAPoint()override { throw LTEV2X_Exception("RuntimeException"); }
-	RRM_RR_VeUE *const getRRPoint()override { throw LTEV2X_Exception("RuntimeException"); }
+	RRM_ICC_DRA_VeUE *const getICC_DRAPoint()override { throw std::logic_error("RuntimeException"); }
+	RRM_RR_VeUE *const getRRPoint()override { throw std::logic_error("RuntimeException"); }
 };
 
 
@@ -157,12 +154,44 @@ public:
 	* 用于取得指向实际类型的指针
 	*/
 	RRM_TDM_DRA_RSU *const getTDM_DRAPoint()override { return this; }
-	RRM_ICC_DRA_RSU *const getICC_DRAPoint() override { throw LTEV2X_Exception("RuntimeException"); }
-	RRM_RR_RSU *const getRRPoint() override { throw LTEV2X_Exception("RuntimeException"); }
+	RRM_ICC_DRA_RSU *const getICC_DRAPoint() override { throw std::logic_error("RuntimeException"); }
+	RRM_RR_RSU *const getRRPoint() override { throw std::logic_error("RuntimeException"); }
 };
 
 
 class RRM_TDM_DRA :public RRM {
+	/*------------------静态------------------*/
+public:
+	/*
+	* 所有簇进行一次DRA所占用的TTI数量。(NTTI:Number of TTI)
+	*/
+	static const int s_NTTI = 100;
+
+	/*
+	* 事件的Pattern的类型种类
+	* 即紧急事件，周期事件，数据业务事件
+	*/
+	static const int s_PATTERN_TYPE_NUM = 3;
+
+	/*
+	* 每个Pattern种类所占的RB数量
+	*/
+	static const int s_RB_NUM_PER_PATTERN_TYPE[s_PATTERN_TYPE_NUM];
+
+	/*
+	* 每个Pattern种类对应的Pattern数量
+	*/
+	static const int s_PATTERN_NUM_PER_PATTERN_TYPE[s_PATTERN_TYPE_NUM];
+
+	/*
+	* 每个种类的事件，其各自的Pattern的开始与结束编号，即[startIdx,endIdx]，闭区间
+	*/
+	static const int s_PATTERN_TYPE_PATTERN_INDEX_INTERVAL[s_PATTERN_TYPE_NUM][2];
+
+	/*
+	* 所有Pattern数量，包括三个事件
+	*/
+	static const int s_TOTAL_PATTERN_NUM;
 	/*------------------域------------------*/
 public:
 	/*
@@ -334,70 +363,4 @@ private:
 };
 
 
-inline
-int RRM_TDM_DRA_VeUE::selectRBBasedOnP2(const std::vector<int>&t_CurAvaliablePatternIdx) {
-	int size = static_cast<int>(t_CurAvaliablePatternIdx.size());
-	if (size == 0) return -1;
-	std::uniform_int_distribution<int> u(0, size - 1);
-	return t_CurAvaliablePatternIdx[u(s_Engine)];
-}
-
-
-inline
-void RRM_TDM_DRA_RSU::pushToAccessEventIdList(bool t_IsEmergency, int t_ClusterIdx, int t_EventId) {
-	if (t_IsEmergency)
-		m_AccessEventIdList[t_ClusterIdx].first.push_back(t_EventId);
-	else
-		m_AccessEventIdList[t_ClusterIdx].second.push_back(t_EventId);
-}
-
-inline
-void RRM_TDM_DRA_RSU::pushToWaitEventIdList(bool t_IsEmergency, int t_ClusterIdx, int t_EventId) {
-	if (t_IsEmergency)
-		m_WaitEventIdList[t_ClusterIdx].first.push_back(t_EventId);
-	else
-		m_WaitEventIdList[t_ClusterIdx].second.push_back(t_EventId);
-}
-
-
-inline
-void RRM_TDM_DRA_RSU::pushToSwitchEventIdList(std::list<int>& t_SwitchVeUEIdList, int t_EventId) {
-	t_SwitchVeUEIdList.push_back(t_EventId);
-}
-
-inline
-void RRM_TDM_DRA_RSU::pushToTransimitScheduleInfoList(ScheduleInfo* t_Info) {
-	m_TransimitScheduleInfoList[t_Info->clusterIdx][t_Info->patternIdx].push_back(t_Info);
-}
-
-
-inline
-void RRM_TDM_DRA_RSU::pushToScheduleInfoTable(ScheduleInfo* t_Info) {
-	m_ScheduleInfoTable[t_Info->clusterIdx][t_Info->patternIdx] = t_Info;
-}
-
-
-inline
-void RRM_TDM_DRA_RSU::pullFromScheduleInfoTable(int t_TTI) {
-	/*将处于调度表中当前可以传输的信息压入m_TransimitEventIdList*/
-
-	/*  EMERGENCY  */
-	for (int clusterIdx = 0; clusterIdx < getSystemPoint()->getGTTPoint()->m_ClusterNum; clusterIdx++) {
-		for (int patternIdx = 0; patternIdx < ns_RRM_TDM_DRA::gc_PatternNumPerPatternType[EMERGENCY]; patternIdx++) {
-			if (m_ScheduleInfoTable[clusterIdx][patternIdx] != nullptr) {
-				m_TransimitScheduleInfoList[clusterIdx][patternIdx].push_back(m_ScheduleInfoTable[clusterIdx][patternIdx]);
-				m_ScheduleInfoTable[clusterIdx][patternIdx] = nullptr;
-			}
-		}
-	}
-	/*  EMERGENCY  */
-
-	int clusterIdx = getClusterIdx(t_TTI);
-	for (int patternIdx = ns_RRM_TDM_DRA::gc_PatternNumPerPatternType[EMERGENCY]; patternIdx < ns_RRM_TDM_DRA::gc_TotalPatternNum; patternIdx++) {
-		if (m_ScheduleInfoTable[clusterIdx][patternIdx] != nullptr) {
-			m_TransimitScheduleInfoList[clusterIdx][patternIdx].push_back(m_ScheduleInfoTable[clusterIdx][patternIdx]);
-			m_ScheduleInfoTable[clusterIdx][patternIdx] = nullptr;
-		}
-	}
-}
 

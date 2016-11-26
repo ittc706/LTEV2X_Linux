@@ -1,13 +1,11 @@
 #pragma once
 #include<vector>
 #include<list>
-#include"VUE.h"
-#include"RSU.h"
-#include"Event.h"
-#include"Config.h"
+#include"Enumeration.h"
 
 //<RRM>: Radio Resource Management
 
+class VeUE;
 class RRM_TDM_DRA_VeUE;
 class RRM_ICC_DRA_VeUE;
 class RRM_RR_VeUE;
@@ -41,12 +39,12 @@ public:
 	/*
 	* 调制方式
 	*/
-	const ModulationType m_ModulationType = gc_ModulationType;
+	const ModulationType m_ModulationType;
 
 	/*
 	* 信道编码码率
 	*/
-	const double m_CodeRate = gc_CodeRate;
+	const double m_CodeRate;
 
 	/*
 	* 上次计算的载干比
@@ -90,15 +88,15 @@ public:
 	/*
 	* 取得系统级System的VeUE的指针
 	*/
-	VeUE* getSystemPoint() { return m_This; }
+	VeUE* getSystemPoint();
 
 	/*
 	* 设置系统级System的VeUE的指针
 	*/
-	void setSystemPoint(VeUE* t_Point) { m_This = t_Point; }
+	void setSystemPoint(VeUE* t_Point);
 };
 
-
+class RSU;
 class RRM_TDM_DRA_RSU;
 class RRM_ICC_DRA_RSU;
 class RRM_RR_RSU;
@@ -217,6 +215,38 @@ public:
 
 class System;
 class RRM {
+	/*------------------静态------------------*/
+public:
+	/*
+	* 10MHz，总带宽(Hz)
+	*/
+	static const int s_TOTAL_BANDWIDTH = 10 * 1000 * 1000;
+
+	/*
+	* 每个RB的带宽(Hz)
+	*/
+	static const int s_BANDWIDTH_OF_RB = 12 * 1000 * 15;
+
+	/*
+	* 单位(个),由于RB带宽为180kHz，TTI为1ms，因此单位TTI单位RB传输的比特数为180k*1ms=180
+	*/
+	static const int s_BIT_NUM_PER_RB = 180;
+
+	/*
+	* 调制方式
+	*/
+	static const ModulationType s_MODULATION_TYPE = QPSK;
+
+	/*
+	* 信道编码码率
+	*/
+	static const double s_CODE_RATE;
+
+	/*
+	* 不丢包传输的最小载干比
+	* 用于判断是否丢包之用
+	*/
+	static const double s_DROP_SINR_BOUNDARY;
 	/*------------------域------------------*/
 private:
 	/*

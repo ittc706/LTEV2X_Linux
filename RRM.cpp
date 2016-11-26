@@ -19,18 +19,26 @@
 #include<limits>
 #include<sstream>
 #include<iomanip>
-#include"RRM.h"
-#include"Function.h"
 #include"System.h"
+#include"RRM.h"
 
+#include"VUE.h"
+#include"RSU.h"
+
+#include"Function.h"
 using namespace std;
 
-RRM_VeUE::RRM_VeUE(int t_TotalPatternNum){
+RRM_VeUE::RRM_VeUE(int t_TotalPatternNum):m_ModulationType(RRM::s_MODULATION_TYPE), m_CodeRate(RRM::s_CODE_RATE){
 	m_InterferenceVeUENum = vector<int>(t_TotalPatternNum);
 	m_InterferenceVeUEIdVec = vector<vector<int>>(t_TotalPatternNum);
 	m_PreInterferenceVeUEIdVec = vector<vector<int>>(t_TotalPatternNum);
 	m_PreSINR = vector<double>(t_TotalPatternNum, (numeric_limits<double>::min)());
 }
+
+
+VeUE* RRM_VeUE::getSystemPoint() { return m_This; }
+
+void RRM_VeUE::setSystemPoint(VeUE* t_Point) { m_This = t_Point; }
 
 
 string RRM_RSU::ScheduleInfo::toLogString() {
@@ -57,6 +65,11 @@ string RRM_RSU::ScheduleInfo::toScheduleString(int t_NumTab) {
 	ss << indent << "}";
 	return ss.str();
 }
+
+
+const double RRM::s_CODE_RATE= 0.5;
+
+const double RRM::s_DROP_SINR_BOUNDARY= 1.99;
 
 
 RRM::~RRM() {

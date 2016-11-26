@@ -7,114 +7,114 @@
 #include"Complex.h"
 
 class RowVector {
-	/*------------------åŸŸ------------------*/
+	/*------------------Óò------------------*/
 private:
 	/*
-	* åº•å±‚å®¹å™¨ï¼Œè®¾ä¸ºç§æœ‰ç¦æ­¢ç›´æ¥è®¿é—®
+	* µ×²ãÈİÆ÷£¬ÉèÎªË½ÓĞ½ûÖ¹Ö±½Ó·ÃÎÊ
 	*/
 	Complex* rowVector;
 public:
 	/*
-	* å‘é‡é•¿åº¦ï¼Œç”±äºæ˜¯è¡Œå‘é‡ï¼Œè¿™é‡Œç§°ä¸ºåˆ—æ•°
+	* ÏòÁ¿³¤¶È£¬ÓÉÓÚÊÇĞĞÏòÁ¿£¬ÕâÀï³ÆÎªÁĞÊı
 	*/
 	int col;
 
 
-	/*------------------æ–¹æ³•------------------*/
+	/*------------------·½·¨------------------*/
 private:
 	/*
-	* èµ„æºæ¸…ç†ï¼Œå³é‡Šæ”¾å †å†…å­˜
+	* ×ÊÔ´ÇåÀí£¬¼´ÊÍ·Å¶ÑÄÚ´æ
 	*/
 	void free();
 public:
 	/*
-	* ææ„å‡½æ•°ï¼Œç”¨äºé‡Šæ”¾rowVector
+	* Îö¹¹º¯Êı£¬ÓÃÓÚÊÍ·ÅrowVector
 	*/
 	~RowVector();
 
 	/*
-	* é»˜è®¤æ„é€ å‡½æ•°
-	* å‘é‡é•¿åº¦ä¸º0ï¼ŒæŒ‡é’ˆä¸ºç©º
+	* Ä¬ÈÏ¹¹Ôìº¯Êı
+	* ÏòÁ¿³¤¶ÈÎª0£¬Ö¸ÕëÎª¿Õ
 	*/
 	RowVector();
 
 	/*
-	* æ¥å—ä¸€ä¸ªå‘é‡ç»´åº¦çš„å‚æ•°
-	* åˆå§‹åŒ–åï¼Œå‘é‡ç»´åº¦ç­‰äºæŒ‡å®šçš„t_Colï¼Œå…ƒç´ åˆå§‹åŒ–å¾®ä¸ºæ•°å€¼(0,0)
+	* ½ÓÊÜÒ»¸öÏòÁ¿Î¬¶ÈµÄ²ÎÊı
+	* ³õÊ¼»¯ºó£¬ÏòÁ¿Î¬¶ÈµÈÓÚÖ¸¶¨µÄt_Col£¬ÔªËØ³õÊ¼»¯Î¢ÎªÊıÖµ(0,0)
 	*/
 	explicit RowVector(int t_Col);
 
 	/*
-	* æ‹·è´æ„é€ å‡½æ•°
-	* æ³¨æ„æœ‰æŒ‡é’ˆæˆå‘˜æ—¶ï¼Œæ‹·è´è¯­æ„çš„å®ç°
+	* ¿½±´¹¹Ôìº¯Êı
+	* ×¢ÒâÓĞÖ¸Õë³ÉÔ±Ê±£¬¿½±´ÓïÒâµÄÊµÏÖ
 	*/
 	RowVector(const RowVector& t_RowVector);
 
 	/*
-	* ç§»åŠ¨æ„é€ å‡½æ•°
-	* æ³¨æ„ç§»åŠ¨åæºå¯¹è±¡æŒ‡é’ˆæˆå‘˜çš„ç½®ç©º
-	* å£°æ˜ä¸ºä¸æŠ›å‡ºå¼‚å¸¸çš„
+	* ÒÆ¶¯¹¹Ôìº¯Êı
+	* ×¢ÒâÒÆ¶¯ºóÔ´¶ÔÏóÖ¸Õë³ÉÔ±µÄÖÃ¿Õ
+	* ÉùÃ÷Îª²»Å×³öÒì³£µÄ
 	*/
 	RowVector(RowVector&& t_RowVector) noexcept;
 
 	/*
-	* åˆ—è¡¨æ„é€ å‡½æ•°
+	* ÁĞ±í¹¹Ôìº¯Êı
 	*/
 	RowVector(const std::initializer_list<Complex> t_InitializeList);
 
 
 	/*
-	* æ‹·è´èµ‹å€¼è¿ç®—ç¬¦
+	* ¿½±´¸³ÖµÔËËã·û
 	*/
 	RowVector& operator=(const RowVector& t_RowVector);
 
 	/*
-	* ç§»åŠ¨èµ‹å€¼è¿ç®—ç¬¦
+	* ÒÆ¶¯¸³ÖµÔËËã·û
 	*/
 	RowVector& operator=(RowVector&& t_RowVector) noexcept;
 
 	/*
-	* ä¸‹æ ‡è¿ç®—ç¬¦
+	* ÏÂ±êÔËËã·û
 	*/
 	Complex& operator[](int t_Pos);
 
 	/*
-	* å¸¸é‡ç‰ˆæœ¬çš„ä¸‹æ ‡è¿ç®—ç¬¦
+	* ³£Á¿°æ±¾µÄÏÂ±êÔËËã·û
 	*/
 	const Complex& operator[](int t_Pos) const;
 
 	/*
-	* é‡ç½®å¤§å°
-	* é‡ç½®åè‹¥ç»´åº¦å˜å¤§ï¼Œé‚£ä¹ˆè¡¥(0,0)
-	* é‡ç½®åè‹¥ç»´åº¦å˜å°ï¼Œé‚£ä¹ˆåˆ é™¤å¤šä½™å…ƒç´ 
+	* ÖØÖÃ´óĞ¡
+	* ÖØÖÃºóÈôÎ¬¶È±ä´ó£¬ÄÇÃ´²¹(0,0)
+	* ÖØÖÃºóÈôÎ¬¶È±äĞ¡£¬ÄÇÃ´É¾³ı¶àÓàÔªËØ
 	*/
 	void resize(int t_Size);
 
 	/*
-	* ç”Ÿæˆå‘é‡çš„æ ¼å¼åŒ–å­—ç¬¦ä¸²
+	* Éú³ÉÏòÁ¿µÄ¸ñÊ½»¯×Ö·û´®
 	*/
 	std::string toString();
 
 	/*
-	* å°†å‘é‡æ‰“å°åˆ°æŒ‡å®šè¾“å‡ºæµ
+	* ½«ÏòÁ¿´òÓ¡µ½Ö¸¶¨Êä³öÁ÷
 	*/
 	void print(std::ostream&t_Out = std::cout);
 
 };
 
 /*
-* å‘é‡å•ç›®å–åè¿ç®—ç¬¦
+* ÏòÁ¿µ¥Ä¿È¡·´ÔËËã·û
 */
 RowVector operator-(const RowVector& t_RowVector);
 
 /*
-* å‘é‡åŠ æ³•ã€å‡æ³•è¿ç®—
+* ÏòÁ¿¼Ó·¨¡¢¼õ·¨ÔËËã
 */
 RowVector operator+(const RowVector& t_RowVector1, const RowVector& t_RowVector2);
 RowVector operator-(const RowVector& t_RowVector1, const RowVector& t_RowVector2);
 
 /*
-* å‘é‡ä¸å¤æ•°(å¤æ•°ä¸å‘é‡)çš„åŠ å‡ä¹˜é™¤è¿ç®—ç¬¦
+* ÏòÁ¿Óë¸´Êı(¸´ÊıÓëÏòÁ¿)µÄ¼Ó¼õ³Ë³ıÔËËã·û
 */
 RowVector operator+(const RowVector& t_RowVector, const Complex&t_Complex);
 RowVector operator+(const Complex&t_Complex, const RowVector& t_RowVector);
@@ -129,207 +129,207 @@ RowVector operator/(const RowVector& t_RowVector, const Complex&t_Complex);
 RowVector operator/(const Complex&t_Complex, const RowVector& t_RowVector);
 
 /*
-* å‘é‡ä¸å‘é‡çš„å¯¹åº”å…ƒç´ ä¹˜æ³•ä¸é™¤æ³•
+* ÏòÁ¿ÓëÏòÁ¿µÄ¶ÔÓ¦ÔªËØ³Ë·¨Óë³ı·¨
 */
 RowVector elementProduct(const RowVector& t_RowVector1, const RowVector& t_RowVector2);
 RowVector elementDivide(const RowVector& t_RowVector1, const RowVector& t_RowVector2);
 
 
 class Matrix {
-	/*------------------é™æ€------------------*/
+	/*------------------¾²Ì¬------------------*/
 public:
 	/*
-	* éšæœºæ•°å¼•æ“ï¼Œè¯¥ç±»å…±äº«
+	* Ëæ»úÊıÒıÇæ£¬¸ÃÀà¹²Ïí
 	*/
 	static std::default_random_engine s_Engine;
 
 	/*
-	* çŸ©é˜µçš„ä¸Šä¸‹åˆå¹¶ï¼Œå› æ­¤åˆ—ç»´åº¦å¿…é¡»ç›¸åŒ
+	* ¾ØÕóµÄÉÏÏÂºÏ²¢£¬Òò´ËÁĞÎ¬¶È±ØĞëÏàÍ¬
 	*/
 	static Matrix verticalMerge(const Matrix& t_Matrix1, const Matrix& t_Matrix2);
 
 	/*
-	* çŸ©é˜µçš„å‚ç›´åˆ†è£‚
+	* ¾ØÕóµÄ´¹Ö±·ÖÁÑ
 	*/
 	static std::pair<Matrix, Matrix> verticalSplit(const Matrix& t_Matrix, int t_LeftCol, int t_RightCol);
 
 	/*
-	* çŸ©é˜µçš„æ°´å¹³åˆ†è£‚
+	* ¾ØÕóµÄË®Æ½·ÖÁÑ
 	*/
 	static std::pair<Matrix, Matrix> horizonSplit(const Matrix& t_Matrix, int t_UpRow, int t_DownRow);
 
 	/*
-	* ç”ŸæˆæŒ‡å®šç»´åº¦çš„å•ä½çŸ©é˜µ
+	* Éú³ÉÖ¸¶¨Î¬¶ÈµÄµ¥Î»¾ØÕó
 	*/
 	static Matrix eye(const int t_Dim);
-	/*------------------åŸŸ------------------*/
+	/*------------------Óò------------------*/
 private:
 	/*
-	* åº•å±‚å‘é‡å®¹å™¨ï¼Œè®¾ä¸ºç§æœ‰ç¦æ­¢ç›´æ¥è®¿é—®
+	* µ×²ãÏòÁ¿ÈİÆ÷£¬ÉèÎªË½ÓĞ½ûÖ¹Ö±½Ó·ÃÎÊ
 	*/
 	RowVector* matrix;
 public:
 	/*
-	* è¡Œæ•°
+	* ĞĞÊı
 	*/
 	int row;
 
 	/*
-	* åˆ—æ•°
+	* ÁĞÊı
 	*/
 	int col;
 
-	/*------------------æ–¹æ³•------------------*/
+	/*------------------·½·¨------------------*/
 private:
 	/*
-	* æ¸…ç†å †å†…å­˜
+	* ÇåÀí¶ÑÄÚ´æ
 	*/
 	void free();
 public:
 	/*
-	* ææ„å‡½æ•°
+	* Îö¹¹º¯Êı
 	*/
 	~Matrix();
 
 	/*
-	* é»˜è®¤æ„é€ å‡½æ•°
-	* è¡Œåˆ—å‡ä¸º0ï¼ŒæŒ‡é’ˆä¸ºç©º
+	* Ä¬ÈÏ¹¹Ôìº¯Êı
+	* ĞĞÁĞ¾ùÎª0£¬Ö¸ÕëÎª¿Õ
 	*/
 	Matrix();
 
 	/*
-	* æŒ‡å®šç»´åº¦çš„æ„é€ å‡½æ•°
+	* Ö¸¶¨Î¬¶ÈµÄ¹¹Ôìº¯Êı
 	*/
 	Matrix(int t_Row, int t_Col);
 
 	/*
-	* æ‹·è´æ„é€ å‡½æ•°ï¼Œæ³¨æ„æœ‰æŒ‡é’ˆæ—¶æ‹·è´è¯­æ„çš„å®ç°
+	* ¿½±´¹¹Ôìº¯Êı£¬×¢ÒâÓĞÖ¸ÕëÊ±¿½±´ÓïÒâµÄÊµÏÖ
 	*/
 	Matrix(const Matrix& t_Matrix);
 
 	/*
-	* ç§»åŠ¨æ„é€ å‡½æ•°ï¼Œæ³¨æ„æœ‰æŒ‡é’ˆæ—¶ç§»åŠ¨è¯­æ„çš„å®ç°
+	* ÒÆ¶¯¹¹Ôìº¯Êı£¬×¢ÒâÓĞÖ¸ÕëÊ±ÒÆ¶¯ÓïÒâµÄÊµÏÖ
 	*/
 	Matrix(Matrix&& t_Matrix) noexcept;
 
 	/*
-	* åˆ—è¡¨æ„é€ å‡½æ•°
-	* åˆ—è¡¨ä¸­æ¯è¡Œçš„å…ƒç´ æ•°ç›®å¯ä»¥ä¸åŒ
-	* ä»¥æœ€é•¿çš„ä¸€è¡Œçš„ç»´åº¦ä½œä¸ºåˆ—æ•°
-	* ä¸è¶³çš„è¡¥ä¸Š(0,0)
+	* ÁĞ±í¹¹Ôìº¯Êı
+	* ÁĞ±íÖĞÃ¿ĞĞµÄÔªËØÊıÄ¿¿ÉÒÔ²»Í¬
+	* ÒÔ×î³¤µÄÒ»ĞĞµÄÎ¬¶È×÷ÎªÁĞÊı
+	* ²»×ãµÄ²¹ÉÏ(0,0)
 	*/
 	Matrix(const std::initializer_list<RowVector>& t_InitializeList);
 
-	/*---çŸ©é˜µåŠŸèƒ½å‡½æ•°---*/
+	/*---¾ØÕó¹¦ÄÜº¯Êı---*/
 public:
 	/*
-	* éšæœºå¡«å……å‡åŒ€åˆ†å¸ƒçš„æ•°å€¼
-	* å®éƒ¨çš„èŒƒå›´[t_RealLeft,t_RealRight]
-	* è™šéƒ¨çš„èŒƒå›´[t_ImagLeft,t_ImagRight]
+	* Ëæ»úÌî³ä¾ùÔÈ·Ö²¼µÄÊıÖµ
+	* Êµ²¿µÄ·¶Î§[t_RealLeft,t_RealRight]
+	* Ğé²¿µÄ·¶Î§[t_ImagLeft,t_ImagRight]
 	*/
 	void randomFill(double t_RealLeft, double t_RealRight, double t_ImagLeft, double t_ImagRight);
 
 	/*
-	* æ±‚å…±è½­
+	* Çó¹²éî
 	*/
 	Matrix conjugate();
 
 	/*
-	* æ±‚è½¬ç½®
+	* Çó×ªÖÃ
 	*/
 	Matrix transpose();
 
 	/*
-	* å…±è½­è½¬ç½®
+	* ¹²éî×ªÖÃ
 	*/
 	Matrix hermitian();
 
 	/*
-	* æ±‚é€†çŸ©é˜µ
-	* å½“å¸ƒå°”å€¼ä¸ºtrueæ—¶ï¼Œå½“çŸ©é˜µæ— æ³•æ±‚é€†ï¼Œä¼šå°è¯•æ±‚ä¼ªé€†(å¹¿ä¹‰é€†çŸ©é˜µ)
+	* ÇóÄæ¾ØÕó
+	* µ±²¼¶ûÖµÎªtrueÊ±£¬µ±¾ØÕóÎŞ·¨ÇóÄæ£¬»á³¢ÊÔÇóÎ±Äæ(¹ãÒåÄæ¾ØÕó)
 	*/
 	Matrix inverse(bool t_TryPseudoInverse = false);
 
 	/*
-	* æ±‚å¯¹è§’çº¿æ„æˆçš„çŸ©é˜µ(è¡Œå‘é‡)
+	* Çó¶Ô½ÇÏß¹¹³ÉµÄ¾ØÕó(ĞĞÏòÁ¿)
 	*/
 	Matrix diag();
 
 	/*
-	* æ±‚æ»¡ç§©åˆ†è§£
+	* ÇóÂúÖÈ·Ö½â
 	*/
 	std::pair<Matrix, Matrix> fullRankDecomposition();
 
 	/*
-	* æ±‚å¹¿ä¹‰é€†çŸ©é˜µ
+	* Çó¹ãÒåÄæ¾ØÕó
 	*/
 	Matrix pseudoInverse();
 
 
-	/*---æˆå‘˜è¿ç®—ç¬¦é‡è½½---*/
+	/*---³ÉÔ±ÔËËã·ûÖØÔØ---*/
 public:
 	/*
-	* æ‹·è´èµ‹å€¼è¿ç®—ç¬¦
-	* æ³¨æ„ï¼Œæœ‰æŒ‡é’ˆæˆå‘˜æ—¶ï¼Œä¹Ÿéœ€è¦æ£€æŸ¥è‡ªèµ‹å€¼çš„æ­£ç¡®æ€§
-	* æ³¨æ„åŸæŒ‡é’ˆææ„çš„æ—¶æœº
+	* ¿½±´¸³ÖµÔËËã·û
+	* ×¢Òâ£¬ÓĞÖ¸Õë³ÉÔ±Ê±£¬Ò²ĞèÒª¼ì²é×Ô¸³ÖµµÄÕıÈ·ĞÔ
+	* ×¢ÒâÔ­Ö¸ÕëÎö¹¹µÄÊ±»ú
 	*/
 	Matrix& operator=(const Matrix& t_Matrix);
 
 	/*
-	* ç§»åŠ¨èµ‹å€¼è¿ç®—ç¬¦
-	* éœ€è¦æ£€æŸ¥è‡ªèµ‹å€¼çš„æ­£ç¡®æ€§
-	* æ³¨æ„åŸæŒ‡é’ˆææ„çš„æ—¶æœº
-	* å£°æ˜ä¸ºä¸ä¼šæŠ›å‡ºå¼‚å¸¸
+	* ÒÆ¶¯¸³ÖµÔËËã·û
+	* ĞèÒª¼ì²é×Ô¸³ÖµµÄÕıÈ·ĞÔ
+	* ×¢ÒâÔ­Ö¸ÕëÎö¹¹µÄÊ±»ú
+	* ÉùÃ÷Îª²»»áÅ×³öÒì³£
 	*/
 	Matrix& operator=(Matrix&& t_Matrix) noexcept;
 
 	/*
-	* ä¸‹æ ‡è¿ç®—ç¬¦(éå¸¸é‡ç‰ˆæœ¬)
+	* ÏÂ±êÔËËã·û(·Ç³£Á¿°æ±¾)
 	*/
 	RowVector& operator[](int t_Pos);
 
 	/*
-	* ä¸‹æ ‡è¿ç®—ç¬¦(å¸¸é‡ç‰ˆæœ¬)
+	* ÏÂ±êÔËËã·û(³£Á¿°æ±¾)
 	*/
 	const RowVector& operator[](int t_Pos) const;
 
 
-	/*---å…¶ä»–åŠŸèƒ½å‡½æ•°---*/
+	/*---ÆäËû¹¦ÄÜº¯Êı---*/
 public:
 	/*
-	* ç”Ÿæˆæ ¼å¼åŒ–å­—ç¬¦ä¸²
+	* Éú³É¸ñÊ½»¯×Ö·û´®
 	*/
 	std::string toString();
 
 	/*
-	* æ‰“å°åˆ°æŒ‡å®šè¾“å‡ºæµ
+	* ´òÓ¡µ½Ö¸¶¨Êä³öÁ÷
 	*/
 	void print(std::ostream&t_Out = std::cout, int t_NumEnter = 0);
 
 
 private:
 	/*
-	* ç”¨äºè®¡ç®—å½“ç»´åº¦å°äº3æ—¶çš„çŸ©é˜µæ±‚é€†è¿ç®—
-	* åŒç†ï¼Œå½“å¸ƒå°”å€¼ä¸ºtrueæ—¶ï¼Œæ— æ³•æ±‚é€†ä¾¿ä¼šæ±‚ä¼ªé€†(å¹¿ä¹‰é€†çŸ©é˜µ)
+	* ÓÃÓÚ¼ÆËãµ±Î¬¶ÈĞ¡ÓÚ3Ê±µÄ¾ØÕóÇóÄæÔËËã
+	* Í¬Àí£¬µ±²¼¶ûÖµÎªtrueÊ±£¬ÎŞ·¨ÇóÄæ±ã»áÇóÎ±Äæ(¹ãÒåÄæ¾ØÕó)
 	*/
 	Matrix inverseWhenDimlowerThan3(bool t_TryPseudoInverse);
 };
 
 /*
-* å•ç›®å–åè¿ç®—ç¬¦
+* µ¥Ä¿È¡·´ÔËËã·û
 */
 Matrix operator-(const Matrix& t_Matrix);
 
 
 /*
-* çŸ©é˜µé—´çš„è¿ç®—ï¼Œå³åŠ ã€å‡ã€ä¹˜
+* ¾ØÕó¼äµÄÔËËã£¬¼´¼Ó¡¢¼õ¡¢³Ë
 */
 Matrix operator+(const Matrix& t_Matrix1, const Matrix& t_Matrix2);
 Matrix operator-(const Matrix& t_Matrix1, const Matrix& t_Matrix2);
 Matrix operator*(const Matrix& t_Matrix1, const Matrix& t_Matrix2);
 
 /*
-* çŸ©é˜µä¸å¤æ•°çš„è¿ç®—ï¼Œå³åŠ ã€å‡ã€ä¹˜ã€é™¤
+* ¾ØÕóÓë¸´ÊıµÄÔËËã£¬¼´¼Ó¡¢¼õ¡¢³Ë¡¢³ı
 */
 Matrix operator+(const Matrix& t_Matrix, const Complex& t_Complex);
 Matrix operator+(const Complex& t_Complex, const Matrix& t_Matrix);
@@ -345,7 +345,7 @@ Matrix operator/(const Complex& t_Complex, const Matrix& t_Matrix);
 
 
 /*
-* å¯¹åº”ä½ç½®å…ƒç´ è®¡ç®—
+* ¶ÔÓ¦Î»ÖÃÔªËØ¼ÆËã
 */
 Matrix elementProduct(const Matrix& t_Matrix1, const Matrix& t_Matrix2);
 Matrix elementDivide(const Matrix& t_Matrix1, const Matrix& t_Matrix2);

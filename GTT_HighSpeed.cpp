@@ -3,7 +3,7 @@
 *
 *       Filename:  GTT_HighSpeed.cpp
 *
-*    Description:  TMCæ¨¡å—
+*    Description:  TMCÄ£¿é
 *
 *        Version:  1.0
 *        Created:
@@ -36,7 +36,7 @@ GTT_HighSpeed_VeUE::GTT_HighSpeed_VeUE(VeUEConfig &t_VeUEConfig) {
 	m_Y = t_VeUEConfig.Y;
 	m_AbsX = t_VeUEConfig.AbsX;
 	m_AbsY = t_VeUEConfig.AbsY;
-	m_V = t_VeUEConfig.V / 3.6f;//ç”±km/hæ¢ç®—ä¸ºm/sï¼Œç”¨äºè½¦è¾†çš„ä½ç½®æ›´æ–°
+	m_V = t_VeUEConfig.V / 3.6f;//ÓÉkm/h»»ËãÎªm/s£¬ÓÃÓÚ³µÁ¾µÄÎ»ÖÃ¸üĞÂ
 
 	if (m_RoadId <= 2)
 		m_VAngle = 0;
@@ -142,7 +142,7 @@ GTT_HighSpeed::GTT_HighSpeed(System* t_Context) :
 void GTT_HighSpeed::configure() {
 	getContext()->m_Config.eNBNum = s_eNB_NUM;
 	m_HighSpeedRodeNum = s_ROAD_NUM;
-	getContext()->m_Config.RSUNum = s_RSU_NUM;//ç›®å‰åªè¡¨ç¤ºUE RSUæ•°
+	getContext()->m_Config.RSUNum = s_RSU_NUM;//Ä¿Ç°Ö»±íÊ¾UE RSUÊı
 	m_pupr = new int[m_HighSpeedRodeNum];
 	getContext()->m_Config.VeUENum = 0;
 	double Lambda = s_ROAD_LENGTH*3.6 / (2.5 * m_Speed);
@@ -151,7 +151,7 @@ void GTT_HighSpeed::configure() {
 	{
 		int k = 0;
 		long double p = 1.0;
-		long double l = exp(-Lambda);  /* ä¸ºäº†ç²¾åº¦ï¼Œæ‰å®šä¹‰ä¸ºlong doubleçš„ï¼Œexp(-Lambda)æ˜¯æ¥è¿‘0çš„å°æ•°*/
+		long double l = exp(-Lambda);  /* ÎªÁË¾«¶È£¬²Å¶¨ÒåÎªlong doubleµÄ£¬exp(-Lambda)ÊÇ½Ó½ü0µÄĞ¡Êı*/
 		while (p >= l)
 		{
 			double u = (double)(rand() % 10000)*0.0001f;
@@ -161,12 +161,12 @@ void GTT_HighSpeed::configure() {
 		m_pupr[temp] = k - 1;
 		getContext()->m_Config.VeUENum = getContext()->m_Config.VeUENum + k - 1;
 	}
-	m_Speed = 140;//è½¦é€Ÿè®¾å®š,km/h
+	m_Speed = 140;//³µËÙÉè¶¨,km/h
 }
 
 
 void GTT_HighSpeed::initialize() {
-	//åˆå§‹åŒ–m_eNBAry
+	//³õÊ¼»¯m_eNBAry
 	m_eNBAry = new GTT_eNB*[getContext()->m_Config.eNBNum];
 	eNBConfig _eNBConfig;
 	for (int eNBId = 0; eNBId != getContext()->m_Config.eNBNum; ++eNBId) {
@@ -175,7 +175,7 @@ void GTT_HighSpeed::initialize() {
 		m_eNBAry[eNBId]->initialize(_eNBConfig);
 	}
 
-	//åˆå§‹åŒ–m_RoadAry
+	//³õÊ¼»¯m_RoadAry
 	m_RoadAry = new GTT_Road*[m_HighSpeedRodeNum];
 	HighSpeedRodeConfig highSpeedRodeConfig;
 	for (int roadId = 0; roadId != m_HighSpeedRodeNum; ++roadId) {
@@ -184,13 +184,13 @@ void GTT_HighSpeed::initialize() {
 	}
 
 	
-	//åˆå§‹åŒ–m_RSUAry
+	//³õÊ¼»¯m_RSUAry
 	m_RSUAry = new GTT_RSU*[getContext()->m_Config.RSUNum];
 	for (int RSUId = 0; RSUId != getContext()->m_Config.RSUNum; RSUId++) {
 		m_RSUAry[RSUId] = new GTT_HighSpeed_RSU();
 	}
 
-	//åˆå§‹åŒ–m_VeUEAry
+	//³õÊ¼»¯m_VeUEAry
 	m_VeUEAry = new GTT_VeUE*[getContext()->m_Config.VeUENum];
 	VeUEConfig _VeUEConfig;
 	int VeUEId = 0;
@@ -228,7 +228,7 @@ void GTT_HighSpeed::cleanWhenLocationUpdate() {
 
 
 void GTT_HighSpeed::channelGeneration() {
-	//RSU.m_VeUEIdListæ˜¯åœ¨freshLocå‡½æ•°å†…ç”Ÿæˆçš„ï¼Œå› æ­¤éœ€è¦åœ¨æ›´æ–°ä½ç½®å‰æ¸…ç©ºè¿™ä¸ªåˆ—è¡¨
+	//RSU.m_VeUEIdListÊÇÔÚfreshLocº¯ÊıÄÚÉú³ÉµÄ£¬Òò´ËĞèÒªÔÚ¸üĞÂÎ»ÖÃÇ°Çå¿ÕÕâ¸öÁĞ±í
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
 		_GTT_RSU->m_VeUEIdList.clear();
@@ -236,14 +236,14 @@ void GTT_HighSpeed::channelGeneration() {
 			_GTT_RSU->m_ClusterVeUEIdList[clusterIdx].clear();
 		}
 	}
-	//åŒæ—¶ä¹Ÿæ¸…é™¤eNB.m_VeUEIdList
+	//Í¬Ê±Ò²Çå³ıeNB.m_VeUEIdList
 	for (int eNBId = 0; eNBId < getContext()->m_Config.eNBNum; eNBId++)
 		m_eNBAry[eNBId]->m_VeUEIdList.clear();
 
-	//è¿åŠ¨æ¨¡å‹
+	//ÔË¶¯Ä£ĞÍ
 	freshLoc();
 
-	//å°†æ›´æ–°åçš„RSU.m_VeUEIdListå‹å…¥å¯¹åº”çš„ç°‡ä¸­
+	//½«¸üĞÂºóµÄRSU.m_VeUEIdListÑ¹Èë¶ÔÓ¦µÄ´ØÖĞ
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
 		for (int VeUEId : _GTT_RSU->m_VeUEIdList) {
@@ -252,11 +252,11 @@ void GTT_HighSpeed::channelGeneration() {
 		}
 	}
 
-	//è®°å½•å¹¶æ›´æ–°æ¯è¾†è½¦çš„ä½ç½®æ—¥å¿—
+	//¼ÇÂ¼²¢¸üĞÂÃ¿Á¾³µµÄÎ»ÖÃÈÕÖ¾
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++)
 		m_VeUEAry[VeUEId]->m_LocationUpdateLogInfoList.push_back(tuple<int, int>(m_VeUEAry[VeUEId]->m_RSUId, m_VeUEAry[VeUEId]->m_ClusterIdx));
 
-	//è®°å½•RSUå†…è½¦è¾†çš„æ•°ç›®
+	//¼ÇÂ¼RSUÄÚ³µÁ¾µÄÊıÄ¿
 	vector<int> curVeUENum;
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
@@ -265,8 +265,8 @@ void GTT_HighSpeed::channelGeneration() {
 	m_VeUENumPerRSU.push_back(curVeUENum);
 
 
-	//<UNDONE>:åŸºç«™ç±»çš„RSUIDListåœ¨å“ªé‡Œç»´æŠ¤çš„?
-	//æ›´æ–°åŸºç«™çš„VeUEå®¹å™¨
+	//<UNDONE>:»ùÕ¾ÀàµÄRSUIDListÔÚÄÄÀïÎ¬»¤µÄ?
+	//¸üĞÂ»ùÕ¾µÄVeUEÈİÆ÷
 	for (int eNBId = 0; eNBId < getContext()->m_Config.eNBNum; eNBId++) {
 		GTT_eNB *_eNB = m_eNBAry[eNBId];
 		for (int RSUId : _eNB->m_RSUIdList) {
@@ -285,7 +285,7 @@ void GTT_HighSpeed::freshLoc() {
 
 		if (m_VeUEAry[UserIdx]->m_VAngle == 0)
 		{
-			m_VeUEAry[UserIdx]->m_ClusterIdx = 0;//ç”±è¥¿å‘ä¸œè½¦è¾†ç°‡ç¼–å·ä¸º0
+			m_VeUEAry[UserIdx]->m_ClusterIdx = 0;//ÓÉÎ÷Ïò¶«³µÁ¾´Ø±àºÅÎª0
 
 			if ((m_VeUEAry[UserIdx]->m_AbsX + freshTime*m_VeUEAry[UserIdx]->m_V)>(s_ROAD_LENGTH / 2))
 			{
@@ -300,7 +300,7 @@ void GTT_HighSpeed::freshLoc() {
 		}
 		else
 		{
-			m_VeUEAry[UserIdx]->m_ClusterIdx = 1;//ç”±ä¸œå‘è¥¿è½¦è¾†ç°‡ç¼–å·ä¸º1
+			m_VeUEAry[UserIdx]->m_ClusterIdx = 1;//ÓÉ¶«ÏòÎ÷³µÁ¾´Ø±àºÅÎª1
 
 			if ((m_VeUEAry[UserIdx]->m_AbsX - freshTime*m_VeUEAry[UserIdx]->m_V)<(-s_ROAD_LENGTH / 2))
 			{
@@ -329,14 +329,14 @@ void GTT_HighSpeed::freshLoc() {
 	int RSUIdx = 0;
 	for (int UserIdx1 = 0; UserIdx1 != getContext()->m_Config.VeUENum; UserIdx1++)
 	{
-		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„è·¯å¾„æŸè€—
+		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄÂ·¾¶ËğºÄ
 		double wPL[s_RSU_NUM] = { 0 };
 		for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
 			double wSFSTD = 0;
 			double wDistanceBP = 4 * (location.VeUEAntH - 1)*(location.RSUAntH - 1)*IMTA::s_FC / IMTA::s_C;
 			if (m_VeUEAry[UserIdx1]->m_Distance[RSUIdx] > 3 && m_VeUEAry[UserIdx1]->m_Distance[RSUIdx] < wDistanceBP)
 			{
-				wPL[RSUIdx] = 22.7f * log10(m_VeUEAry[UserIdx1]->m_Distance[RSUIdx]) + 27.0f + 20.0f * (log10(IMTA::s_FC) - 9.0f);//è½¬æ¢ä¸ºGHz
+				wPL[RSUIdx] = 22.7f * log10(m_VeUEAry[UserIdx1]->m_Distance[RSUIdx]) + 27.0f + 20.0f * (log10(IMTA::s_FC) - 9.0f);//×ª»»ÎªGHz
 			}
 			else
 			{
@@ -351,20 +351,20 @@ void GTT_HighSpeed::freshLoc() {
 			}
 		}
 
-		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„é˜´å½±è¡°è½
+		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄÒõÓ°Ë¥Âä
 		double wShadow[s_RSU_NUM] = { 0 };
 		IMTA::randomGaussian(wShadow, s_RSU_NUM, 0.0f, 3.0f);
 
-		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„å¤§ä¸­å°ºåº¦è¡°è½å’Œ
+		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄ´óÖĞ³ß¶ÈË¥ÂäºÍ
 		double wPLSF[s_RSU_NUM];
 		for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
 			wPLSF[RSUIdx] = -(wPL[RSUIdx] + wShadow[RSUIdx]);
 		}
 
-		//è®¡ç®—å‡ºæœ€å°çš„å¤§ä¸­å°ºåº¦è¡°è½
+		//¼ÆËã³ö×îĞ¡µÄ´óÖĞ³ß¶ÈË¥Âä
 		int FirstRSUIdx, SecondRSUIdx;
 		IMTA::selectMax(wPLSF, s_RSU_NUM, &FirstRSUIdx, &SecondRSUIdx);
-		//è½¦è¾†é€‰æ‹©æœ€å°è¡°è½çš„RSUä¸ä¹‹é€šä¿¡
+		//³µÁ¾Ñ¡Ôñ×îĞ¡Ë¥ÂäµÄRSUÓëÖ®Í¨ĞÅ
 		RSUIdx = FirstRSUIdx;
 
 		m_VeUEAry[UserIdx1]->m_IMTA = new IMTA[getContext()->m_Config.RSUNum];
@@ -372,7 +372,7 @@ void GTT_HighSpeed::freshLoc() {
 		m_VeUEAry[UserIdx1]->m_RSUId = RSUIdx;
 		m_RSUAry[RSUIdx]->m_VeUEIdList.push_back(UserIdx1);
 
-		//è¾“å‡ºVeUEä¿¡æ¯åˆ°æ–‡æ¡£
+		//Êä³öVeUEĞÅÏ¢µ½ÎÄµµ
 		g_FileVeUEMessage << UserIdx1 << " ";
 		g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_RSUId << " ";
 		g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_ClusterIdx << " ";
@@ -391,7 +391,7 @@ void GTT_HighSpeed::freshLoc() {
 		location.distance = sqrt(pow((m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX), 2.0f) + pow((m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY), 2.0f));
 		angle = atan2(m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY, m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX) / IMTA::s_DEGREE_TO_PI;
 
-		IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//äº§ç”Ÿé«˜æ–¯éšæœºæ•°ï¼Œä¸ºåé¢ä¿¡é“ç³»æ•°ä½¿ç”¨ã€‚
+		IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//²úÉú¸ßË¹Ëæ»úÊı£¬ÎªºóÃæĞÅµÀÏµÊıÊ¹ÓÃ¡£
 
 		antenna.TxAngle = angle - m_VeUEAry[UserIdx1]->m_FantennaAngle;
 		antenna.RxAngle = angle - m_RSUAry[RSUIdx]->m_FantennaAngle;
@@ -411,7 +411,7 @@ void GTT_HighSpeed::freshLoc() {
 
 		double t_Pl = 0;
 
-		m_VeUEAry[UserIdx1]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[UserIdx1]->m_V*3.6, m_VeUEAry[UserIdx1]->m_VAngle);//è®¡ç®—äº†ç»“æœä»£å…¥ä¿¡é“æ¨¡å‹è®¡ç®—UEä¹‹é—´ä¿¡é“ç³»æ•°
+		m_VeUEAry[UserIdx1]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[UserIdx1]->m_V*3.6, m_VeUEAry[UserIdx1]->m_VAngle);//¼ÆËãÁË½á¹û´úÈëĞÅµÀÄ£ĞÍ¼ÆËãUEÖ®¼äĞÅµÀÏµÊı
 		bool *flag = new bool();
 
 		m_VeUEAry[UserIdx1]->m_Ploss = t_Pl;
@@ -471,7 +471,7 @@ void GTT_HighSpeed::calculateInterference(const vector<vector<list<int>>>& t_RRM
 
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
 		for (int patternIdx = 0; patternIdx < t_RRMInterferenceVec[VeUEId].size(); patternIdx++) {
-			const list<int> &lst = t_RRMInterferenceVec[VeUEId][patternIdx];//å½“å‰è½¦è¾†ï¼Œå½“å‰Patternä¸‹æ‰€æœ‰å¹²æ‰°è½¦è¾†çš„Id
+			const list<int> &lst = t_RRMInterferenceVec[VeUEId][patternIdx];//µ±Ç°³µÁ¾£¬µ±Ç°PatternÏÂËùÓĞ¸ÉÈÅ³µÁ¾µÄId
 
 			for (int interferenceVeUEId : lst) {
 
@@ -498,7 +498,7 @@ void GTT_HighSpeed::calculateInterference(const vector<vector<list<int>>>& t_RRM
 
 				location.eNBAntH = 5;
 				location.VeUEAntH = 1.5;
-				IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//äº§ç”Ÿé«˜æ–¯éšæœºæ•°ï¼Œä¸ºåé¢ä¿¡é“ç³»æ•°ä½¿ç”¨ã€‚
+				IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//²úÉú¸ßË¹Ëæ»úÊı£¬ÎªºóÃæĞÅµÀÏµÊıÊ¹ÓÃ¡£
 
 				antenna.TxAngle = angle - m_VeUEAry[interferenceVeUEId]->m_FantennaAngle;
 				antenna.RxAngle = angle - m_RSUAry[RSUIdx]->m_FantennaAngle;
@@ -517,7 +517,7 @@ void GTT_HighSpeed::calculateInterference(const vector<vector<list<int>>>& t_RRM
 				antenna.RxAntSpacing[1] = 0.5f;
 
 				double t_Pl = 0;
-				m_VeUEAry[interferenceVeUEId]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[interferenceVeUEId]->m_V*3.6, m_VeUEAry[interferenceVeUEId]->m_VAngle);//è®¡ç®—äº†ç»“æœä»£å…¥ä¿¡é“æ¨¡å‹è®¡ç®—UEä¹‹é—´ä¿¡é“ç³»æ•°
+				m_VeUEAry[interferenceVeUEId]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[interferenceVeUEId]->m_V*3.6, m_VeUEAry[interferenceVeUEId]->m_VAngle);//¼ÆËãÁË½á¹û´úÈëĞÅµÀÄ£ĞÍ¼ÆËãUEÖ®¼äĞÅµÀÏµÊı
 				bool *flag = new bool();
 
 

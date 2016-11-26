@@ -3,7 +3,7 @@
 *
 *       Filename:  Event.cpp
 *
-*    Description:  TMCæ¨¡å—
+*    Description:  TMCÄ£¿é
 *
 *        Version:  1.0
 *        Created:
@@ -73,11 +73,11 @@ bool Event::tryAcccess() {
 }
 
 int Event::transimit(int t_TransimitMaxBitNum, double t_Distance) {
-	if (t_TransimitMaxBitNum >= m_RemainBitNum) {//å½“å‰packageä¼ è¾“å®Œæ¯•
+	if (t_TransimitMaxBitNum >= m_RemainBitNum) {//µ±Ç°package´«ÊäÍê±Ï
 		m_PackageTransimitDistance.push_back(t_Distance);
 		++m_TransimitPackageNum;
 		int temp = m_RemainBitNum;
-		if (++m_CurrentPackageIdx == m_PackageNum) {//è‹¥å½“å‰packageæ˜¯æœ€åä¸€ä¸ªpackageï¼Œé‚£ä¹ˆè¯´æ˜ä¼ è¾“æˆåŠŸ
+		if (++m_CurrentPackageIdx == m_PackageNum) {//Èôµ±Ç°packageÊÇ×îºóÒ»¸öpackage£¬ÄÇÃ´ËµÃ÷´«Êä³É¹¦
 			m_RemainBitNum = 0;
 			m_IsFinished = true;
 		}
@@ -85,7 +85,7 @@ int Event::transimit(int t_TransimitMaxBitNum, double t_Distance) {
 			m_RemainBitNum = m_BitNumPerPackage[m_CurrentPackageIdx];
 		return temp;
 	}
-	else {//å½“å‰packageå°šæœªä¼ è¾“å®Œæ¯•ï¼Œåªéœ€æ›´æ–°remainBitNum
+	else {//µ±Ç°packageÉĞÎ´´«ÊäÍê±Ï£¬Ö»Ğè¸üĞÂremainBitNum
 		m_RemainBitNum -= t_TransimitMaxBitNum;
 		return t_TransimitMaxBitNum;
 	}
@@ -129,7 +129,7 @@ string Event::toString() {
 	ss.str();
 	ss << "{ EventId = " << left << setw(3) << m_EventId;
 	ss << " , VeUEId = " << left << setw(3) << m_VeUEId;
-	ss << "] ï¼Œ Message = " << messageString << " }";
+	ss << "] £¬ Message = " << messageString << " }";
 	return ss.str();
 }
 

@@ -4,9 +4,9 @@
 #include"Config.h"
 #include"Event.h"
 /*
-* å‰ç½®å£°æ˜Ž
-* ç”±äºŽSystemä¼šè¢«å„ä¸ªæ¨¡å—åŒ…å«ï¼Œå› æ­¤System.hå°½é‡é¿å…åŒ…å«å…¶ä»–æ¨¡å—
-* åœ¨.cppé‡Œé¢åŒ…å«å³å¯
+* Ç°ÖÃÉùÃ÷
+* ÓÉÓÚSystem»á±»¸÷¸öÄ£¿é°üº¬£¬Òò´ËSystem.h¾¡Á¿±ÜÃâ°üº¬ÆäËûÄ£¿é
+* ÔÚ.cppÀïÃæ°üº¬¼´¿É
 */
 class GTT;
 class RRM;
@@ -30,21 +30,21 @@ class System{
 	friend class TMC_B;
 	friend class WT;
 	friend class WT_B;
-	/*------------------åŸŸ------------------*/
+	/*------------------Óò------------------*/
 private:
 	/*
-	* ç³»ç»Ÿå½“å‰çš„TTIæ—¶åˆ»
+	* ÏµÍ³µ±Ç°µÄTTIÊ±¿Ì
 	*/
 	int m_TTI;
 
 	/*
-	* ç³»ç»Ÿå‚æ•°é…ç½®
+	* ÏµÍ³²ÎÊýÅäÖÃ
 	*/
 	SystemConfig m_Config;
 
 	/*
-	* å››ä¸ªå®žä½“ç±»å®¹å™¨
-	* åˆ†åˆ«æ˜¯åŸºç«™ï¼Œé“è·¯ï¼ŒRSUï¼Œè½¦è¾†
+	* ËÄ¸öÊµÌåÀàÈÝÆ÷
+	* ·Ö±ðÊÇ»ùÕ¾£¬µÀÂ·£¬RSU£¬³µÁ¾
 	*/
 	eNB* m_eNBAry = nullptr;
 	Road* m_RoadAry = nullptr;
@@ -52,80 +52,80 @@ private:
 	VeUE* m_VeUEAry = nullptr;
 
 	/*
-	* äº‹ä»¶å®¹å™¨ï¼Œä¸‹æ ‡ä»£è¡¨äº‹ä»¶ID
+	* ÊÂ¼þÈÝÆ÷£¬ÏÂ±ê´ú±íÊÂ¼þID
 	*/
 	std::vector<Event> m_EventVec;
 
 	/*
-	* ä»¥TTIä¸ºä¸‹æ ‡çš„äº‹ä»¶å®¹å™¨
-	* äº‹ä»¶è§¦å‘é“¾è¡¨ï¼Œm_EventTTIList[i]ä»£è¡¨ç¬¬iä¸ªTTIçš„äº‹ä»¶è¡¨
+	* ÒÔTTIÎªÏÂ±êµÄÊÂ¼þÈÝÆ÷
+	* ÊÂ¼þ´¥·¢Á´±í£¬m_EventTTIList[i]´ú±íµÚi¸öTTIµÄÊÂ¼þ±í
 	*/
 	std::vector<std::list<int>> m_EventTTIList;
 
 	/*
-	* åžåçŽ‡
-	* å¤–å±‚ä¸‹æ ‡ä¸ºTTIï¼Œå†…å±‚ä¸‹æ ‡ä¸ºRSUId
+	* ÍÌÍÂÂÊ
+	* Íâ²ãÏÂ±êÎªTTI£¬ÄÚ²ãÏÂ±êÎªRSUId
 	*/
 	std::vector<std::vector<int>> m_TTIRSUThroughput;
 
 
 	/*
-	* æ¨¡å—æŽ§åˆ¶å™¨
-	* GTTæ¨¡å—ï¼ŒRRMæ¨¡å—ï¼ŒWTæ¨¡å—ï¼ŒTMCæ¨¡å—
+	* Ä£¿é¿ØÖÆÆ÷
+	* GTTÄ£¿é£¬RRMÄ£¿é£¬WTÄ£¿é£¬TMCÄ£¿é
 	*/
 	GTT* m_GTTPoint = nullptr;
 	RRM* m_RRMPoint = nullptr;
 	TMC* m_TMCPoint = nullptr;
 	WT* m_WTPoint = nullptr;
 
-	/*------------------æ–¹æ³•------------------*/
+	/*------------------·½·¨------------------*/
 public:
 	/*
-	* ç³»ç»Ÿä»¿çœŸæµç¨‹æ€»æŽ§
+	* ÏµÍ³·ÂÕæÁ÷³Ì×Ü¿Ø
 	*/	
 	void process();
 
 	/*
-	* æžæž„å‡½æ•°ï¼Œè´Ÿè´£å„ä¸ªå®žä½“ç±»çš„æ¸…ç†å·¥ä½œ
+	* Îö¹¹º¯Êý£¬¸ºÔð¸÷¸öÊµÌåÀàµÄÇåÀí¹¤×÷
 	*/
 	~System();
 private:
 	/*
-	* ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
+	* ÏµÍ³·ÂÕæ²ÎÊýÅäÖÃ
 	*/
 	void configure();
 
 	/*
-	* ç³»ç»Ÿå‚æ•°é…ç½®ï¼Œå®Œæˆç³»ç»Ÿåˆå§‹åŒ–
+	* ÏµÍ³²ÎÊýÅäÖÃ£¬Íê³ÉÏµÍ³³õÊ¼»¯
 	*/
 	void initialization();
 
 	/*
-	* GTTæ¨¡å—å¯¹è±¡åˆå§‹åŒ–
-	* è¢«initialization()è°ƒç”¨
+	* GTTÄ£¿é¶ÔÏó³õÊ¼»¯
+	* ±»initialization()µ÷ÓÃ
 	*/
 	void initializeGTTModule();
 
 	/*
-	* WTæ¨¡å—å¯¹è±¡åˆå§‹åŒ–
-	* è¢«initialization()è°ƒç”¨
+	* WTÄ£¿é¶ÔÏó³õÊ¼»¯
+	* ±»initialization()µ÷ÓÃ
 	*/
 	void initializeWTModule();
 
 	/*
-	* RRMæ¨¡å—å¯¹è±¡åˆå§‹åŒ–
-	* è¢«initialization()è°ƒç”¨
+	* RRMÄ£¿é¶ÔÏó³õÊ¼»¯
+	* ±»initialization()µ÷ÓÃ
 	*/
 	void initializeRRMModule();
 
 	/*
-	* TMCæ¨¡å—å¯¹è±¡åˆå§‹åŒ–
-	* è¢«initialization()è°ƒç”¨
+	* TMCÄ£¿é¶ÔÏó³õÊ¼»¯
+	* ±»initialization()µ÷ÓÃ
 	*/
 	void initializeTMCModule();
 
 	/*
-	* å»ºç«‹ä¸­è½¬å®žä½“å¯¹è±¡åˆå§‹åŒ–
+	* ½¨Á¢ÖÐ×ªÊµÌå¶ÔÏó³õÊ¼»¯
 	*/
 	void initializeNON();
 };

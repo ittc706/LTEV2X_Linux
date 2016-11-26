@@ -1,70 +1,70 @@
 #pragma once
 #include"Enumeration.h"
 
-//ç³»ç»ŸåŸºæœ¬çš„ä»¿çœŸå‚æ•°
+//ÏµÍ³»ù±¾µÄ·ÂÕæ²ÎÊı
 struct SystemConfig {
 	/*
-	* ä»¿çœŸå¹³å°ï¼ŒLinuxæˆ–Windowsï¼Œä»…æ¶‰åŠåˆ°æ–‡ä»¶è·¯å¾„çš„æ ¼å¼
+	* ·ÂÕæÆ½Ì¨£¬Linux»òWindows£¬½öÉæ¼°µ½ÎÄ¼şÂ·¾¶µÄ¸ñÊ½
 	*/
 	Platform platform;
 
 	/*
-	* GTTæ¨¡å—å®ç°çš„å…·ä½“ç±»åˆ«
+	* GTTÄ£¿éÊµÏÖµÄ¾ßÌåÀà±ğ
 	*/
 	GTTMode _GTTMode;
 
 	/*
-	* RRMæ¨¡å—å®ç°çš„å…·ä½“ç±»åˆ«
+	* RRMÄ£¿éÊµÏÖµÄ¾ßÌåÀà±ğ
 	*/
 	RRMMode _RRMMode;
 
 	/*
-	* WTæ¨¡å—å®ç°çš„å…·ä½“ç±»åˆ«
+	* WTÄ£¿éÊµÏÖµÄ¾ßÌåÀà±ğ
 	*/
 	WTMode _WTMode;
 
 	/*
-	* ä»¿çœŸæ€»å…±çš„TTI
+	* ·ÂÕæ×Ü¹²µÄTTI
 	*/
 	int NTTI;
 
 	/*
-	* çº¿ç¨‹æ•°é‡
+	* Ïß³ÌÊıÁ¿
 	*/
 	int threadNum;
 
 	/*
-	* è½¦è¾†åˆ·æ–°ä½ç½®çš„å‘¨æœŸ
+	* ³µÁ¾Ë¢ĞÂÎ»ÖÃµÄÖÜÆÚ
 	*/
 	int locationUpdateNTTI;
 
 	/*
-	* å‘¨æœŸæ€§äº‹ä»¶çš„å‘¨æœŸï¼ˆå•ä½TTIï¼‰
+	* ÖÜÆÚĞÔÊÂ¼şµÄÖÜÆÚ£¨µ¥Î»TTI£©
 	*/
 	int periodicEventNTTI;
 
 	/*
-	* æ•°æ®ä¸šåŠ¡äº‹ä»¶æ³Šæ¾è¿‡ç¨‹Lamda
+	* Êı¾İÒµÎñÊÂ¼ş²´ËÉ¹ı³ÌLamda
 	*/
 	double dataLambda;
 
 	/*
-	* ç´§æ€¥äº‹ä»¶æ³Šæ¾è¿‡ç¨‹Lamda,å•ä½æ¬¡/TTI
+	* ½ô¼±ÊÂ¼ş²´ËÉ¹ı³ÌLamda,µ¥Î»´Î/TTI
 	*/
 	double emergencyLambda;
 
 	/*
-	* è½¦è¾†æ€»æ•°
+	* ³µÁ¾×ÜÊı
 	*/
 	int VeUENum;
 
 	/*
-	* RSUæ€»æ•°
+	* RSU×ÜÊı
 	*/
 	int RSUNum;
 
 	/*
-	* åŸºç«™æ€»æ•°
+	* »ùÕ¾×ÜÊı
 	*/
 	int eNBNum;
 
@@ -74,23 +74,23 @@ struct SystemConfig {
 	int RoadNum;
 
 	/*
-	* TTIæ—¥å¿—å¼€å…³
+	* TTIÈÕÖ¾¿ª¹Ø
 	*/
 	bool TTILogIsOn = false;
 
 	/*
-	* Eventæ—¥å¿—å¼€å…³
+	* EventÈÕÖ¾¿ª¹Ø
 	*/
 	bool eventLogIsOn = false;
 
 	/*
-	* Scheduleæ—¥å¿—å¼€å…³
+	* ScheduleÈÕÖ¾¿ª¹Ø
 	*/
 	bool scheduleLogIsOn = false;
 
 };
 
-//eNBé…ç½®å‚æ•°
+//eNBÅäÖÃ²ÎÊı
 struct eNBConfig {
 	SystemConfig* systemConfig;
 	int roadId;
@@ -101,7 +101,7 @@ struct eNBConfig {
 	double AbsY;
 };
 
-//Roadé…ç½®å‚æ•°
+//RoadÅäÖÃ²ÎÊı
 struct UrbanRoadConfig {
 	SystemConfig* systemConfig;
 	int roadId;
@@ -120,7 +120,7 @@ struct HighSpeedRodeConfig {
 };
 
 
-//VeUEé…ç½®å‚æ•°
+//VeUEÅäÖÃ²ÎÊı
 struct VeUEConfig {
 	int roadId;
 	double X;
@@ -133,21 +133,21 @@ struct VeUEConfig {
 };
 
 
-//åœ°ç†ä½ç½®é…ç½®å‚æ•°
+//µØÀíÎ»ÖÃÅäÖÃ²ÎÊı
 struct Location {
 	bool manhattan;
 	LocationType locationType;
-	double distance; //å•ä½:m
-	double distance1; //å•ä½:m
-	double distance2; //å•ä½:m
-	double eNBAntH; //å•ä½:m
-	double VeUEAntH; //å•ä½:m
-	double RSUAntH;//å•ä½ï¼šm
+	double distance; //µ¥Î»:m
+	double distance1; //µ¥Î»:m
+	double distance2; //µ¥Î»:m
+	double eNBAntH; //µ¥Î»:m
+	double VeUEAntH; //µ¥Î»:m
+	double RSUAntH;//µ¥Î»£ºm
 	double posCor[5];
 
 };
 
-//å¤©çº¿é…ç½®å‚æ•°
+//ÌìÏßÅäÖÃ²ÎÊı
 struct Antenna {
 	double TxAngle; // degree
 	double RxAngle; // degree

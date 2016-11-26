@@ -8,21 +8,21 @@ using namespace std;
 void logFileConfig(Platform t_Platform) {
 	if (t_Platform == Windows) {
 		/*===========================================
-		*            è¾“å‡ºæ—¥å¿—æ–‡ä»¶æµå®šä¹‰
+		*            Êä³öÈÕÖ¾ÎÄ¼şÁ÷¶¨Òå
 		* ==========================================*/
 		g_FileTemp.open("Log\\Temp.txt");
-		//GTTæ¨¡å—
+		//GTTÄ£¿é
 		g_FileVeUELocationUpdateLogInfo.open("Log\\GTTLog\\VeUELocationUpdateLogInfo.txt");
 		g_FileVeUENumPerRSULogInfo.open("Log\\GTTLog\\VeUENumPerRSULogInfo.txt");
 		g_FileLocationInfo.open("Log\\GTTLog\\LocationInfo.txt");
 		g_FileVeUEMessage.open("Log\\GTTLog\\VeUEMessage.txt");
-		//RRMæ¨¡å—
+		//RRMÄ£¿é
 		g_FileScheduleInfo.open("Log\\RRMLog\\ScheduleInfo.txt");
 		g_FileClasterPerformInfo.open("Log\\RRMLog\\ClasterPerformInfo.txt");
 		g_FileEventListInfo.open("Log\\RRMLog\\EventListInfo.txt");
 		g_FileTTILogInfo.open("Log\\RRMLog\\TTILogInfo.txt");
 		g_FileEventLogInfo.open("Log\\RRMLog\\EventLogInfo.txt");
-		//TMC_Bæ¨¡å—
+		//TMC_BÄ£¿é
 		g_FileStatisticsDescription.open("Log\\TMCLog\\StatisticsDescription.txt");
 		g_FileEmergencyDelayStatistics.open("Log\\TMCLog\\EmergencyDelayStatistics.txt");
 		g_FilePeriodDelayStatistics.open("Log\\TMCLog\\PeriodDelayStatistics.txt");
@@ -39,21 +39,21 @@ void logFileConfig(Platform t_Platform) {
 	}
 	else {
 		/*===========================================
-		*            è¾“å‡ºæ—¥å¿—æ–‡ä»¶æµå®šä¹‰
+		*            Êä³öÈÕÖ¾ÎÄ¼şÁ÷¶¨Òå
 		* ==========================================*/
 		g_FileTemp.open("Log/Temp.txt");
-		//GTTæ¨¡å—
+		//GTTÄ£¿é
 		g_FileVeUELocationUpdateLogInfo.open("Log/GTTLog/VeUELocationUpdateLogInfo.txt");
 		g_FileVeUENumPerRSULogInfo.open("Log/GTTLog/VeUENumPerRSULogInfo.txt");
 		g_FileLocationInfo.open("Log/GTTLog/LocationInfo.txt");
 		g_FileVeUEMessage.open("Log/GTTLog/VeUEMessage.txt");
-		//RRMæ¨¡å—
+		//RRMÄ£¿é
 		g_FileScheduleInfo.open("Log/RRMLog/ScheduleInfo.txt");
 		g_FileClasterPerformInfo.open("Log/RRMLog/ClasterPerformInfo.txt");
 		g_FileEventListInfo.open("Log/RRMLog/EventListInfo.txt");
 		g_FileTTILogInfo.open("Log/RRMLog/TTILogInfo.txt");
 		g_FileEventLogInfo.open("Log/RRMLog/EventLogInfo.txt");
-		//TMC_Bæ¨¡å—
+		//TMC_BÄ£¿é
 		g_FileStatisticsDescription.open("Log/TMCLog/StatisticsDescription.txt");
 		g_FileEmergencyDelayStatistics.open("Log/TMCLog/EmergencyDelayStatistics.txt");
 		g_FilePeriodDelayStatistics.open("Log/TMCLog/PeriodDelayStatistics.txt");
@@ -71,18 +71,18 @@ void logFileConfig(Platform t_Platform) {
 
 }
 ofstream g_FileTemp;
-//GTT_Urbanæ¨¡å—
+//GTT_UrbanÄ£¿é
 ofstream g_FileVeUELocationUpdateLogInfo;
 ofstream g_FileVeUENumPerRSULogInfo;
 ofstream g_FileLocationInfo;
 ofstream g_FileVeUEMessage;
-//RRMæ¨¡å—
+//RRMÄ£¿é
 ofstream g_FileScheduleInfo;
 ofstream g_FileClasterPerformInfo;
 ofstream g_FileEventListInfo;
 ofstream g_FileTTILogInfo;
 ofstream g_FileEventLogInfo;
-//TMC_Bæ¨¡å—
+//TMC_BÄ£¿é
 ofstream g_FileStatisticsDescription;
 ofstream g_FileEmergencyDelayStatistics;
 ofstream g_FilePeriodDelayStatistics;
@@ -100,7 +100,7 @@ ofstream g_FilePackageTransimit;
 
 
 /*===========================================
-*               å…¨åŸŸå‡½æ•°å®šä¹‰
+*               È«Óòº¯Êı¶¨Òå
 * ==========================================*/
 
 

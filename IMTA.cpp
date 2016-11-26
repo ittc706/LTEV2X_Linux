@@ -3,7 +3,7 @@
 *
 *       Filename:  IMTA.cpp
 *
-*    Description:  TMCÊ®°Âùó
+*    Description:  TMCƒ£øÈ
 *
 *        Version:  1.0
 *        Created:
@@ -298,7 +298,7 @@ IMTA::IMTA() {
 	m_TxSlantAngle = nullptr;
 	m_RxAntSpacing = nullptr;
 	m_RxSlantAngle = nullptr;
-	//FFTÂèÇÊï∞ÂàùÂßãÂåñ
+	//FFT≤Œ ˝≥ı ºªØ
 	m_FFTIndex = nullptr;
 }
 
@@ -341,7 +341,7 @@ bool IMTA::build(double* t_Pl, double t_fFrequency/*Hz*/, Location &t_eLocation,
 	m_RxAngle = t_eAntenna.RxAngle * s_DEGREE_TO_PI;
 	m_Velocity = t_fVelocity / 3.6f * t_fFrequency * s_PI2 / s_C;
 	m_VAngle = t_fVAngle * s_DEGREE_TO_PI;
-	//FFTÁõ∏ÂÖ≥
+	//FFTœ‡πÿ
 	m_FFTNum = 1;
 	m_FFTOrder = 0;
 	m_HNum = 666;
@@ -371,7 +371,7 @@ bool IMTA::build(double* t_Pl, double t_fFrequency/*Hz*/, Location &t_eLocation,
 		m_LoS = true;
 		if (3 < t_eLocation.distance&&t_eLocation.distance < fDistanceBP)
 		{
-			m_PLSF = 22.7f * log10(t_eLocation.distance) + 27.0f + 20.0f * (log10(t_fFrequency) - 9.0f);//ËΩ¨Êç¢‰∏∫GHz
+			m_PLSF = 22.7f * log10(t_eLocation.distance) + 27.0f + 20.0f * (log10(t_fFrequency) - 9.0f);//◊™ªªŒ™GHz
 		}
 		else
 		{
@@ -552,7 +552,7 @@ bool IMTA::enable(bool *t_pbEnable)
 	{
 		pfPathDelay[byTempPath] = m_DS * log(pfPathDelay[byTempPath]);
 	}
-	sortBubble(pfPathDelay, m_PathNum, false, false); //‰ªéÂ∞èÂà∞Â§ß
+	sortBubble(pfPathDelay, m_PathNum, false, false); //¥”–°µΩ¥Û
 	for (int byTempPath = 0; byTempPath != m_PathNum; ++ byTempPath)
 	{
 		pfPathDelay[m_PathNum - 1 - byTempPath] -= pfPathDelay[0];
@@ -587,7 +587,7 @@ bool IMTA::enable(bool *t_pbEnable)
 	    
 		randomUniform(pfXAoD, m_PathNum, 1.0f, -1.0f, true);
 	    randomUniform(pfXAoA, m_PathNum, 1.0f, -1.0f, true);
-		randomGaussian(pfAoD, m_PathNum, 0.0f, m_AoD / 7.0f);//Âú®winner 2 ÊòØÈô§‰ª•5.0f
+		randomGaussian(pfAoD, m_PathNum, 0.0f, m_AoD / 7.0f);//‘⁄winner 2  «≥˝“‘5.0f
 		randomGaussian(pfAoA, m_PathNum, 0.0f, m_AoA / 7.0f);
 		
 
@@ -647,7 +647,7 @@ bool IMTA::enable(bool *t_pbEnable)
 				m_Gain[byTempPath * s_SubPathNum + byTempSubPath] = sqrt(m_Gain[byTempPath * s_SubPathNum + byTempSubPath]);
 				//if (m_bLoS)
 	   //        { 
-    //            m_pfGain[byTempPath * m_scbySubPathNum + byTempSubPath]/=sqrt(1.0f / (1.0f + m_fK);//ÂâçÈù¢Âú®ËÆ°ÁÆóPnÊó∂ÂÄôÂ∑≤ÁªèÈô§Ëøá‰∫ÜÔºåÂõ†ËÄå‰∏çÈúÄË¶ÅÂÜçÂéªÈô§
+    //            m_pfGain[byTempPath * m_scbySubPathNum + byTempSubPath]/=sqrt(1.0f / (1.0f + m_fK);//«∞√Ê‘⁄º∆À„Pn ±∫Ú“—æ≠≥˝π˝¡À£¨“Ú∂¯≤ª–Ë“™‘Ÿ»•≥˝
 				//}
 			    m_SinAoD[byTempPath * s_SubPathNum + byTempSubPath] = pfAoD[byTempPath] + s_AngleOffset[byTempSubPath] * m_AoDRatio;
 				m_SinAoD[byTempPath * s_SubPathNum + byTempSubPath] = sin(m_SinAoD[byTempPath * s_SubPathNum + byTempSubPath]);
@@ -760,7 +760,7 @@ void IMTA::calculate(double* t_HAfterFFT, double t_fT/*s */, double *t_pfTemp, d
 							t_pfTemp[byTempTxAnt * m_RxAntNum * m_PathNum * s_SubPathNum + byTempRxAnt * m_PathNum * s_SubPathNum + byTempPath * s_SubPathNum + byTempSubPath] =
 						            m_TxAntSpacing[byTempTxAnt] * m_SinAoD[byTempPath * s_SubPathNum + byTempSubPath] +
 							         m_RxAntSpacing[byTempRxAnt] * m_SinAoA[byTempPath * s_SubPathNum + byTempSubPath] +
-							         m_CosAoA[byTempPath * s_SubPathNum + byTempSubPath] * t_fT;//t_fT‰∏∫Êó∂Èó¥
+							         m_CosAoA[byTempPath * s_SubPathNum + byTempSubPath] * t_fT;//t_fTŒ™ ±º‰
 						
 							t_pfCos[byTempTxAnt * m_RxAntNum * m_PathNum * s_SubPathNum + byTempRxAnt * m_PathNum * s_SubPathNum + byTempPath * s_SubPathNum + byTempSubPath] =
 								   cos(t_pfTemp[byTempTxAnt * m_RxAntNum * m_PathNum * s_SubPathNum + byTempRxAnt * m_PathNum * s_SubPathNum + byTempPath * s_SubPathNum + byTempSubPath]*2*s_PI*s_C/s_FC);
@@ -820,7 +820,7 @@ void IMTA::calculate(double* t_HAfterFFT, double t_fT/*s */, double *t_pfTemp, d
 		}
 
 
-		//Âà©Áî®fftwÊèê‰æõÁöÑÂáΩÊï∞ËøõË°åfftÂèòÊç¢
+		//¿˚”√fftwÃ·π©µƒ∫Ø ˝Ω¯––fft±‰ªª
 		fftw_complex *in1, *out1, *in2, *out2;
 		fftw_plan ptemp1, ptemp2;
 		in1 = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * m_FFTNum);

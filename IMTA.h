@@ -4,10 +4,10 @@
 #include"Config.h"
 
 /*===========================================
-*               IMTAä¿¡é“æ¨¡å‹
+*               IMTAĞÅµÀÄ£ĞÍ
 * ==========================================*/
 class IMTA {
-	/*------------------é™æ€------------------*/
+	/*------------------¾²Ì¬------------------*/
 public:
 	static const double s_PI;
 	static const double s_PINeg;
@@ -19,10 +19,10 @@ public:
 	static const double s_C;
 	static const double s_FC;
 public:
-	//è·¯å¾„æ•°
+	//Â·¾¶Êı
 	static const int s_SubPathNum = 20;
 	static const int s_MidPathNum = 3;
-	//ç›¸å…³ç³»æ•°çŸ©é˜µ
+	//Ïà¹ØÏµÊı¾ØÕó
 	static const double s_ConstantInHLoS[25];
 	static const double s_ConstantInHNLoS[25];
 	static const double s_ConstantUMiLoS[25];
@@ -34,7 +34,7 @@ public:
 	static const double s_ConstantUMaNLoS[25];
 	static const double s_ConstantRMaLoS[25];
 	static const double s_ConstantRMaNLoS[25];
-	//è§’åº¦åç§»æ•°ç»„
+	//½Ç¶ÈÆ«ÒÆÊı×é
 	static const double s_AngleOffset[s_SubPathNum];
 	static const double s_MidPathDelayOffset[s_MidPathNum];
 	static const int s_MidPathIndex[s_SubPathNum];
@@ -44,8 +44,8 @@ public:
 	static void sortBubble(double *t_pfArray, int t_wNumber, bool t_bFlagDirection, bool t_bFlagFabs);
 	static void selectMax(double *t_pfArray, int t_byNumber, int *t_pbyFirst, int *t_pbySecond);
 
-	/*------------------åŸŸ------------------*/
-	//ä¿¡é“æ‰€éœ€åŸºæœ¬å¸¸é‡
+	/*------------------Óò------------------*/
+	//ĞÅµÀËùĞè»ù±¾³£Á¿
 	double m_AntGain;
 	double m_MaxAttenu; // dBm
 	int m_TxAntNum;
@@ -57,7 +57,7 @@ public:
 	double m_TxAngle;
 	double m_RxAngle;
 
-	//ä¿¡é“æ‰€éœ€é…ç½®å¸¸é‡
+	//ĞÅµÀËùĞèÅäÖÃ³£Á¿
 	int m_PathNum;
 	double m_Velocity;
 	double m_VAngle;
@@ -82,7 +82,7 @@ public:
 
 	int m_PathFirst;
 	int m_PathSecond;
-	//ä¿¡é“æ‰€éœ€å­˜å‚¨å¸¸é‡
+	//ĞÅµÀËùĞè´æ´¢³£Á¿
 	double *m_Gain;
 	double *m_SinAoD;
 	double *m_CosAoD;
@@ -96,7 +96,7 @@ public:
 	double m_CosAoALoS;
 	double *m_PhaseLoS;
 
-	//FFTæ‰€ç”¨å˜é‡
+	//FFTËùÓÃ±äÁ¿
 	int m_FFTNum;
 	int m_FFTOrder;
 	double m_FFTTime;

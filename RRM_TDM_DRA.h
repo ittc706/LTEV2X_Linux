@@ -9,36 +9,36 @@
 
 
 class RRM_TDM_DRA_VeUE:public RRM_VeUE {
-	/*------------------é™æ€------------------*/
+	/*------------------¾²Ì¬------------------*/
 public:
 	static std::default_random_engine s_Engine;
 
-	/*------------------åŸŸ------------------*/
+	/*------------------Óò------------------*/
 public:
 	/*
-	* è¯¥VeUEæ‰€åœ¨ç°‡çš„å½“å‰åœ°ç†ä½ç½®çš„ç›¸å¯¹è°ƒåº¦åŒºé—´
+	* ¸ÃVeUEËùÔÚ´ØµÄµ±Ç°µØÀíÎ»ÖÃµÄÏà¶Ôµ÷¶ÈÇø¼ä
 	*/
 	std::tuple<int, int> m_ScheduleInterval;
 
-	/*------------------æ–¹æ³•------------------*/
+	/*------------------·½·¨------------------*/
 public:
 	/*
-	* æ„é€ å‡½æ•°
+	* ¹¹Ôìº¯Êı
 	*/
 	RRM_TDM_DRA_VeUE();
 
 	/*
-	* éšæœºé€‰å–å¯ç”¨èµ„æºå¿«
+	* Ëæ»úÑ¡È¡¿ÉÓÃ×ÊÔ´¿ì
 	*/
 	int selectRBBasedOnP2(const std::vector<int>&t_CurAvaliablePatternIdx);
 
 	/*
-	* ç”Ÿæˆæ ¼å¼åŒ–å­—ç¬¦ä¸²
+	* Éú³É¸ñÊ½»¯×Ö·û´®
 	*/
 	std::string toString(int t_NumTab);
 
 	/*
-	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
+	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
 	*/
 	RRM_TDM_DRA_VeUE *const getTDM_DRAPoint()override { return this; }
 	RRM_ICC_DRA_VeUE *const getICC_DRAPoint()override { throw std::logic_error("RuntimeException"); }
@@ -47,111 +47,111 @@ public:
 
 
 class RRM_TDM_DRA_RSU :public RRM_RSU{
-	/*------------------åŸŸ------------------*/
+	/*------------------Óò------------------*/
 public:
 	/*
 	* TDR:Time Domain Resource
-	* ä¸‹æ ‡ä»£è¡¨ç°‡ç¼–å·
-	* tupleå­˜å‚¨çš„å˜é‡çš„å«ä¹‰ä¾æ¬¡ä¸ºï¼šå­˜å‚¨æ¯ä¸ªç°‡æ‰€åˆ†é…æ—¶é—´æ•°é‡åŒºé—´çš„å·¦ç«¯ç‚¹ï¼Œå³ç«¯ç‚¹ä»¥åŠåŒºé—´é•¿åº¦
+	* ÏÂ±ê´ú±í´Ø±àºÅ
+	* tuple´æ´¢µÄ±äÁ¿µÄº¬ÒåÒÀ´ÎÎª£º´æ´¢Ã¿¸ö´ØËù·ÖÅäÊ±¼äÊıÁ¿Çø¼äµÄ×ó¶Ëµã£¬ÓÒ¶ËµãÒÔ¼°Çø¼ä³¤¶È
 	*/
 	std::vector<std::tuple<int, int, int>> m_ClusterTDRInfo;
 
 	/*
-	* Patternå—é‡Šæ˜¯å¦å¯ç”¨çš„æ ‡è®°
-	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç°‡ç¼–å·
-	* å†…å±‚ä¸‹æ ‡ä»£è¡¨Patternç¼–å·
-	* è‹¥"m_PatternIsAvailable[i][j]==true"ä»£è¡¨ç°‡içš„Patternå—jå¯ç”¨
+	* Pattern¿éÊÍÊÇ·ñ¿ÉÓÃµÄ±ê¼Ç
+	* Íâ²ãÏÂ±ê´ú±í´Ø±àºÅ
+	* ÄÚ²ãÏÂ±ê´ú±íPattern±àºÅ
+	* Èô"m_PatternIsAvailable[i][j]==true"´ú±í´ØiµÄPattern¿éj¿ÉÓÃ
 	*/
 	std::vector<std::vector<bool>> m_PatternIsAvailable;
 
 	/*
-	* æ¥å…¥åˆ—è¡¨
-	* å­˜æ”¾çš„æ˜¯VeUEId
-	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç°‡ç¼–å·
-	* å†…å±‚firstä»£è¡¨Emergencyï¼Œsecondä»£è¡¨éEmergency
+	* ½ÓÈëÁĞ±í
+	* ´æ·ÅµÄÊÇVeUEId
+	* Íâ²ãÏÂ±ê´ú±í´Ø±àºÅ
+	* ÄÚ²ãfirst´ú±íEmergency£¬second´ú±í·ÇEmergency
 	*/
 	std::vector<std::pair<std::list<int>, std::list<int>>> m_AccessEventIdList;
 
 	/*
-	* ç­‰å¾…åˆ—è¡¨
-	* å­˜æ”¾çš„æ˜¯VeUEId
-	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç°‡ç¼–å·
-	* å†…å±‚firstä»£è¡¨Emergencyï¼Œsecondä»£è¡¨éEmergency
+	* µÈ´ıÁĞ±í
+	* ´æ·ÅµÄÊÇVeUEId
+	* Íâ²ãÏÂ±ê´ú±í´Ø±àºÅ
+	* ÄÚ²ãfirst´ú±íEmergency£¬second´ú±í·ÇEmergency
 	*/
 	std::vector<std::pair<std::list<int>, std::list<int>>> m_WaitEventIdList;
 
 	/*
-	* å­˜æ”¾è°ƒåº¦è°ƒåº¦ä¿¡æ¯(å·²ç»æˆåŠŸæ¥å…¥ï¼Œä½†å°šæœªä¼ è¾“å®Œæ¯•ï¼Œåœ¨å…¶ä¼ è¾“å®Œæ¯•ä¹‹å‰ä¼šä¸€ç›´å ç”¨è¯¥èµ„æºå—)
-	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç°‡ç¼–å·
-	* å†…å±‚ä¸‹æ ‡ä»£è¡¨Patternç¼–å·
+	* ´æ·Åµ÷¶Èµ÷¶ÈĞÅÏ¢(ÒÑ¾­³É¹¦½ÓÈë£¬µ«ÉĞÎ´´«ÊäÍê±Ï£¬ÔÚÆä´«ÊäÍê±ÏÖ®Ç°»áÒ»Ö±Õ¼ÓÃ¸Ã×ÊÔ´¿é)
+	* Íâ²ãÏÂ±ê´ú±í´Ø±àºÅ
+	* ÄÚ²ãÏÂ±ê´ú±íPattern±àºÅ
 	*/
 	std::vector<std::vector<ScheduleInfo*>> m_ScheduleInfoTable;
 
 	/*
-	* å½“å‰æ—¶åˆ»å½“å‰RSUå†…å¤„äºä¼ è¾“çŠ¶æ€çš„è°ƒåº¦ä¿¡æ¯é“¾è¡¨
-	* å¤–å±‚ä¸‹æ ‡ä¸ºç°‡ç¼–å·
-	* ä¸­å±‚ä¸‹æ ‡ä»£è¡¨Patternç¼–å·
-	* å†…å±‚ç”¨listç”¨äºå¤„ç†å†²çªï¼Œå³å¯¹åº”ç°‡å¯¹åº”Patternä¸‹çš„å½“å‰è¿›è¡Œä¼ è¾“çš„äº‹ä»¶çš„è°ƒåº¦ä¿¡æ¯
-	* å¯¹äºç´§æ€¥äº‹ä»¶ï¼Œæ‰€æœ‰ç°‡éƒ½æœ‰æ•ˆ
-	* å¯¹äºéç´§æ€¥äº‹ä»¶ï¼Œä»…å½“å‰æ—¶åˆ»å¯¹åº”çš„ç°‡æœ‰æ•ˆ
+	* µ±Ç°Ê±¿Ìµ±Ç°RSUÄÚ´¦ÓÚ´«Êä×´Ì¬µÄµ÷¶ÈĞÅÏ¢Á´±í
+	* Íâ²ãÏÂ±êÎª´Ø±àºÅ
+	* ÖĞ²ãÏÂ±ê´ú±íPattern±àºÅ
+	* ÄÚ²ãÓÃlistÓÃÓÚ´¦Àí³åÍ»£¬¼´¶ÔÓ¦´Ø¶ÔÓ¦PatternÏÂµÄµ±Ç°½øĞĞ´«ÊäµÄÊÂ¼şµÄµ÷¶ÈĞÅÏ¢
+	* ¶ÔÓÚ½ô¼±ÊÂ¼ş£¬ËùÓĞ´Ø¶¼ÓĞĞ§
+	* ¶ÔÓÚ·Ç½ô¼±ÊÂ¼ş£¬½öµ±Ç°Ê±¿Ì¶ÔÓ¦µÄ´ØÓĞĞ§
 	*/
 	std::vector<std::vector<std::list<ScheduleInfo*>>>  m_TransimitScheduleInfoList;
 
-	/*------------------æ–¹æ³•------------------*/
+	/*------------------·½·¨------------------*/
 public:
 	/*
-	* æ„é€ å‡½æ•°
+	* ¹¹Ôìº¯Êı
 	*/
 	RRM_TDM_DRA_RSU();
 
 	/*
-	* åˆå§‹åŒ–
-	* éƒ¨åˆ†æˆå‘˜éœ€è¦ç­‰åˆ°GTTæ¨¡å—åˆå§‹åŒ–å®Œæ¯•åï¼Œæœ‰äº†ç°‡çš„æ•°é‡æ‰èƒ½è¿›è¡Œæœ¬å•å…ƒRSUçš„åˆå§‹åŒ–
+	* ³õÊ¼»¯
+	* ²¿·Ö³ÉÔ±ĞèÒªµÈµ½GTTÄ£¿é³õÊ¼»¯Íê±Ïºó£¬ÓĞÁË´ØµÄÊıÁ¿²ÅÄÜ½øĞĞ±¾µ¥ÔªRSUµÄ³õÊ¼»¯
 	*/
 	void initialize() override;
 
 	/*
-	* ç”Ÿæˆæ ¼å¼åŒ–å­—ç¬¦ä¸²
+	* Éú³É¸ñÊ½»¯×Ö·û´®
 	*/
 	std::string toString(int t_NumTab);
 
 	/*
-	* è¿”å›å½“å‰TTIå¯ä»¥è¿›è¡Œäº‹ä»¶ä¼ è¾“çš„ç°‡ç¼–å·
+	* ·µ»Øµ±Ç°TTI¿ÉÒÔ½øĞĞÊÂ¼ş´«ÊäµÄ´Ø±àºÅ
 	*/
 	int getClusterIdx(int t_TTI);
 
 	/*
-	* å°†AccessVeUEIdListçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
+	* ½«AccessVeUEIdListµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
 	*/
 	void pushToAccessEventIdList(bool t_IsEmergency, int t_ClusterIdx, int t_EventId);
 
 	/*
-	* å°†WaitVeUEIdListçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
+	* ½«WaitVeUEIdListµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
 	*/
 	void pushToWaitEventIdList(bool t_IsEmergency, int t_ClusterIdx, int t_EventId);
 
 	/*
-	* å°†SwitchVeUEIdListçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
+	* ½«SwitchVeUEIdListµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
 	*/
 	void pushToSwitchEventIdList(std::list<int>& t_SwitchVeUEIdList, int t_EventId);
 
 	/*
-	* å°†TransimitScheduleInfoçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
+	* ½«TransimitScheduleInfoµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
 	*/
 	void pushToTransimitScheduleInfoList(ScheduleInfo* t_Info);
 
 	/*
-	* å°†ScheduleInfoTableçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
+	* ½«ScheduleInfoTableµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
 	*/
 	void pushToScheduleInfoTable(ScheduleInfo* t_Info);
 
 	/*
-	* å°†RSUçº§åˆ«çš„ScheduleInfoTableçš„å¼¹å‡ºå°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
+	* ½«RSU¼¶±ğµÄScheduleInfoTableµÄµ¯³ö·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
 	*/
 	void pullFromScheduleInfoTable(int t_TTI);
 
 	/*
-	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
+	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
 	*/
 	RRM_TDM_DRA_RSU *const getTDM_DRAPoint()override { return this; }
 	RRM_ICC_DRA_RSU *const getICC_DRAPoint() override { throw std::logic_error("RuntimeException"); }
@@ -160,203 +160,203 @@ public:
 
 
 class RRM_TDM_DRA :public RRM {
-	/*------------------é™æ€------------------*/
+	/*------------------¾²Ì¬------------------*/
 public:
 	/*
-	* æ‰€æœ‰ç°‡è¿›è¡Œä¸€æ¬¡DRAæ‰€å ç”¨çš„TTIæ•°é‡ã€‚(NTTI:Number of TTI)
+	* ËùÓĞ´Ø½øĞĞÒ»´ÎDRAËùÕ¼ÓÃµÄTTIÊıÁ¿¡£(NTTI:Number of TTI)
 	*/
 	static const int s_NTTI = 100;
 
 	/*
-	* äº‹ä»¶çš„Patternçš„ç±»å‹ç§ç±»
-	* å³ç´§æ€¥äº‹ä»¶ï¼Œå‘¨æœŸäº‹ä»¶ï¼Œæ•°æ®ä¸šåŠ¡äº‹ä»¶
+	* ÊÂ¼şµÄPatternµÄÀàĞÍÖÖÀà
+	* ¼´½ô¼±ÊÂ¼ş£¬ÖÜÆÚÊÂ¼ş£¬Êı¾İÒµÎñÊÂ¼ş
 	*/
 	static const int s_PATTERN_TYPE_NUM = 3;
 
 	/*
-	* æ¯ä¸ªPatternç§ç±»æ‰€å çš„RBæ•°é‡
+	* Ã¿¸öPatternÖÖÀàËùÕ¼µÄRBÊıÁ¿
 	*/
 	static const int s_RB_NUM_PER_PATTERN_TYPE[s_PATTERN_TYPE_NUM];
 
 	/*
-	* æ¯ä¸ªPatternç§ç±»å¯¹åº”çš„Patternæ•°é‡
+	* Ã¿¸öPatternÖÖÀà¶ÔÓ¦µÄPatternÊıÁ¿
 	*/
 	static const int s_PATTERN_NUM_PER_PATTERN_TYPE[s_PATTERN_TYPE_NUM];
 
 	/*
-	* æ¯ä¸ªç§ç±»çš„äº‹ä»¶ï¼Œå…¶å„è‡ªçš„Patternçš„å¼€å§‹ä¸ç»“æŸç¼–å·ï¼Œå³[startIdx,endIdx]ï¼Œé—­åŒºé—´
+	* Ã¿¸öÖÖÀàµÄÊÂ¼ş£¬Æä¸÷×ÔµÄPatternµÄ¿ªÊ¼Óë½áÊø±àºÅ£¬¼´[startIdx,endIdx]£¬±ÕÇø¼ä
 	*/
 	static const int s_PATTERN_TYPE_PATTERN_INDEX_INTERVAL[s_PATTERN_TYPE_NUM][2];
 
 	/*
-	* æ‰€æœ‰Patternæ•°é‡ï¼ŒåŒ…æ‹¬ä¸‰ä¸ªäº‹ä»¶
+	* ËùÓĞPatternÊıÁ¿£¬°üÀ¨Èı¸öÊÂ¼ş
 	*/
 	static const int s_TOTAL_PATTERN_NUM;
-	/*------------------åŸŸ------------------*/
+	/*------------------Óò------------------*/
 public:
 	/*
-	* ç”¨äºå­˜æ”¾è¿›è¡ŒRSUåˆ‡æ¢çš„è½¦è¾†ï¼Œæš‚æ—¶ä¿å­˜çš„ä½œç”¨
+	* ÓÃÓÚ´æ·Å½øĞĞRSUÇĞ»»µÄ³µÁ¾£¬ÔİÊ±±£´æµÄ×÷ÓÃ
 	*/
 	std::list<int> m_SwitchEventIdList;
 
 	/*
-	* ç”¨äºå­˜æ”¾æŒ‡å®šè½¦è¾†æŒ‡å®šPatternçš„å¹²æ‰°åˆ—è¡¨(åªä¿ç•™RSUå†…ç°‡é—´å¹²æ‰°)
-	* å¤–å±‚ä¸‹æ ‡ä¸ºVeUEId
-	* å†…å±‚ä¸‹æ ‡ä¸ºPatternIdx(ç»å¯¹é‡)
+	* ÓÃÓÚ´æ·ÅÖ¸¶¨³µÁ¾Ö¸¶¨PatternµÄ¸ÉÈÅÁĞ±í(Ö»±£ÁôRSUÄÚ´Ø¼ä¸ÉÈÅ)
+	* Íâ²ãÏÂ±êÎªVeUEId
+	* ÄÚ²ãÏÂ±êÎªPatternIdx(¾ø¶ÔÁ¿)
 	*/
 	std::vector<std::vector<std::list<int>>> m_InterferenceVec;
 
 	/*
-	* å¤šçº¿ç¨‹æ€»æ•°
+	* ¶àÏß³Ì×ÜÊı
 	*/
 	int m_ThreadNum;
 
 	/*
-	* å¤šçº¿ç¨‹å®¹å™¨
+	* ¶àÏß³ÌÈİÆ÷
 	*/
 	std::vector<std::thread> m_Threads;
 
 	/*
-	* åˆ†é…ç»™æ¯ä¸ªçº¿ç¨‹çš„RSUIdèŒƒå›´
+	* ·ÖÅä¸øÃ¿¸öÏß³ÌµÄRSUId·¶Î§
 	*/
 	std::vector<std::pair<int, int>> m_ThreadsRSUIdRange;
 
-	/*------------------æ–¹æ³•------------------*/
+	/*------------------·½·¨------------------*/
 public:
 	/*
-	* é»˜è®¤æ„é€ å‡½æ•°å®šä¹‰ä¸ºåˆ é™¤
+	* Ä¬ÈÏ¹¹Ôìº¯Êı¶¨ÒåÎªÉ¾³ı
 	*/
 	RRM_TDM_DRA() = delete;
 
 	/*
-	* æ„é€ å‡½æ•°
-	* è¯¥æ„é€ å‡½æ•°å®šä¹‰äº†è¯¥æ¨¡å—çš„è§†å›¾
-	* æ‰€æœ‰æŒ‡é’ˆæˆå‘˜æ‹·è´ç³»ç»Ÿç±»ä¸­çš„å¯¹åº”æˆå‘˜æŒ‡é’ˆï¼Œå…±äº«åŒä¸€å®ä½“
+	* ¹¹Ôìº¯Êı
+	* ¸Ã¹¹Ôìº¯Êı¶¨ÒåÁË¸ÃÄ£¿éµÄÊÓÍ¼
+	* ËùÓĞÖ¸Õë³ÉÔ±¿½±´ÏµÍ³ÀàÖĞµÄ¶ÔÓ¦³ÉÔ±Ö¸Õë£¬¹²ÏíÍ¬Ò»ÊµÌå
 	*/
 	RRM_TDM_DRA(System* t_Context);
 
 	/*
-	* åˆå§‹åŒ–RSU VeUEå†…è¯¥å•å…ƒçš„å†…éƒ¨ç±»
+	* ³õÊ¼»¯RSU VeUEÄÚ¸Ãµ¥ÔªµÄÄÚ²¿Àà
 	*/
 	void initialize() override;
 
 	/*
-	* å½“å‘ç”Ÿä½ç½®æ›´æ–°æ—¶ï¼Œæ¸…é™¤ç¼“å­˜çš„è°ƒåº¦ç›¸å…³ä¿¡æ¯
+	* µ±·¢ÉúÎ»ÖÃ¸üĞÂÊ±£¬Çå³ı»º´æµÄµ÷¶ÈÏà¹ØĞÅÏ¢
 	*/
 	void cleanWhenLocationUpdate()override;
 
 	/*
-	* RRM_TDM_DRAè°ƒåº¦æ€»æ§ï¼Œè¦†ç›–åŸºç±»çš„è™šå‡½æ•°
+	* RRM_TDM_DRAµ÷¶È×Ü¿Ø£¬¸²¸Ç»ùÀàµÄĞéº¯Êı
 	*/
 	void schedule() override;
 
 
 private:
 	/*
-	* èµ„æºåˆ†é…ä¿¡æ¯æ¸…ç©º
+	* ×ÊÔ´·ÖÅäĞÅÏ¢Çå¿Õ
 	*/
 	void informationClean();
 
 	/*
-	* åŸºäºç°‡å¤§å°çš„æ—¶åˆ†å¤ç”¨
+	* »ùÓÚ´Ø´óĞ¡µÄÊ±·Ö¸´ÓÃ
 	*/
 	void groupSizeBasedTDM(bool t_ClusterFlag);
 
 	/*
-	* å‡åŒ€åˆ†é…ç»™æ¯ä¸ªç°‡æ—¶åŸŸèµ„æº
+	* ¾ùÔÈ·ÖÅä¸øÃ¿¸ö´ØÊ±Óò×ÊÔ´
 	*/
 	void uniformTDM(bool t_ClusterFlag);
 
 	/*
-	* æ›´æ–°ç­‰å¾…é“¾è¡¨
+	* ¸üĞÂµÈ´ıÁ´±í
 	*/
 	void updateAccessEventIdList(bool t_ClusterFlag);
 
 	/*
-	* å¤„ç†äº‹ä»¶é“¾è¡¨
-	* å°†è¯¥æ—¶åˆ»è§¦å‘çš„äº‹ä»¶æ”¾å…¥RSUçš„ç­‰å¾…é“¾è¡¨ä¸­
+	* ´¦ÀíÊÂ¼şÁ´±í
+	* ½«¸ÃÊ±¿Ì´¥·¢µÄÊÂ¼ş·ÅÈëRSUµÄµÈ´ıÁ´±íÖĞ
 	*/
 	void processEventList();
 
 	/*
-	* åœ°ç†ä½ç½®æ›´æ–°æ—¶ï¼Œå¤„ç†è°ƒåº¦è¡¨
+	* µØÀíÎ»ÖÃ¸üĞÂÊ±£¬´¦Àíµ÷¶È±í
 	*/
 	void processScheduleInfoTableWhenLocationUpdate();
 
 	/*
-	* åœ°ç†ä½ç½®æ›´æ–°æ—¶ï¼Œå¤„ç†ç­‰å¾…é“¾è¡¨
+	* µØÀíÎ»ÖÃ¸üĞÂÊ±£¬´¦ÀíµÈ´ıÁ´±í
 	*/
 	void processWaitEventIdListWhenLocationUpdate();
 
 	/*
-	* åœ°ç†ä½ç½®æ›´æ–°æ—¶ï¼Œå¤„ç†è½¬æ¥è¡¨
+	* µØÀíÎ»ÖÃ¸üĞÂÊ±£¬´¦Àí×ª½Ó±í
 	*/
 	void processSwitchListWhenLocationUpdate();
 
 	/*
-	* å¤„ç†ç­‰å¾…é“¾è¡¨ï¼Œç”Ÿæˆæ¥å…¥é“¾è¡¨
+	* ´¦ÀíµÈ´ıÁ´±í£¬Éú³É½ÓÈëÁ´±í
 	*/
 	void processWaitEventIdList();
 
 	/*
-	* åŸºäºP1/P2/P3çš„èµ„æºé€‰æ‹©
+	* »ùÓÚP1/P2/P3µÄ×ÊÔ´Ñ¡Ôñ
 	*/
 	void selectRBBasedOnP123();
 
 	/*
-	* æ—¶å»¶ç»Ÿè®¡
+	* Ê±ÑÓÍ³¼Æ
 	*/
 	void delaystatistics();
 
 	/*
-	* å¸§å¬å†²çªï¼Œå†²çªåé¿è®©
+	* Ö¡Ìı³åÍ»£¬³åÍ»ºó±ÜÈÃ
 	*/
 	void conflictListener();
 
 	/*
-	* è®¡ç®—å¹²æ‰°ä¿¡é“å“åº”
+	* ¼ÆËã¸ÉÈÅĞÅµÀÏìÓ¦
 	*/
 	void transimitPreparation();
 
 	/*
-	* æ¨¡æ‹Ÿä¼ è¾“å¼€å§‹ï¼Œæ›´æ–°è°ƒåº¦ä¿¡æ¯ï¼Œç´¯è®¡ååé‡
+	* Ä£Äâ´«Êä¿ªÊ¼£¬¸üĞÂµ÷¶ÈĞÅÏ¢£¬ÀÛ¼ÆÍÌÍÂÁ¿
 	*/
 	void transimitStart();
 	void transimitStartThread(int t_FromRSUId, int t_ToRSUId);
 
 	/*
-	* æ¨¡æ‹Ÿä¼ è¾“ç»“æŸï¼Œæ›´æ–°çŠ¶æ€
+	* Ä£Äâ´«Êä½áÊø£¬¸üĞÂ×´Ì¬
 	*/
 	void transimitEnd();
 
 	/*
-	* è®°å½•è°ƒåº¦ä¿¡æ¯æ—¥å¿—
+	* ¼ÇÂ¼µ÷¶ÈĞÅÏ¢ÈÕÖ¾
 	*/
 	void writeScheduleInfo(std::ofstream& t_File);
 
 	/*
-	* ä»¥TTIä¸ºä¸»é”®è®°å½•æ—¥å¿—
+	* ÒÔTTIÎªÖ÷¼ü¼ÇÂ¼ÈÕÖ¾
 	*/
 	void writeTTILogInfo(std::ofstream& t_File, int t_TTI, EventLogType t_EventLogType, int t_EventId, int t_FromRSUId, int t_FromClusterIdx, int t_FromPatternIdx, int t_ToRSUId, int t_ToClusterIdx, int t_ToPatternIdx, std::string t_Description);
 
 	/*
-	* å†™å…¥åˆ†ç°‡ä¿¡æ¯çš„æ—¥å¿—
+	* Ğ´Èë·Ö´ØĞÅÏ¢µÄÈÕÖ¾
 	*/
 	void writeClusterPerformInfo(std::ofstream &t_File);
 
 
 	/*
-	* è¿”å›ç»™å®šæ•°ç»„ä¸­æœ€å¤§å€¼çš„ä¸‹æ ‡
+	* ·µ»Ø¸ø¶¨Êı×éÖĞ×î´óÖµµÄÏÂ±ê
 	*/
 	int getMaxIndex(const std::vector<double>&t_ClusterSize);
 
 	/*
-	* è¿”å›æŒ‡å®šPatternç¼–å·å¯¹åº”çš„Patternç±»å‹ç¼–å·ï¼Œå³äº‹ä»¶ç±»å‹ç¼–å·
+	* ·µ»ØÖ¸¶¨Pattern±àºÅ¶ÔÓ¦µÄPatternÀàĞÍ±àºÅ£¬¼´ÊÂ¼şÀàĞÍ±àºÅ
 	*/
 	int getPatternType(int t_PatternIdx);
 
 	/*
-	* è¿”å›æŒ‡å®šPatternç¼–å·å¯¹åº”çš„å­è½½æ³¢ç¼–å·
+	* ·µ»ØÖ¸¶¨Pattern±àºÅ¶ÔÓ¦µÄ×ÓÔØ²¨±àºÅ
 	*/
 	std::pair<int, int> getOccupiedSubCarrierRange(MessageType t_MessageType, int t_PatternIdx);
 

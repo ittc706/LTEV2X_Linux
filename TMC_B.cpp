@@ -3,7 +3,7 @@
 *
 *       Filename:  TMC_B.cpp
 *
-*    Description:  TMCæ¨¡å—
+*    Description:  TMCÄ£¿é
 *
 *        Version:  1.0
 *        Created:
@@ -33,22 +33,22 @@ using namespace std;
 TMC_B::TMC_B(System* t_Context):
 	TMC(t_Context) {
 
-	//äº‹ä»¶é“¾è¡¨å®¹å™¨åˆå§‹åŒ–
+	//ÊÂ¼şÁ´±íÈİÆ÷³õÊ¼»¯
 	getContext()->m_EventTTIList = vector<list<int>>(getContext()->m_Config.NTTI);
 
-	//ååç‡å®¹å™¨åˆå§‹åŒ–
+	//ÍÌÍÂÂÊÈİÆ÷³õÊ¼»¯
 	getContext()->m_TTIRSUThroughput = vector<vector<int>>(getContext()->m_Config.NTTI, vector<int>(getContext()->m_Config.RSUNum));
 }
 
 
 void TMC_B::initialize() {
-	//åˆå§‹åŒ–VeUEçš„è¯¥æ¨¡å—å‚æ•°éƒ¨åˆ†
+	//³õÊ¼»¯VeUEµÄ¸ÃÄ£¿é²ÎÊı²¿·Ö
 	m_VeUEAry = new TMC_VeUE*[getContext()->m_Config.VeUENum];
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
 		m_VeUEAry[VeUEId] = new TMC_VeUE();
 	}
 
-	//åˆå§‹åŒ–RSUçš„è¯¥æ¨¡å—å‚æ•°éƒ¨åˆ†
+	//³õÊ¼»¯RSUµÄ¸ÃÄ£¿é²ÎÊı²¿·Ö
 	m_RSUAry = new TMC_RSU*[getContext()->m_Config.RSUNum];
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		m_RSUAry[RSUId] = new TMC_RSU();
@@ -57,14 +57,14 @@ void TMC_B::initialize() {
 
 
 void TMC_B::buildEventList(ofstream& t_File) {
-	/*æŒ‰æ—¶é—´é¡ºåºï¼ˆäº‹ä»¶çš„Idä¸æ—¶é—´ç›¸å…³ï¼ŒIdè¶Šå°ï¼Œäº‹ä»¶å‘ç”Ÿçš„æ—¶é—´è¶Šå°ç”Ÿæˆäº‹ä»¶é“¾è¡¨*/
+	/*°´Ê±¼äË³Ğò£¨ÊÂ¼şµÄIdÓëÊ±¼äÏà¹Ø£¬IdÔ½Ğ¡£¬ÊÂ¼ş·¢ÉúµÄÊ±¼äÔ½Ğ¡Éú³ÉÊÂ¼şÁ´±í*/
 
-	default_random_engine dre;//éšæœºæ•°å¼•æ“
+	default_random_engine dre;//Ëæ»úÊıÒıÇæ
 	dre.seed((unsigned)time(NULL));//iomanip
 	uniform_real_distribution<double> urd(0, 1);
 
 
-	//é¦–å…ˆç”Ÿæˆå„ä¸ªè½¦è¾†çš„å‘¨æœŸæ€§äº‹ä»¶çš„èµ·å§‹æ—¶åˆ»(ç›¸å¯¹æ—¶åˆ»ï¼Œå³[0 , m_Config.periodicEventNTTI)
+	//Ê×ÏÈÉú³É¸÷¸ö³µÁ¾µÄÖÜÆÚĞÔÊÂ¼şµÄÆğÊ¼Ê±¿Ì(Ïà¶ÔÊ±¿Ì£¬¼´[0 , m_Config.periodicEventNTTI)
 	vector<list<int>> startTTIVec(getContext()->m_Config.periodicEventNTTI, list<int>());
 	uniform_int_distribution<int> uid(0, getContext()->m_Config.periodicEventNTTI - 1);
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
@@ -72,17 +72,17 @@ void TMC_B::buildEventList(ofstream& t_File) {
 		startTTIVec[startTTI].push_back(VeUEId);
 	}
 
-	//ç”Ÿæˆç´§æ€¥äº‹ä»¶çš„å‘ç”Ÿæ—¶åˆ»ï¼Œæ¯ä¸ªæ—¶é—´æ§½å­˜æ”¾è¯¥æ—¶åˆ»å‘ç”Ÿç´§æ€¥äº‹ä»¶çš„è½¦è¾†
-	m_VeUEEmergencyNum = vector<int>(getContext()->m_Config.VeUENum, 0);//åˆå§‹åŒ–ç»Ÿè®¡é‡
+	//Éú³É½ô¼±ÊÂ¼şµÄ·¢ÉúÊ±¿Ì£¬Ã¿¸öÊ±¼ä²Û´æ·Å¸ÃÊ±¿Ì·¢Éú½ô¼±ÊÂ¼şµÄ³µÁ¾
+	m_VeUEEmergencyNum = vector<int>(getContext()->m_Config.VeUENum, 0);//³õÊ¼»¯Í³¼ÆÁ¿
 	int countEmergency = 0;
 	vector<list<int>> emergencyEventTriggerTTI(getContext()->m_Config.NTTI);
 	if (getContext()->m_Config.emergencyLambda != 0) {
 		for (int VeUEId = 0; VeUEId <getContext()->m_Config.VeUENum; VeUEId++) {
-			//ä¾æ¬¡ç”Ÿæˆæ¯ä¸ªè½¦è¾†çš„ç´§æ€¥äº‹ä»¶åˆ°è¾¾æ—¶åˆ»
+			//ÒÀ´ÎÉú³ÉÃ¿¸ö³µÁ¾µÄ½ô¼±ÊÂ¼şµ½´ïÊ±¿Ì
 			double T = 0;
 			while (T <getContext()->m_Config.NTTI) {
 				double u = urd(dre);
-				if (u == 0) throw logic_error("uniform_real_distributionç”ŸæˆèŒƒå›´åŒ…å«è¾¹ç•Œ");
+				if (u == 0) throw logic_error("uniform_real_distributionÉú³É·¶Î§°üº¬±ß½ç");
 				T = T - (1 / getContext()->m_Config.emergencyLambda)*log(u);
 				int IntegerT = static_cast<int>(T);
 				if (IntegerT < getContext()->m_Config.NTTI) {
@@ -96,17 +96,17 @@ void TMC_B::buildEventList(ofstream& t_File) {
 	cout << "countEmergency: " << countEmergency << endl;
 
 
-	//ç”Ÿæˆæ•°æ®ä¸šåŠ¡äº‹ä»¶çš„å‘ç”Ÿæ—¶åˆ»ï¼Œæ¯ä¸ªæ—¶é—´æ§½å­˜æ”¾è¯¥æ—¶åˆ»å‘ç”Ÿæ•°æ®ä¸šåŠ¡äº‹ä»¶çš„è½¦è¾†
-	m_VeUEDataNum = vector<int>(getContext()->m_Config.VeUENum, 0);//åˆå§‹åŒ–ç»Ÿè®¡é‡
+	//Éú³ÉÊı¾İÒµÎñÊÂ¼şµÄ·¢ÉúÊ±¿Ì£¬Ã¿¸öÊ±¼ä²Û´æ·Å¸ÃÊ±¿Ì·¢ÉúÊı¾İÒµÎñÊÂ¼şµÄ³µÁ¾
+	m_VeUEDataNum = vector<int>(getContext()->m_Config.VeUENum, 0);//³õÊ¼»¯Í³¼ÆÁ¿
 	int countData = 0;
 	vector<list<int>> dataEventTriggerTTI(getContext()->m_Config.NTTI);
 	if (getContext()->m_Config.dataLambda != 0) {
 		for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
-			//ä¾æ¬¡ç”Ÿæˆæ¯ä¸ªè½¦è¾†çš„ç´§æ€¥äº‹ä»¶åˆ°è¾¾æ—¶åˆ»
+			//ÒÀ´ÎÉú³ÉÃ¿¸ö³µÁ¾µÄ½ô¼±ÊÂ¼şµ½´ïÊ±¿Ì
 			double T = 0;
 			while (T < getContext()->m_Config.NTTI) {
 				double u = urd(dre);
-				if (u == 0) throw logic_error("uniform_real_distributionç”ŸæˆèŒƒå›´åŒ…å«è¾¹ç•Œ");
+				if (u == 0) throw logic_error("uniform_real_distributionÉú³É·¶Î§°üº¬±ß½ç");
 				T = T - (1 / getContext()->m_Config.dataLambda)*log(u);
 				int IntegerT = static_cast<int>(T);
 				if (IntegerT < getContext()->m_Config.NTTI) {
@@ -120,21 +120,21 @@ void TMC_B::buildEventList(ofstream& t_File) {
 	cout << "countData: " << countData << endl;
 
 
-	//æ ¹æ®startTTIVecä¾æ¬¡å¡«å……PERIODäº‹ä»¶å¹¶åœ¨å…¶ä¸­æ’å…¥æœä»æ³Šæ¾åˆ†å¸ƒçš„ç´§æ€¥äº‹ä»¶
+	//¸ù¾İstartTTIVecÒÀ´ÎÌî³äPERIODÊÂ¼ş²¢ÔÚÆäÖĞ²åÈë·ş´Ó²´ËÉ·Ö²¼µÄ½ô¼±ÊÂ¼ş
 
-	int startTTIOfEachPeriod = 0;//æ¯ä¸ªå‘¨æœŸçš„èµ·å§‹æ—¶åˆ»
+	int startTTIOfEachPeriod = 0;//Ã¿¸öÖÜÆÚµÄÆğÊ¼Ê±¿Ì
 	while (startTTIOfEachPeriod < getContext()->m_Config.NTTI) {
-		//TTIOffsetä¸ºç›¸å¯¹äºstartTTIOfEachPeriodçš„åç§»é‡
+		//TTIOffsetÎªÏà¶ÔÓÚstartTTIOfEachPeriodµÄÆ«ÒÆÁ¿
 		for (int TTIOffset = 0; TTIOffset <getContext()->m_Config.periodicEventNTTI; TTIOffset++) {
-			//å‹å…¥ç´§æ€¥äº‹ä»¶
+			//Ñ¹Èë½ô¼±ÊÂ¼ş
 			if (startTTIOfEachPeriod + TTIOffset < getContext()->m_Config.NTTI) {
 				list<int> &emergencyList = emergencyEventTriggerTTI[startTTIOfEachPeriod + TTIOffset];
 				for (int VeUEId : emergencyList) {
 					/*-----------------------ATTENTION-----------------------
-					* è¿™é‡Œå…ˆç”ŸæˆsEventçš„å¯¹è±¡ï¼Œç„¶åå°†å…¶å‹å…¥m_EventVec
-					* ç”±äºVector<T>.push_backæ˜¯å‹å…¥ä¼ å…¥å¯¹è±¡çš„å¤åˆ¶å“ï¼Œå› æ­¤ä¼šè°ƒç”¨sEventçš„æ‹·è´æ„é€ å‡½æ•°
-					* sEventé»˜è®¤çš„æ‹·è´æ„é€ å‡½æ•°ä¼šèµ‹å€¼idæˆå‘˜ï¼ˆå› æ­¤æ˜¯å®‰å…¨çš„ï¼‰
-					*sEventå¦‚æœè‡ªå®šä¹‰æ‹·è´æ„é€ å‡½æ•°ï¼Œå¿…é¡»åœ¨æ„é€ å‡½æ•°çš„åˆå§‹åŒ–éƒ¨åˆ†æ‹·è´idæˆå‘˜
+					* ÕâÀïÏÈÉú³ÉsEventµÄ¶ÔÏó£¬È»ºó½«ÆäÑ¹Èëm_EventVec
+					* ÓÉÓÚVector<T>.push_backÊÇÑ¹Èë´«Èë¶ÔÏóµÄ¸´ÖÆÆ·£¬Òò´Ë»áµ÷ÓÃsEventµÄ¿½±´¹¹Ôìº¯Êı
+					* sEventÄ¬ÈÏµÄ¿½±´¹¹Ôìº¯Êı»á¸³Öµid³ÉÔ±£¨Òò´ËÊÇ°²È«µÄ£©
+					*sEventÈç¹û×Ô¶¨Òå¿½±´¹¹Ôìº¯Êı£¬±ØĞëÔÚ¹¹Ôìº¯ÊıµÄ³õÊ¼»¯²¿·Ö¿½±´id³ÉÔ±
 					*-----------------------ATTENTION-----------------------*/
 					Event evt = Event(VeUEId, startTTIOfEachPeriod + TTIOffset, EMERGENCY);
 					getContext()->m_EventVec.push_back(evt);
@@ -144,15 +144,15 @@ void TMC_B::buildEventList(ofstream& t_File) {
 			}
 
 
-			//å‹å…¥æ•°æ®ä¸šåŠ¡äº‹ä»¶
+			//Ñ¹ÈëÊı¾İÒµÎñÊÂ¼ş
 			if (startTTIOfEachPeriod + TTIOffset < getContext()->m_Config.NTTI) {
 				list<int> &dataList = dataEventTriggerTTI[startTTIOfEachPeriod + TTIOffset];
 				for (int VeUEId : dataList) {
 					/*-----------------------ATTENTION-----------------------
-					* è¿™é‡Œå…ˆç”ŸæˆsEventçš„å¯¹è±¡ï¼Œç„¶åå°†å…¶å‹å…¥m_EventVec
-					* ç”±äºVector<T>.push_backæ˜¯å‹å…¥ä¼ å…¥å¯¹è±¡çš„å¤åˆ¶å“ï¼Œå› æ­¤ä¼šè°ƒç”¨sEventçš„æ‹·è´æ„é€ å‡½æ•°
-					* sEventé»˜è®¤çš„æ‹·è´æ„é€ å‡½æ•°ä¼šèµ‹å€¼idæˆå‘˜ï¼ˆå› æ­¤æ˜¯å®‰å…¨çš„ï¼‰
-					*sEventå¦‚æœè‡ªå®šä¹‰æ‹·è´æ„é€ å‡½æ•°ï¼Œå¿…é¡»åœ¨æ„é€ å‡½æ•°çš„åˆå§‹åŒ–éƒ¨åˆ†æ‹·è´idæˆå‘˜
+					* ÕâÀïÏÈÉú³ÉsEventµÄ¶ÔÏó£¬È»ºó½«ÆäÑ¹Èëm_EventVec
+					* ÓÉÓÚVector<T>.push_backÊÇÑ¹Èë´«Èë¶ÔÏóµÄ¸´ÖÆÆ·£¬Òò´Ë»áµ÷ÓÃsEventµÄ¿½±´¹¹Ôìº¯Êı
+					* sEventÄ¬ÈÏµÄ¿½±´¹¹Ôìº¯Êı»á¸³Öµid³ÉÔ±£¨Òò´ËÊÇ°²È«µÄ£©
+					*sEventÈç¹û×Ô¶¨Òå¿½±´¹¹Ôìº¯Êı£¬±ØĞëÔÚ¹¹Ôìº¯ÊıµÄ³õÊ¼»¯²¿·Ö¿½±´id³ÉÔ±
 					*-----------------------ATTENTION-----------------------*/
 					Event evt = Event(VeUEId, startTTIOfEachPeriod + TTIOffset, DATA);
 					getContext()->m_EventVec.push_back(evt);
@@ -162,7 +162,7 @@ void TMC_B::buildEventList(ofstream& t_File) {
 			}
 
 
-			//äº§ç”Ÿå‘¨æœŸæ€§äº‹ä»¶
+			//²úÉúÖÜÆÚĞÔÊÂ¼ş
 			if (startTTIOfEachPeriod + TTIOffset < getContext()->m_Config.NTTI) {
 				list<int> &periodList = startTTIVec[TTIOffset];
 				for (int VeUEId : periodList) {
@@ -175,7 +175,7 @@ void TMC_B::buildEventList(ofstream& t_File) {
 		startTTIOfEachPeriod += getContext()->m_Config.periodicEventNTTI;
 	}
 
-	//æ‰“å°äº‹ä»¶é“¾è¡¨
+	//´òÓ¡ÊÂ¼şÁ´±í
 	writeEventListInfo(t_File);
 }
 
@@ -192,11 +192,11 @@ void TMC_B::processStatistics(
 	stringstream ssData;
 
 	/*-----------------------ATTENTION-----------------------
-	* endlæ“çºµç¬¦å¾ˆé‡è¦ï¼Œå°†ç¼“å­˜ä¸­çš„æ•°æ®åˆ·æ–°åˆ°æµä¸­
-	* å¦åˆ™å½“æ•°æ®é‡ä¸å¤§æ—¶ï¼Œå¯èƒ½å†™å®Œæ•°æ®ï¼Œæ–‡ä»¶è¿˜æ˜¯ç©ºçš„
+	* endl²Ù×İ·ûºÜÖØÒª£¬½«»º´æÖĞµÄÊı¾İË¢ĞÂµ½Á÷ÖĞ
+	* ·ñÔòµ±Êı¾İÁ¿²»´óÊ±£¬¿ÉÄÜĞ´ÍêÊı¾İ£¬ÎÄ¼ş»¹ÊÇ¿ÕµÄ
 	*-----------------------ATTENTION-----------------------*/
 
-	/*------------------ç»Ÿè®¡æˆåŠŸä¼ è¾“çš„äº‹ä»¶æ•°ç›®------------------*/
+	/*------------------Í³¼Æ³É¹¦´«ÊäµÄÊÂ¼şÊıÄ¿------------------*/
 	m_TransimitSucceedEventNumPerEventType = vector<int>(3);
 	for (Event &event : getContext()->m_EventVec) {
 		if (event.isFinished()) {
@@ -219,7 +219,7 @@ void TMC_B::processStatistics(
 	t_FileStatisticsDescription << "<PeriodEventNum>" << m_TransimitSucceedEventNumPerEventType[PERIOD] << "</PeriodEventNum>" << endl;
 	t_FileStatisticsDescription << "<DataEventNum>" << m_TransimitSucceedEventNumPerEventType[DATA] << "</DataEventNum>" << endl;
 
-	/*------------------ç»Ÿè®¡ç­‰å¾…æ—¶å»¶------------------*/
+	/*------------------Í³¼ÆµÈ´ıÊ±ÑÓ------------------*/
 	for (Event &event : getContext()->m_EventVec)
 		if (event.isFinished()) {
 			switch (event.getMessageType()) {
@@ -233,7 +233,7 @@ void TMC_B::processStatistics(
 				ssData << event.getQueueDelay() << " ";
 				break;
 			default:
-				throw logic_error("éæ³•æ¶ˆæ¯ç±»å‹");
+				throw logic_error("·Ç·¨ÏûÏ¢ÀàĞÍ");
 			}
 		}
 	t_FileEmergencyDelay << ssEmergency.str() << endl;
@@ -241,7 +241,7 @@ void TMC_B::processStatistics(
 	t_FileDataDelay << ssData.str() << endl;
 
 
-	/*------------------ç»Ÿè®¡ä¼ è¾“æ—¶å»¶------------------*/
+	/*------------------Í³¼Æ´«ÊäÊ±ÑÓ------------------*/
 	ssPeriod.str("");
 	ssEmergency.str("");
 	ssData.str("");
@@ -258,7 +258,7 @@ void TMC_B::processStatistics(
 				ssData << event.getSendDelay() << " ";
 				break;
 			default:
-				throw logic_error("éæ³•æ¶ˆæ¯ç±»å‹");
+				throw logic_error("·Ç·¨ÏûÏ¢ÀàĞÍ");
 			}
 		}
 	t_FileEmergencyDelay << ssEmergency.str() << endl;
@@ -266,17 +266,17 @@ void TMC_B::processStatistics(
 	t_FileDataDelay << ssData.str() << endl;
 
 
-	/*------------------ç»Ÿè®¡ç´§æ€¥äº‹ä»¶åˆ†å¸ƒæƒ…å†µ------------------*/
+	/*------------------Í³¼Æ½ô¼±ÊÂ¼ş·Ö²¼Çé¿ö------------------*/
 	for (int num : m_VeUEEmergencyNum)
 		t_FileEmergencyPossion << num << " ";
-	t_FileEmergencyPossion << endl;//è¿™é‡Œå¾ˆå…³é”®ï¼Œå°†ç¼“å­˜åŒºçš„æ•°æ®åˆ·æ–°åˆ°æµä¸­
+	t_FileEmergencyPossion << endl;//ÕâÀïºÜ¹Ø¼ü£¬½«»º´æÇøµÄÊı¾İË¢ĞÂµ½Á÷ÖĞ
 
-								   //ç»Ÿè®¡æ•°æ®ä¸šåŠ¡äº‹ä»¶åˆ†å¸ƒæƒ…å†µ
+								   //Í³¼ÆÊı¾İÒµÎñÊÂ¼ş·Ö²¼Çé¿ö
 	for (int num : m_VeUEDataNum)
 		t_FileDataPossion << num << " ";
-	t_FileDataPossion << endl;//è¿™é‡Œå¾ˆå…³é”®ï¼Œå°†ç¼“å­˜åŒºçš„æ•°æ®åˆ·æ–°åˆ°æµä¸­
+	t_FileDataPossion << endl;//ÕâÀïºÜ¹Ø¼ü£¬½«»º´æÇøµÄÊı¾İË¢ĞÂµ½Á÷ÖĞ
 
-							  //ç»Ÿè®¡å†²çªæƒ…å†µ
+							  //Í³¼Æ³åÍ»Çé¿ö
 	ssPeriod.str("");
 	ssEmergency.str("");
 	ssData.str("");
@@ -292,7 +292,7 @@ void TMC_B::processStatistics(
 			ssData << event.getConflictNum() << " ";
 			break;
 		default:
-			throw logic_error("éæ³•æ¶ˆæ¯ç±»å‹");
+			throw logic_error("·Ç·¨ÏûÏ¢ÀàĞÍ");
 		}
 	}
 	t_FileEmergencyConflict << ssEmergency.str() << endl;
@@ -300,7 +300,7 @@ void TMC_B::processStatistics(
 	t_FileDataConflict << ssData.str() << endl;
 	writeEventLogInfo(t_FileEventLog);
 
-	/*------------------ç»Ÿè®¡ååç‡------------------*/
+	/*------------------Í³¼ÆÍÌÍÂÂÊ------------------*/
 	vector<int> tmpTTIThroughput(getContext()->m_Config.NTTI);
 	vector<int> tmpRSUThroughput(getContext()->m_Config.RSUNum);
 	for (int tmpTTI = 0; tmpTTI < getContext()->m_Config.NTTI; tmpTTI++) {
@@ -310,18 +310,18 @@ void TMC_B::processStatistics(
 		}
 	}
 
-	//ä»¥TTIä¸ºå•ä½ç»Ÿè®¡ååç‡
+	//ÒÔTTIÎªµ¥Î»Í³¼ÆÍÌÍÂÂÊ
 	for (int throughput : tmpTTIThroughput)
 		g_FileTTIThroughput << throughput << " ";
 	g_FileTTIThroughput << endl;
 
-	//ä»¥RSUä¸ºå•ä½ç»Ÿè®¡ååç‡
+	//ÒÔRSUÎªµ¥Î»Í³¼ÆÍÌÍÂÂÊ
 	for (int throughput : tmpRSUThroughput)
 		g_FileRSUThroughput << throughput << " ";
 	g_FileRSUThroughput << endl;
 
 
-	/*------------------ç»Ÿè®¡ä¸¢åŒ…ç‡------------------*/
+	/*------------------Í³¼Æ¶ª°üÂÊ------------------*/
 	int transimitPackageNum = 0;
 	int lossPacketNum = 0;
 	for (Event &event : getContext()->m_EventVec) {

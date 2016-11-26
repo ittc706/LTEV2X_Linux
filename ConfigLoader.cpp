@@ -3,7 +3,7 @@
 *
 *       Filename:  ConfigLoader.cpp
 *
-*    Description:  TMCæ¨¡å—
+*    Description:  TMCÄ£¿é
 *
 *        Version:  1.0
 *        Created:
@@ -23,17 +23,17 @@
 using namespace std;
 
 void ConfigLoader::resolvConfigPath(string t_FilePath) {
-	//æ¸…ç©ºç¼“å­˜
+	//Çå¿Õ»º´æ
 	m_Content.clear();
 	m_TagContentMap.clear();
 
-	//è¯»å–å¾…è§£æå­—ç¬¦ä¸²
+	//¶ÁÈ¡´ı½âÎö×Ö·û´®
 	ifstream in(t_FilePath);
 	istream_iterator<char> if_it(in), if_eof;
 	m_Content.assign(if_it, if_eof);
 	in.close();
 
-	//è§£æï¼Œå¹¶å­˜å‚¨
+	//½âÎö£¬²¢´æ´¢
 	regex r("<([^<>]*)>([^<>]*)</([^<>]*)>");
 	for (sregex_iterator it(m_Content.begin(), m_Content.end(), r), eof; it != eof; ++it) {
 		string leftTag = it->operator[](1);

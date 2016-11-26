@@ -3,7 +3,7 @@
 *
 *       Filename:  GTT_Urban.cpp
 *
-*    Description:  TMCæ¨¡å—
+*    Description:  TMCÄ£¿é
 *
 *        Version:  1.0
 *        Created:
@@ -37,7 +37,7 @@ GTT_Urban_VeUE::GTT_Urban_VeUE(VeUEConfig &t_VeUEConfig) {
 	m_Y = t_VeUEConfig.Y;
 	m_AbsX = t_VeUEConfig.AbsX;
 	m_AbsY = t_VeUEConfig.AbsY;
-	m_V = t_VeUEConfig.V/3.6;//æ¢ç®—ä¸ºm/s
+	m_V = t_VeUEConfig.V/3.6;//»»ËãÎªm/s
 	m_VAngle = t_VeUEConfig.angle;
 
 	IMTA::randomUniform(&m_FantennaAngle, 1, 180.0f, -180.0f, false);
@@ -81,9 +81,9 @@ GTT_Urban_Road::GTT_Urban_Road(UrbanRoadConfig &t_RoadConfig) {
 	m_eNBNum = t_RoadConfig.eNBNum;
 	if (m_eNBNum == 1) {
 		/*
-		* è¿™é‡Œæ¯”è¾ƒç»•ï¼Œè§£é‡Šä¸€ä¸‹
-		* ç”±äºt_RoadConfig.eNBå­˜çš„æ˜¯ä¸€ä¸ª(GTT_eNB**)ç±»å‹ï¼ŒåŒé‡æŒ‡é’ˆ
-		* ç¬¬ä¸€é‡æŒ‡é’ˆæŒ‡å‘æ•°ç»„
+		* ÕâÀï±È½ÏÈÆ£¬½âÊÍÒ»ÏÂ
+		* ÓÉÓÚt_RoadConfig.eNB´æµÄÊÇÒ»¸ö(GTT_eNB**)ÀàĞÍ£¬Ë«ÖØÖ¸Õë
+		* µÚÒ»ÖØÖ¸ÕëÖ¸ÏòÊı×é
 		*/
 		m_eNB = *((GTT_eNB **)t_RoadConfig.eNB + t_RoadConfig.eNBOffset);
 		eNBConfig eNBConfig;
@@ -191,7 +191,7 @@ GTT_Urban::GTT_Urban(System* t_Context) :
 void GTT_Urban::configure() {
 	getContext()->m_Config.eNBNum = s_eNB_NUM;
 	getContext()->m_Config.RoadNum = s_ROAD_NUM;
-	getContext()->m_Config.RSUNum = s_RSU_NUM;//ç›®å‰åªè¡¨ç¤ºUE RSUæ•°
+	getContext()->m_Config.RSUNum = s_RSU_NUM;//Ä¿Ç°Ö»±íÊ¾UE RSUÊı
 	m_pupr = new int[getContext()->m_Config.RoadNum];
 	getContext()->m_Config.VeUENum = 0;
 	int Lambda = static_cast<int>((s_ROAD_LENGTH_EW + s_ROAD_LENGTH_SN) * 2 * 3.6 / (2.5 * 15));
@@ -199,7 +199,7 @@ void GTT_Urban::configure() {
 	{
 		int k = 0;
 		long double p = 1.0;
-		long double l = exp(-Lambda);  /* ä¸ºäº†ç²¾åº¦ï¼Œæ‰å®šä¹‰ä¸ºlong doubleçš„ï¼Œexp(-Lambda)æ˜¯æ¥è¿‘0çš„å°æ•°*/
+		long double l = exp(-Lambda);  /* ÎªÁË¾«¶È£¬²Å¶¨ÒåÎªlong doubleµÄ£¬exp(-Lambda)ÊÇ½Ó½ü0µÄĞ¡Êı*/
 		while (p >= l)
 		{
 			double u = (double)(rand() % 10000)*0.0001f;
@@ -212,7 +212,7 @@ void GTT_Urban::configure() {
 	//m_xNum = 36;
 	//m_yNum = 62;
 	//m_ueTopoNum = (m_xNum + m_yNum) * 2 - 4;
-	//m_pueTopo = new double[m_ueTopoNum * 2];//é‡åˆäº†4ä¸ª
+	//m_pueTopo = new double[m_ueTopoNum * 2];//ÖØºÏÁË4¸ö
 	//double temp_x = -(double)gc_Width / 2 + gc_LaneWidth;
 	//double temp_y = -(double)gc_Length / 2 + gc_LaneWidth;
 	//for (int temp = 0; temp != m_ueTopoNum; ++temp)
@@ -233,19 +233,19 @@ void GTT_Urban::configure() {
 	//	m_pueTopo[temp * 2 + 0] = temp_x;
 	//	m_pueTopo[temp * 2 + 1] = temp_y;
 	//}
-	m_Speed = 15;//è½¦é€Ÿè®¾å®š,km/h
+	m_Speed = 15;//³µËÙÉè¶¨,km/h
 }
 
 
 void GTT_Urban::initialize() {
-	//åˆå§‹åŒ–m_eNBAry
+	//³õÊ¼»¯m_eNBAry
 	m_eNBAry = new GTT_eNB*[getContext()->m_Config.eNBNum];
 	for (int eNBId = 0; eNBId < getContext()->m_Config.eNBNum; eNBId++) {
 		m_eNBAry[eNBId] = new GTT_Urban_eNB();
-		//åœ¨Roadåˆå§‹åŒ–çš„æ—¶å€™ï¼Œå¯¹eNBè¿›è¡Œåˆå§‹åŒ–
+		//ÔÚRoad³õÊ¼»¯µÄÊ±ºò£¬¶ÔeNB½øĞĞ³õÊ¼»¯
 	}
 	
-	//åˆå§‹åŒ–m_RoadAry
+	//³õÊ¼»¯m_RoadAry
 	m_RoadAry = new GTT_Road*[getContext()->m_Config.RoadNum];
 	UrbanRoadConfig urbanRoadConfig;
 	for (int roadId = 0; roadId != getContext()->m_Config.RoadNum; ++roadId) {
@@ -261,13 +261,13 @@ void GTT_Urban::initialize() {
 		m_RoadAry[roadId] = new GTT_Urban_Road(urbanRoadConfig);
 	}
 
-	//åˆå§‹åŒ–m_RSUAry
+	//³õÊ¼»¯m_RSUAry
 	m_RSUAry = new GTT_RSU*[getContext()->m_Config.RSUNum];
 	for (int RSUId = 0; RSUId != getContext()->m_Config.RSUNum; RSUId++) {
 		m_RSUAry[RSUId] = new GTT_Urban_RSU();
 	}
 
-	//åˆå§‹åŒ–m_VeUEAry
+	//³õÊ¼»¯m_VeUEAry
 	m_VeUEAry = new GTT_VeUE*[getContext()->m_Config.VeUENum];
 	VeUEConfig _VeUEConfig;
 	int VeUEId = 0;
@@ -307,7 +307,7 @@ void GTT_Urban::initialize() {
 		}
 	}
 
-	//åˆå§‹åŒ–è½¦è¾†ä¸RSUçš„è·ç¦»
+	//³õÊ¼»¯³µÁ¾ÓëRSUµÄ¾àÀë
 	for (int VeIdx = 0; VeIdx != getContext()->m_Config.VeUENum; VeIdx++) {
 		m_VeUEAry[VeIdx]->m_Distance = new double[s_RSU_NUM];
 			for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
@@ -328,7 +328,7 @@ void GTT_Urban::cleanWhenLocationUpdate() {
 
 
 void GTT_Urban::channelGeneration() {
-	//RSU.m_VeUEIdListæ˜¯åœ¨freshLocå‡½æ•°å†…ç”Ÿæˆçš„ï¼Œå› æ­¤éœ€è¦åœ¨æ›´æ–°ä½ç½®å‰æ¸…ç©ºè¿™ä¸ªåˆ—è¡¨
+	//RSU.m_VeUEIdListÊÇÔÚfreshLocº¯ÊıÄÚÉú³ÉµÄ£¬Òò´ËĞèÒªÔÚ¸üĞÂÎ»ÖÃÇ°Çå¿ÕÕâ¸öÁĞ±í
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
 		_GTT_RSU->m_VeUEIdList.clear();
@@ -336,14 +336,14 @@ void GTT_Urban::channelGeneration() {
 			_GTT_RSU->m_ClusterVeUEIdList[clusterIdx].clear();
 		}
 	}
-	//åŒæ—¶ä¹Ÿæ¸…é™¤eNB.m_VeUEIdList
+	//Í¬Ê±Ò²Çå³ıeNB.m_VeUEIdList
 	for (int eNBId = 0; eNBId < getContext()->m_Config.eNBNum; eNBId++)
 		m_eNBAry[eNBId]->m_VeUEIdList.clear();
 
-	//è¿åŠ¨æ¨¡å‹
+	//ÔË¶¯Ä£ĞÍ
 	freshLoc();
 
-	//å°†æ›´æ–°åçš„RSU.m_VeUEIdListå‹å…¥å¯¹åº”çš„ç°‡ä¸­
+	//½«¸üĞÂºóµÄRSU.m_VeUEIdListÑ¹Èë¶ÔÓ¦µÄ´ØÖĞ
 	for (int RSUId = 0; RSUId <getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
 		for (int VeUEId : _GTT_RSU->m_VeUEIdList) {
@@ -352,11 +352,11 @@ void GTT_Urban::channelGeneration() {
 		}
 	}
 
-	//è®°å½•å¹¶æ›´æ–°æ¯è¾†è½¦çš„ä½ç½®æ—¥å¿—
+	//¼ÇÂ¼²¢¸üĞÂÃ¿Á¾³µµÄÎ»ÖÃÈÕÖ¾
 	for (int VeUEId = 0; VeUEId<getContext()->m_Config.VeUENum; VeUEId++)
 		m_VeUEAry[VeUEId]->m_LocationUpdateLogInfoList.push_back(tuple<int, int>(m_VeUEAry[VeUEId]->m_RSUId, m_VeUEAry[VeUEId]->m_ClusterIdx));
 	
-	//è®°å½•RSUå†…è½¦è¾†çš„æ•°ç›®
+	//¼ÇÂ¼RSUÄÚ³µÁ¾µÄÊıÄ¿
 	vector<int> curVeUENum;
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
@@ -365,8 +365,8 @@ void GTT_Urban::channelGeneration() {
 	m_VeUENumPerRSU.push_back(curVeUENum);
 
 
-	//<UNDONE>:åŸºç«™ç±»çš„RSUIDListåœ¨å“ªé‡Œç»´æŠ¤çš„?
-	//æ›´æ–°åŸºç«™çš„VeUEå®¹å™¨
+	//<UNDONE>:»ùÕ¾ÀàµÄRSUIDListÔÚÄÄÀïÎ¬»¤µÄ?
+	//¸üĞÂ»ùÕ¾µÄVeUEÈİÆ÷
 	for (int eNBId = 0; eNBId <getContext()->m_Config.eNBNum; eNBId++) {
 		GTT_eNB *_eNB = m_eNBAry[eNBId];
 		for (int RSUId : _eNB->m_RSUIdList) {
@@ -490,7 +490,7 @@ void GTT_Urban::freshLoc() {
 		m_VeUEAry[UserIdx]->m_AbsX = m_RoadAry[m_VeUEAry[UserIdx]->m_RoadId]->m_AbsX + m_VeUEAry[UserIdx]->m_X;
 		m_VeUEAry[UserIdx]->m_AbsY = m_RoadAry[m_VeUEAry[UserIdx]->m_RoadId]->m_AbsY + m_VeUEAry[UserIdx]->m_Y;
 
-		//æ›´æ–°è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„è·ç¦»
+		//¸üĞÂ³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄ¾àÀë
 		for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
 			m_VeUEAry[UserIdx]->m_Distance[RSUIdx] = sqrt(pow((m_VeUEAry[UserIdx]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX), 2.0f) + pow((m_VeUEAry[UserIdx]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY), 2.0f));
 		}
@@ -506,14 +506,14 @@ void GTT_Urban::freshLoc() {
 	location.VeUEAntH = 1.5;
 	location.RSUAntH = 5;
 
-	IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//äº§ç”Ÿé«˜æ–¯éšæœºæ•°ï¼Œä¸ºåé¢ä¿¡é“ç³»æ•°ä½¿ç”¨ã€‚
+	IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//²úÉú¸ßË¹Ëæ»úÊı£¬ÎªºóÃæĞÅµÀÏµÊıÊ¹ÓÃ¡£
 
 	int RSUIdx = 0;
 	int ClusterID = 0;
 
 	for (int UserIdx1 = 0; UserIdx1 != getContext()->m_Config.VeUENum; UserIdx1++)
 	{
-		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„è·¯å¾„æŸè€—
+		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄÂ·¾¶ËğºÄ
 		double wPL[s_RSU_NUM] = { 0 };
 		for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
 
@@ -526,7 +526,7 @@ void GTT_Urban::freshLoc() {
 
 				if (m_VeUEAry[UserIdx1]->m_Distance[RSUIdx] > 3 && m_VeUEAry[UserIdx1]->m_Distance[RSUIdx] < wDistanceBP)
 				{
-					wPL[RSUIdx] = 22.7f * log10(m_VeUEAry[UserIdx1]->m_Distance[RSUIdx]) + 27.0f + 20.0f * (log10(IMTA::s_FC) - 9.0f);//è½¬æ¢ä¸ºGHz
+					wPL[RSUIdx] = 22.7f * log10(m_VeUEAry[UserIdx1]->m_Distance[RSUIdx]) + 27.0f + 20.0f * (log10(IMTA::s_FC) - 9.0f);//×ª»»ÎªGHz
 				}
 				else
 				{
@@ -582,29 +582,29 @@ void GTT_Urban::freshLoc() {
 			}
 		}
 
-		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„é˜´å½±è¡°è½
+		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄÒõÓ°Ë¥Âä
 		double wShadow[s_RSU_NUM] = { 0 };
 		IMTA::randomGaussian(wShadow, s_RSU_NUM, 0.0f, 3.0f);
 
-		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„å¤§ä¸­å°ºåº¦è¡°è½å’Œ
+		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄ´óÖĞ³ß¶ÈË¥ÂäºÍ
 		double wPLSF[s_RSU_NUM];
 		for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
 			wPLSF[RSUIdx] = -(wPL[RSUIdx] + wShadow[RSUIdx]);
 		}
 
-		//è®¡ç®—å‡ºæœ€å°çš„å¤§ä¸­å°ºåº¦è¡°è½
+		//¼ÆËã³ö×îĞ¡µÄ´óÖĞ³ß¶ÈË¥Âä
 		int FirstRSUIdx, SecondRSUIdx;
 		IMTA::selectMax(wPLSF, s_RSU_NUM, &FirstRSUIdx, &SecondRSUIdx);
-		//è½¦è¾†é€‰æ‹©æœ€å°è¡°è½çš„RSUä¸ä¹‹é€šä¿¡
+		//³µÁ¾Ñ¡Ôñ×îĞ¡Ë¥ÂäµÄRSUÓëÖ®Í¨ĞÅ
 		RSUIdx = FirstRSUIdx;
 			
 		m_VeUEAry[UserIdx1]->m_IMTA = new IMTA[getContext()->m_Config.RSUNum];
-		//è®¡ç®—èµ·ç‚¹ä¸ºRSUç»ˆç‚¹ä¸ºè½¦è¾†çš„å‘é‡
+		//¼ÆËãÆğµãÎªRSUÖÕµãÎª³µÁ¾µÄÏòÁ¿
 		double vectorI2V[2];
-		vectorI2V[0] = m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX;//å‘é‡æ¨ªåæ ‡
-		vectorI2V[1] = m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY;//å‘é‡çºµåæ ‡
-		double tan = vectorI2V[1] / vectorI2V[0];//è®¡ç®—æ–¹å‘è§’
-		//æ ¹æ®æ–¹å‘è§’åˆ¤æ–­æ‰€åœ¨ç°‡çš„Id
+		vectorI2V[0] = m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX;//ÏòÁ¿ºá×ø±ê
+		vectorI2V[1] = m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY;//ÏòÁ¿×İ×ø±ê
+		double tan = vectorI2V[1] / vectorI2V[0];//¼ÆËã·½Ïò½Ç
+		//¸ù¾İ·½Ïò½ÇÅĞ¶ÏËùÔÚ´ØµÄId
 		if (vectorI2V[0] >= 0 && vectorI2V[1] >= 0) {
 			if (tan < 1)
 				ClusterID = 1;
@@ -634,7 +634,7 @@ void GTT_Urban::freshLoc() {
 		m_VeUEAry[UserIdx1]->m_ClusterIdx = ClusterID;
 		m_RSUAry[RSUIdx]->m_VeUEIdList.push_back(UserIdx1);
 
-		//è¾“å‡ºVeUEä¿¡æ¯åˆ°æ–‡æ¡£
+		//Êä³öVeUEĞÅÏ¢µ½ÎÄµµ
 		g_FileVeUEMessage << UserIdx1 << " ";
 		g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_RSUId << " ";
 		g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_ClusterIdx << " ";
@@ -650,12 +650,12 @@ void GTT_Urban::freshLoc() {
 
 		double angle = 0;
 
-		//åˆ¤æ–­LOSè¿˜æ˜¯NLOS
+		//ÅĞ¶ÏLOS»¹ÊÇNLOS
 		double absX1 = abs(m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX);
 		double absY1 = abs(m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY);
 
 		if (absX1 <= 3.5 || absY1 <= 3.5) {
-			location.locationType = Los;// åœ¨åŒä¸€æ¡é“è·¯ä¸Šå³ä¸ºLOS
+			location.locationType = Los;// ÔÚÍ¬Ò»ÌõµÀÂ·ÉÏ¼´ÎªLOS
 			location.distance = sqrt(pow((m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX), 2.0f) + pow((m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY), 2.0f));
 			angle = atan2(m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY, m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX) / IMTA::s_DEGREE_TO_PI;
 		}
@@ -671,7 +671,7 @@ void GTT_Urban::freshLoc() {
 
 		antenna.TxAngle = angle - m_VeUEAry[UserIdx1]->m_FantennaAngle;
 		antenna.RxAngle = angle - m_RSUAry[RSUIdx]->m_FantennaAngle;
-		antenna.antGain = 6;//æ”¶å‘å¤©çº¿å„3dbi
+		antenna.antGain = 6;//ÊÕ·¢ÌìÏß¸÷3dbi
 		antenna.byTxAntNum = 1;
 		antenna.byRxAntNum = 2;
 		antenna.TxSlantAngle = new double[antenna.byTxAntNum];
@@ -687,7 +687,7 @@ void GTT_Urban::freshLoc() {
 
 		double t_Pl = 0;
 
-		m_VeUEAry[UserIdx1]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[UserIdx1]->m_V*3.6, m_VeUEAry[UserIdx1]->m_VAngle);//è®¡ç®—äº†ç»“æœä»£å…¥ä¿¡é“æ¨¡å‹è®¡ç®—UEä¹‹é—´ä¿¡é“ç³»æ•°
+		m_VeUEAry[UserIdx1]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[UserIdx1]->m_V*3.6, m_VeUEAry[UserIdx1]->m_VAngle);//¼ÆËãÁË½á¹û´úÈëĞÅµÀÄ£ĞÍ¼ÆËãUEÖ®¼äĞÅµÀÏµÊı
 		bool *flag = new bool();
 
 		m_VeUEAry[UserIdx1]->m_Ploss = t_Pl;
@@ -744,7 +744,7 @@ void GTT_Urban::calculateInterference(const vector<vector<list<int>>>& t_RRMInte
 
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
 		for (int patternIdx = 0; patternIdx < t_RRMInterferenceVec[0].size(); patternIdx++) {
-			const list<int> &interList = t_RRMInterferenceVec[VeUEId][patternIdx];//å½“å‰è½¦è¾†ï¼Œå½“å‰Patternä¸‹æ‰€æœ‰å¹²æ‰°è½¦è¾†çš„Id
+			const list<int> &interList = t_RRMInterferenceVec[VeUEId][patternIdx];//µ±Ç°³µÁ¾£¬µ±Ç°PatternÏÂËùÓĞ¸ÉÈÅ³µÁ¾µÄId
 
 			for (int interferenceVeUEId : interList) {
 
@@ -763,7 +763,7 @@ void GTT_Urban::calculateInterference(const vector<vector<list<int>>>& t_RRMInte
 				location.distance2 = 0;
 
 				double angle = 0;
-				if (location.manhattan == true)  //è®¡ç®—location distance
+				if (location.manhattan == true)  //¼ÆËãlocation distance
 				{
 					if (abs(m_VeUEAry[interferenceVeUEId]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX) <= 10.5 || abs(m_VeUEAry[interferenceVeUEId]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY) <= 10.5)
 					{
@@ -783,7 +783,7 @@ void GTT_Urban::calculateInterference(const vector<vector<list<int>>>& t_RRMInte
 				location.eNBAntH = 5;
 				location.VeUEAntH = 1.5;
 				location.RSUAntH = 5;
-				IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//äº§ç”Ÿé«˜æ–¯éšæœºæ•°ï¼Œä¸ºåé¢ä¿¡é“ç³»æ•°ä½¿ç”¨ã€‚
+				IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//²úÉú¸ßË¹Ëæ»úÊı£¬ÎªºóÃæĞÅµÀÏµÊıÊ¹ÓÃ¡£
 
 				antenna.TxAngle = angle - m_VeUEAry[interferenceVeUEId]->m_FantennaAngle;
 				antenna.RxAngle = angle - m_RSUAry[RSUIdx]->m_FantennaAngle;
@@ -802,7 +802,7 @@ void GTT_Urban::calculateInterference(const vector<vector<list<int>>>& t_RRMInte
 				antenna.RxAntSpacing[1] = 0.5f;
 
 				double t_Pl = 0;
-				m_VeUEAry[interferenceVeUEId]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[interferenceVeUEId]->m_V*3.6, m_VeUEAry[interferenceVeUEId]->m_VAngle);//è®¡ç®—äº†ç»“æœä»£å…¥ä¿¡é“æ¨¡å‹è®¡ç®—UEä¹‹é—´ä¿¡é“ç³»æ•°
+				m_VeUEAry[interferenceVeUEId]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[interferenceVeUEId]->m_V*3.6, m_VeUEAry[interferenceVeUEId]->m_VAngle);//¼ÆËãÁË½á¹û´úÈëĞÅµÀÄ£ĞÍ¼ÆËãUEÖ®¼äĞÅµÀÏµÊı
 				bool *flag = new bool();
 
 

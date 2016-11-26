@@ -6,16 +6,16 @@
 
 
 class GTT_HighSpeed_VeUE:public GTT_VeUE {
-	/*------------------æ–¹æ³•------------------*/
+	/*------------------·½·¨------------------*/
 public:
 	/*
-	* æ„é€ å‡½æ•°
+	* ¹¹Ôìº¯Êı
 	*/
 	GTT_HighSpeed_VeUE() = delete;
 	GTT_HighSpeed_VeUE(VeUEConfig &t_VeUEConfig);
 
 	/*
-	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
+	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
 	*/
 	GTT_Urban_VeUE  *const getUrbanPoint()override { throw std::logic_error("RuntimeException"); }
 	GTT_HighSpeed_VeUE  *const getHighSpeedPoint()override { return this; }
@@ -25,12 +25,12 @@ public:
 class  GTT_HighSpeed_RSU :public GTT_RSU {
 public:
 	/*
-	* æ„é€ å‡½æ•°
+	* ¹¹Ôìº¯Êı
 	*/
 	GTT_HighSpeed_RSU();
 
 	/*
-	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
+	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
 	*/
 	GTT_Urban_RSU  *const getUrbanPoint()override { throw std::logic_error("RuntimeException"); }
 	GTT_HighSpeed_RSU  *const getHighSpeedPoint()override { return this; }
@@ -40,13 +40,13 @@ public:
 class  GTT_HighSpeed_eNB :public GTT_eNB {
 public:
 	/*
-	* åˆå§‹åŒ–æ–¹æ³•
-	* ä¸ç”¨æ„é€ å‡½æ•°çš„åŸå› æ˜¯æ„é€ çš„æ—¶åˆ»å…¶ä¾èµ–é¡¹è¿˜æ²¡åˆ›å»ºå®Œæ¯•
+	* ³õÊ¼»¯·½·¨
+	* ²»ÓÃ¹¹Ôìº¯ÊıµÄÔ­ÒòÊÇ¹¹ÔìµÄÊ±¿ÌÆäÒÀÀµÏî»¹Ã»´´½¨Íê±Ï
 	*/
 	void initialize(eNBConfig &t_eNBConfig)override;
 
 	/*
-	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
+	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
 	*/
 	GTT_Urban_eNB  *const getUrbanPoint()override { throw std::logic_error("RuntimeException"); }
 	GTT_HighSpeed_eNB  *const getHighSpeedPoint()override { return this; }
@@ -56,12 +56,12 @@ public:
 class GTT_HighSpeed_Road :public GTT_Road {
 public:
 	/*
-	* æ„é€ å‡½æ•°
+	* ¹¹Ôìº¯Êı
 	*/
 	GTT_HighSpeed_Road(HighSpeedRodeConfig &t_RoadHighSpeedConfig);
 
 	/*
-	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
+	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
 	*/
 	GTT_Urban_Road  *const getUrbanPoint()override { throw std::logic_error("RuntimeException"); }
 	GTT_HighSpeed_Road  *const getHighSpeedPoint()override { return this; }
@@ -69,40 +69,40 @@ public:
 
 
 class GTT_HighSpeed :public GTT {
-	/*------------------é™æ€------------------*/
+	/*------------------¾²Ì¬------------------*/
 public:
 	/*
-	* éšæœºæ•°å¼•æ“ï¼Œè¯¥ç±»å…±äº«
+	* Ëæ»úÊıÒıÇæ£¬¸ÃÀà¹²Ïí
 	*/
 	static std::default_random_engine s_Engine;
 
 	/*
-	* åŸºç«™æ•°é‡
+	* »ùÕ¾ÊıÁ¿
 	*/
 	static const int s_eNB_NUM = 2;
 
 	/*
-	* é“è·¯æ•°é‡
+	* µÀÂ·ÊıÁ¿
 	*/
 	static const int s_ROAD_NUM = 6;
 
 	/*
-	* RSUæ•°é‡
+	* RSUÊıÁ¿
 	*/
 	static const int s_RSU_NUM = 35;
 
 	/*
-	* RSUå†…ç°‡æ•°é‡
+	* RSUÄÚ´ØÊıÁ¿
 	*/
 	static const int s_RSU_CLUSTER_NUM = 2;
 
 	/*
-	* è·¯é•¿
+	* Â·³¤
 	*/
 	static const int s_ROAD_LENGTH = 3464;
 
 	/*
-	* è·¯å®½
+	* Â·¿í
 	*/
 	static const double s_ROAD_WIDTH;
 
@@ -125,10 +125,10 @@ public:
 	* ???
 	*/
 	static const double s_eNB_TOPO[s_eNB_NUM * 2];
-	/*------------------åŸŸ------------------*/
+	/*------------------Óò------------------*/
 private:
 	/*
-	* é«˜é€ŸRodeæ€»æ•°
+	* ¸ßËÙRode×ÜÊı
 	*/
 	int m_HighSpeedRodeNum;
 
@@ -138,69 +138,69 @@ private:
 	int* m_pupr;
 
 	/*
-	* è½¦è¾†è½¦é€Ÿ
+	* ³µÁ¾³µËÙ
 	*/
 	double m_Speed;//km/h
 
 	/*
-	* ç»Ÿè®¡æ¯ä¸ªRSUä¸‹çš„è½¦è¾†æ•°ç›®
-	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç¬¬å‡ æ¬¡ä½ç½®æ›´æ–°(ä»0å¼€å§‹)
-	* å†…å±‚ä¸‹æ ‡ä»£è¡¨RSUç¼–å·
-	* ä»…ç”¨äºç”¨äºç»Ÿè®¡è½¦è¾†åˆ†å¸ƒæƒ…å†µ
+	* Í³¼ÆÃ¿¸öRSUÏÂµÄ³µÁ¾ÊıÄ¿
+	* Íâ²ãÏÂ±ê´ú±íµÚ¼¸´ÎÎ»ÖÃ¸üĞÂ(´Ó0¿ªÊ¼)
+	* ÄÚ²ãÏÂ±ê´ú±íRSU±àºÅ
+	* ½öÓÃÓÚÓÃÓÚÍ³¼Æ³µÁ¾·Ö²¼Çé¿ö
 	*/
 	std::vector<std::vector<int>> m_VeUENumPerRSU;
 
-	/*------------------æ–¹æ³•------------------*/
+	/*------------------·½·¨------------------*/
 public:
 	/*
-	* é»˜è®¤æ„é€ å‡½æ•°å®šä¹‰ä¸ºåˆ é™¤
+	* Ä¬ÈÏ¹¹Ôìº¯Êı¶¨ÒåÎªÉ¾³ı
 	*/
 	GTT_HighSpeed() = delete;
 
 	/*
-	* æ„é€ å‡½æ•°
-	* è¿™é‡ŒæŒ‡é’ˆéƒ½æ˜¯å¼•ç”¨ç±»å‹ï¼Œå› ä¸ºéœ€è¦åˆå§‹åŒ–ç³»ç»Ÿçš„å„ä¸ªå®ä½“æ•°ç»„
-	* è¯¥æ„é€ å‡½æ•°ä¹Ÿå®šä¹‰äº†è¯¥æ¨¡å—çš„è§†å›¾
+	* ¹¹Ôìº¯Êı
+	* ÕâÀïÖ¸Õë¶¼ÊÇÒıÓÃÀàĞÍ£¬ÒòÎªĞèÒª³õÊ¼»¯ÏµÍ³µÄ¸÷¸öÊµÌåÊı×é
+	* ¸Ã¹¹Ôìº¯ÊıÒ²¶¨ÒåÁË¸ÃÄ£¿éµÄÊÓÍ¼
 	*/
 	GTT_HighSpeed(System* t_Context);
 
 	/*
-	* æ¨¡å—å‚æ•°é…ç½®
+	* Ä£¿é²ÎÊıÅäÖÃ
 	*/
 	void configure()override;
 
 	/*
-	* å½“å‘ç”Ÿä½ç½®æ›´æ–°æ—¶ï¼Œæ¸…é™¤ç¼“å­˜çš„è°ƒåº¦ç›¸å…³ä¿¡æ¯
+	* µ±·¢ÉúÎ»ÖÃ¸üĞÂÊ±£¬Çå³ı»º´æµÄµ÷¶ÈÏà¹ØĞÅÏ¢
 	*/
 	void cleanWhenLocationUpdate()override;
 
 	/*
-	* åˆå§‹åŒ–å„ä¸ªå®ä½“æ•°ç»„
+	* ³õÊ¼»¯¸÷¸öÊµÌåÊı×é
 	*/
 	void initialize()override;
 
 	/*
-	* ä¿¡é“äº§ç”Ÿ
+	* ĞÅµÀ²úÉú
 	*/
 	void channelGeneration()override;
 
 	/*
-	* ä¿¡é“åˆ·æ–°
+	* ĞÅµÀË¢ĞÂ
 	*/
 	void freshLoc() override;
 
 	/*
-	* å†™å…¥åœ°ç†ä½ç½®æ›´æ–°æ—¥å¿—
+	* Ğ´ÈëµØÀíÎ»ÖÃ¸üĞÂÈÕÖ¾
 	*/
 	void writeVeUELocationUpdateLogInfo(std::ofstream &t_File1, std::ofstream &t_File2) override;
 
 	/*
-	* è®¡ç®—å¹²æ‰°çŸ©é˜µ
-	* ä¼ å…¥çš„å‚æ•°è§£é‡Š
-	*		å¤–å±‚ä¸‹æ ‡ä¸ºè½¦è¾†ç¼–å·
-	*		å†…å±‚ä¸‹æ ‡ä¸ºPatternç¼–å·
-	*		æœ€å†…å±‚listä¸ºè¯¥è½¦è¾†åœ¨è¯¥Patternä¸‹çš„å¹²æ‰°åˆ—è¡¨
-	* ç›®å‰ä»…æœ‰ç°‡é—´å¹²æ‰°ï¼Œå› ä¸ºRSUé—´å¹²æ‰°å¤ªå°ï¼Œå‡ ä¹å¯ä»¥å¿½ç•¥
+	* ¼ÆËã¸ÉÈÅ¾ØÕó
+	* ´«ÈëµÄ²ÎÊı½âÊÍ
+	*		Íâ²ãÏÂ±êÎª³µÁ¾±àºÅ
+	*		ÄÚ²ãÏÂ±êÎªPattern±àºÅ
+	*		×îÄÚ²ãlistÎª¸Ã³µÁ¾ÔÚ¸ÃPatternÏÂµÄ¸ÉÈÅÁĞ±í
+	* Ä¿Ç°½öÓĞ´Ø¼ä¸ÉÈÅ£¬ÒòÎªRSU¼ä¸ÉÈÅÌ«Ğ¡£¬¼¸ºõ¿ÉÒÔºöÂÔ
 	*/
 	void calculateInterference(const std::vector<std::vector<std::list<int>>>& t_RRMInterferenceVec) override;
 };

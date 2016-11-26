@@ -3,7 +3,7 @@
 *
 *       Filename:  Matrix.cpp
 *
-*    Description:  Matrixå®ç°
+*    Description:  MatrixÊµÏÖ
 *
 *        Version:  1.0
 *        Created:
@@ -45,7 +45,7 @@ RowVector::RowVector() :
 
 RowVector::RowVector(int t_Col) :
 	col(t_Col) {
-	if (col < 0) throw logic_error("å‘é‡çš„ç»´åº¦å¿…é¡»æ˜¯éè´Ÿçš„");
+	if (col < 0) throw logic_error("ÏòÁ¿µÄÎ¬¶È±ØĞëÊÇ·Ç¸ºµÄ");
 	rowVector = new Complex[col]();
 }
 
@@ -59,8 +59,8 @@ RowVector::RowVector(const RowVector& t_RowVector) :
 
 RowVector::RowVector(RowVector&& t_RowVector) noexcept
 	:col(t_RowVector.col), rowVector(t_RowVector.rowVector) {
-	//åœ¨åˆå§‹åŒ–åˆ—è¡¨æ¥ç®¡èµ„æº
-	t_RowVector.rowVector = nullptr;//ç½®ç©ºæŒ‡é’ˆ
+	//ÔÚ³õÊ¼»¯ÁĞ±í½Ó¹Ü×ÊÔ´
+	t_RowVector.rowVector = nullptr;//ÖÃ¿ÕÖ¸Õë
 }
 
 
@@ -74,7 +74,7 @@ RowVector::RowVector(const initializer_list<Complex> t_InitializeList) {
 
 
 RowVector& RowVector::operator=(const RowVector& t_RowVector) {
-	if (rowVector != t_RowVector.rowVector) {//æ£€æŸ¥è‡ªèµ‹å€¼çš„æ­£ç¡®æ€§
+	if (rowVector != t_RowVector.rowVector) {//¼ì²é×Ô¸³ÖµµÄÕıÈ·ĞÔ
 		free();
 		col = t_RowVector.col;
 		rowVector = new Complex[col]();
@@ -85,11 +85,11 @@ RowVector& RowVector::operator=(const RowVector& t_RowVector) {
 
 
 RowVector& RowVector::operator=(RowVector&& t_RowVector) noexcept {
-	if (rowVector != t_RowVector.rowVector) {//æ£€æŸ¥è‡ªèµ‹å€¼çš„æ­£ç¡®æ€§
-		free();//æ¸…ç†èµ„æº
+	if (rowVector != t_RowVector.rowVector) {//¼ì²é×Ô¸³ÖµµÄÕıÈ·ĞÔ
+		free();//ÇåÀí×ÊÔ´
 		col = t_RowVector.col;
-		rowVector = t_RowVector.rowVector;//æ¥ç®¡èµ„æº
-		t_RowVector.rowVector = nullptr;//ç½®ç©ºæŒ‡é’ˆ
+		rowVector = t_RowVector.rowVector;//½Ó¹Ü×ÊÔ´
+		t_RowVector.rowVector = nullptr;//ÖÃ¿ÕÖ¸Õë
 	}
 	return *this;
 }
@@ -106,7 +106,7 @@ const Complex& RowVector::operator[](int t_Pos) const {
 
 
 void RowVector::resize(int t_Size) {
-	if (t_Size < 0) throw logic_error("å‘é‡çš„ç»´åº¦å¿…é¡»æ˜¯éè´Ÿçš„");
+	if (t_Size < 0) throw logic_error("ÏòÁ¿µÄÎ¬¶È±ØĞëÊÇ·Ç¸ºµÄ");
 	int preCol = col;
 	Complex* preRowVector = rowVector;
 	col = t_Size;
@@ -114,10 +114,10 @@ void RowVector::resize(int t_Size) {
 	int copyCol = col < preCol ? col : preCol;
 	memcpy(rowVector, preRowVector, copyCol * sizeof(Complex));
 	/*-----------------------ATTENTION-----------------------
-	* è¿™é‡Œä¸èƒ½è°ƒç”¨free()æ¥ææ„åŸæ¥çš„èµ„æº
-	* free()ä¼šé‡Šæ”¾thisæŒ‡å‘çš„å¯¹è±¡çš„rowVectoræŒ‡é’ˆ
-	* è€Œæ­¤æ—¶ï¼Œè¯¥rowVectoræŒ‡é’ˆå·²ç»æŒ‡å‘äº†æ–°çš„åŒºåŸŸ
-	* å¿…é¡»æ‰‹åŠ¨åˆ é™¤ä¹‹å‰çš„æŒ‡é’ˆ
+	* ÕâÀï²»ÄÜµ÷ÓÃfree()À´Îö¹¹Ô­À´µÄ×ÊÔ´
+	* free()»áÊÍ·ÅthisÖ¸ÏòµÄ¶ÔÏóµÄrowVectorÖ¸Õë
+	* ¶ø´ËÊ±£¬¸ÃrowVectorÖ¸ÕëÒÑ¾­Ö¸ÏòÁËĞÂµÄÇøÓò
+	* ±ØĞëÊÖ¶¯É¾³ıÖ®Ç°µÄÖ¸Õë
 	*------------------------ATTENTION-----------------------*/
 	Delete::safeDelete(preRowVector, true);
 }
@@ -136,7 +136,7 @@ void RowVector::print(ostream&t_Out) {
 	t_Out << toString();
 }
 
-//è¡Œå‘é‡å•ç›®å–åè¿ç®—ç¬¦
+//ĞĞÏòÁ¿µ¥Ä¿È¡·´ÔËËã·û
 RowVector operator-(const RowVector& t_RowVector) {
 	RowVector res(t_RowVector.col);
 	for (int c = 0; c < t_RowVector.col; c++) {
@@ -146,9 +146,9 @@ RowVector operator-(const RowVector& t_RowVector) {
 }
 
 
-//è¡Œå‘é‡ä¸è¡Œå‘é‡çš„è¿ç®—
+//ĞĞÏòÁ¿ÓëĞĞÏòÁ¿µÄÔËËã
 RowVector operator+(const RowVector& t_RowVector1, const RowVector& t_RowVector2) {
-	if (t_RowVector1.col != t_RowVector2.col) throw logic_error("å‘é‡ç»´åº¦ä¸åŒï¼Œæ— æ³•ç›¸åŠ ");
+	if (t_RowVector1.col != t_RowVector2.col) throw logic_error("ÏòÁ¿Î¬¶È²»Í¬£¬ÎŞ·¨Ïà¼Ó");
 	RowVector res(t_RowVector1.col);
 	for (int c = 0; c < t_RowVector1.col; c++) {
 		res[c] = t_RowVector1[c] + t_RowVector2[c];
@@ -157,9 +157,9 @@ RowVector operator+(const RowVector& t_RowVector1, const RowVector& t_RowVector2
 }
 
 
-//è¡Œå‘é‡ä¸è¡Œå‘é‡çš„è¿ç®—
+//ĞĞÏòÁ¿ÓëĞĞÏòÁ¿µÄÔËËã
 RowVector operator-(const RowVector& t_RowVector1, const RowVector& t_RowVector2) {
-	if (t_RowVector1.col != t_RowVector2.col) throw logic_error("å‘é‡ç»´åº¦ä¸åŒï¼Œæ— æ³•ç›¸å‡");
+	if (t_RowVector1.col != t_RowVector2.col) throw logic_error("ÏòÁ¿Î¬¶È²»Í¬£¬ÎŞ·¨Ïà¼õ");
 	RowVector res(t_RowVector1.col);
 	for (int c = 0; c < t_RowVector1.col; c++) {
 		res[c] = t_RowVector1[c] - t_RowVector2[c];
@@ -168,7 +168,7 @@ RowVector operator-(const RowVector& t_RowVector1, const RowVector& t_RowVector2
 }
 
 
-//è¡Œå‘é‡ä¸å¤æ•°çš„è¿ç®—
+//ĞĞÏòÁ¿Óë¸´ÊıµÄÔËËã
 RowVector operator+(const RowVector& t_RowVector, const Complex&t_Complex) {
 	RowVector res(t_RowVector.col);
 	for (int c = 0; c < t_RowVector.col; c++) {
@@ -206,7 +206,7 @@ RowVector operator*(const Complex&t_Complex, const RowVector& t_RowVector) {
 
 
 RowVector operator/(const RowVector& t_RowVector, const Complex&t_Complex) {
-	if (Complex::abs(t_Complex) == 0) throw logic_error("é™¤æ•°æ¨¡å€¼ä¸èƒ½ä¸º0");
+	if (Complex::abs(t_Complex) == 0) throw logic_error("³ıÊıÄ£Öµ²»ÄÜÎª0");
 	RowVector res(t_RowVector.col);
 	for (int c = 0; c < t_RowVector.col; c++) {
 		res[c] = t_RowVector[c] / t_Complex;
@@ -216,7 +216,7 @@ RowVector operator/(const RowVector& t_RowVector, const Complex&t_Complex) {
 RowVector operator/(const Complex&t_Complex, const RowVector& t_RowVector) {
 	RowVector res(t_RowVector.col);
 	for (int c = 0; c < t_RowVector.col; c++) {
-		if (Complex::abs(t_RowVector[c]) == 0) throw logic_error("å‘é‡ä¸­å«æœ‰æ¨¡å€¼ä¸º0çš„å…ƒç´ ï¼Œä¸èƒ½ä½œä¸ºåˆ†æ¯");
+		if (Complex::abs(t_RowVector[c]) == 0) throw logic_error("ÏòÁ¿ÖĞº¬ÓĞÄ£ÖµÎª0µÄÔªËØ£¬²»ÄÜ×÷Îª·ÖÄ¸");
 		res[c] = t_Complex / t_RowVector[c];
 	}
 	return res;
@@ -224,7 +224,7 @@ RowVector operator/(const Complex&t_Complex, const RowVector& t_RowVector) {
 
 
 RowVector elementProduct(const RowVector& t_RowVector1, const RowVector& t_RowVector2) {
-	if (t_RowVector1.col != t_RowVector2.col) throw logic_error("å‘é‡ç»´åº¦ä¸åŒ¹é…");
+	if (t_RowVector1.col != t_RowVector2.col) throw logic_error("ÏòÁ¿Î¬¶È²»Æ¥Åä");
 	RowVector res(t_RowVector1.col);
 	for (int c = 0; c < t_RowVector1.col; c++) {
 		res[c] = t_RowVector1[c] * t_RowVector2[c];
@@ -232,10 +232,10 @@ RowVector elementProduct(const RowVector& t_RowVector1, const RowVector& t_RowVe
 	return res;
 }
 RowVector elementDivide(const RowVector& t_RowVector1, const RowVector& t_RowVector2) {
-	if (t_RowVector1.col != t_RowVector2.col) throw logic_error("å‘é‡ç»´åº¦ä¸åŒ¹é…");
+	if (t_RowVector1.col != t_RowVector2.col) throw logic_error("ÏòÁ¿Î¬¶È²»Æ¥Åä");
 	RowVector res(t_RowVector1.col);
 	for (int c = 0; c < t_RowVector1.col; c++) {
-		if (Complex::abs(t_RowVector2[c]) == 0) throw logic_error("å…ƒç´ æ¨¡å€¼ä¸º0ï¼Œä¸å¯ä½œä¸ºé™¤æ•°");
+		if (Complex::abs(t_RowVector2[c]) == 0) throw logic_error("ÔªËØÄ£ÖµÎª0£¬²»¿É×÷Îª³ıÊı");
 		res[c] = t_RowVector1[c] / t_RowVector2[c];
 	}
 	return res;
@@ -264,7 +264,7 @@ Matrix::Matrix() :
 
 Matrix::Matrix(int t_Row, int t_Col) :
 	row(t_Row), col(t_Col) {
-	if (t_Row < 0 || t_Col < 0) throw logic_error("çŸ©é˜µçš„ç»´åº¦å¿…é¡»æ˜¯éè´Ÿçš„");
+	if (t_Row < 0 || t_Col < 0) throw logic_error("¾ØÕóµÄÎ¬¶È±ØĞëÊÇ·Ç¸ºµÄ");
 	matrix = new RowVector[row];
 	for (int iter = 0; iter < row; iter++) {
 		matrix[iter] = RowVector(col);
@@ -277,11 +277,11 @@ Matrix::Matrix(const Matrix& t_Matrix) :
 	matrix = new RowVector[row];
 	for (int iter = 0; iter < row; iter++) {
 		/*-----------------------ATTENTION-----------------------
-		* è°ƒç”¨RowVectorçš„æ‹·è´èµ‹å€¼è¿ç®—ç¬¦
-		* è¿™é‡Œä¸èƒ½è°ƒç”¨memcpyæ¥æ‹·è´matrixæˆå‘˜ï¼Œå› ä¸ºè¦å®ç°æ‹·è´èµ‹å€¼çš„è¯­ä¹‰
-		* memcpyä¼šå°†t_Matrix.matrixå†…å­˜åŒºåŸŸçš„å€¼å®Œå…¨èµ‹å€¼ä¸€ä»½ç»™this->matrix
-		* ä½†æ˜¯è¯¥å†…å­˜åŒºåŸŸæ˜¯RowVectorå¯¹è±¡ï¼Œè€Œè¯¥å¯¹è±¡åŒ…å«äº†æŒ‡é’ˆ
-		* è¿™æ ·ä¼šå¯¼è‡´å¤åˆ¶å‰åï¼ŒRowVectorä¸­çš„æŒ‡é’ˆä¸€è‡´
+		* µ÷ÓÃRowVectorµÄ¿½±´¸³ÖµÔËËã·û
+		* ÕâÀï²»ÄÜµ÷ÓÃmemcpyÀ´¿½±´matrix³ÉÔ±£¬ÒòÎªÒªÊµÏÖ¿½±´¸³ÖµµÄÓïÒå
+		* memcpy»á½«t_Matrix.matrixÄÚ´æÇøÓòµÄÖµÍêÈ«¸³ÖµÒ»·İ¸øthis->matrix
+		* µ«ÊÇ¸ÃÄÚ´æÇøÓòÊÇRowVector¶ÔÏó£¬¶ø¸Ã¶ÔÏó°üº¬ÁËÖ¸Õë
+		* ÕâÑù»áµ¼ÖÂ¸´ÖÆÇ°ºó£¬RowVectorÖĞµÄÖ¸ÕëÒ»ÖÂ
 		*------------------------ATTENTION-----------------------*/
 		matrix[iter] = t_Matrix[iter];
 	}
@@ -290,8 +290,8 @@ Matrix::Matrix(const Matrix& t_Matrix) :
 
 Matrix::Matrix(Matrix&& t_Matrix) noexcept
 	:row(t_Matrix.row), col(t_Matrix.col), matrix(t_Matrix.matrix) {
-	//åœ¨åˆå§‹åŒ–åˆ—è¡¨ä¸­æ¥ç®¡èµ„æº
-	t_Matrix.matrix = nullptr;//ç½®ç©ºæŒ‡é’ˆ
+	//ÔÚ³õÊ¼»¯ÁĞ±íÖĞ½Ó¹Ü×ÊÔ´
+	t_Matrix.matrix = nullptr;//ÖÃ¿ÕÖ¸Õë
 }
 
 
@@ -359,18 +359,18 @@ Matrix Matrix::hermitian() {
 
 
 Matrix Matrix::inverse(bool t_TryPseudoInverse) {
-	if (row <= 0 || col <= 0 || row != col) throw logic_error("è¯¥çŸ©é˜µæ— æ³•æ±‚é€†");
+	if (row <= 0 || col <= 0 || row != col) throw logic_error("¸Ã¾ØÕóÎŞ·¨ÇóÄæ");
 
 	if (row < 3) return inverseWhenDimlowerThan3(t_TryPseudoInverse);
 
 	Matrix mergeMatrix = Matrix::verticalMerge(*this, Matrix::eye(row));
 
-	//å…ˆå˜æ¢æˆä¸‹ä¸‰è§’çŸ©é˜µ
+	//ÏÈ±ä»»³ÉÏÂÈı½Ç¾ØÕó
 	Complex zero(0, 0);
 	int tmpRow = 0;
 	RowVector tmpRV;
 	for (int r = 0; r < row; r++) {
-		if (mergeMatrix[r][r] == zero) {//è‹¥å½“å‰è¡Œçš„å¯¹è§’çº¿éƒ¨åˆ†ä¸º0ï¼Œåˆ™ä¸ä¸ä¸º0çš„é‚£è¡Œäº’æ¢
+		if (mergeMatrix[r][r] == zero) {//Èôµ±Ç°ĞĞµÄ¶Ô½ÇÏß²¿·ÖÎª0£¬ÔòÓë²»Îª0µÄÄÇĞĞ»¥»»
 			tmpRow = r + 1;
 			while (tmpRow < row&&mergeMatrix[tmpRow][r] == zero)
 				tmpRow++;
@@ -379,18 +379,18 @@ Matrix Matrix::inverse(bool t_TryPseudoInverse) {
 					return this->pseudoInverse();
 				}
 				else {
-					throw logic_error("è¯¥çŸ©é˜µä¸æ»¡ç§©ï¼Œæ— æ³•æ±‚é€†çŸ©é˜µ");
+					throw logic_error("¸Ã¾ØÕó²»ÂúÖÈ£¬ÎŞ·¨ÇóÄæ¾ØÕó");
 				}
 			}
 
-			//äº’æ¢rä¸tmpä¸¤è¡Œ
+			//»¥»»rÓëtmpÁ½ĞĞ
 			tmpRV = mergeMatrix[r];
 			mergeMatrix[r] = mergeMatrix[tmpRow];
 			mergeMatrix[tmpRow] = tmpRV;
 		}
-		mergeMatrix[r] = mergeMatrix[r] / mergeMatrix[r][r];//å°†å¯¹è§’çº¿éƒ¨åˆ†ç½®1
+		mergeMatrix[r] = mergeMatrix[r] / mergeMatrix[r][r];//½«¶Ô½ÇÏß²¿·ÖÖÃ1
 
-															//å°†è¯¥åˆ—çš„ä¸‹åŠéƒ¨åˆ†ç½®0
+															//½«¸ÃÁĞµÄÏÂ°ë²¿·ÖÖÃ0
 		for (tmpRow = r + 1; tmpRow < row; tmpRow++) {
 			if (mergeMatrix[tmpRow][r] == zero)continue;
 			Complex factor = -mergeMatrix[tmpRow][r];
@@ -399,7 +399,7 @@ Matrix Matrix::inverse(bool t_TryPseudoInverse) {
 	}
 
 
-	//å°†å³è¾¹ç»§ç»­å˜æ¢ä¸ºä¸Šä¸‰è§’
+	//½«ÓÒ±ß¼ÌĞø±ä»»ÎªÉÏÈı½Ç
 	for (int r = row - 1; r >= 0; r--) {
 		for (tmpRow = r - 1; tmpRow >= 0; tmpRow--) {
 			if (mergeMatrix[tmpRow][r] == zero)continue;
@@ -417,7 +417,7 @@ Matrix Matrix::inverseWhenDimlowerThan3(bool t_TryPseudoInverse) {
 			if (t_TryPseudoInverse)
 				return Matrix{ { 0,0 } };
 			else
-				throw logic_error("è¯¥çŸ©é˜µæ— æ³•æ±‚é€†");
+				throw logic_error("¸Ã¾ØÕóÎŞ·¨ÇóÄæ");
 		}
 		return Matrix{ { 1 / this->operator[](0)[0] } };
 	}
@@ -426,7 +426,7 @@ Matrix Matrix::inverseWhenDimlowerThan3(bool t_TryPseudoInverse) {
 		Complex denominator = this->operator[](0)[0] * this->operator[](1)[1] - this->operator[](0)[1] * this->operator[](1)[0];
 		if (denominator == 0) {
 			if (t_TryPseudoInverse) return pseudoInverse();
-			else throw logic_error("è¯¥çŸ©é˜µæ— æ³•æ±‚é€†");
+			else throw logic_error("¸Ã¾ØÕóÎŞ·¨ÇóÄæ");
 		}
 		res[0][0] = this->operator[](1)[1] / denominator;
 		res[0][1] = -(this->operator[](0)[1]) / denominator;
@@ -438,7 +438,7 @@ Matrix Matrix::inverseWhenDimlowerThan3(bool t_TryPseudoInverse) {
 
 
 Matrix Matrix::diag() {
-	if (row != col) throw logic_error("è¯¥å‡½æ•°åªæ”¯æŒæ–¹é˜µ");
+	if (row != col) throw logic_error("¸Ãº¯ÊıÖ»Ö§³Ö·½Õó");
 	Matrix res(1, row);
 	for (int r = 0; r < row; r++) {
 		res[0][r] = this->operator[](r)[r];
@@ -448,10 +448,10 @@ Matrix Matrix::diag() {
 
 
 pair<Matrix, Matrix>  Matrix::fullRankDecomposition() {
-	//è®¾çŸ©é˜µçš„ç»´åº¦ä¸ºm*nï¼Œç§©ä¸ºrï¼Œrè‡³å°‘ä¸º1
+	//Éè¾ØÕóµÄÎ¬¶ÈÎªm*n£¬ÖÈÎªr£¬rÖÁÉÙÎª1
 	Matrix mergeMatrix = Matrix::verticalMerge(*this, Matrix::eye(row));
 
-	//é¦–å…ˆå°†çŸ©é˜µè½¬åŒ–ä¸ºæ ‡å‡†å‹ï¼Œå³ä¸Šé¢æ˜¯r*nçš„è¡Œæ»¡ç§©çŸ©é˜µï¼Œä¸‹é¢æ˜¯(m-r)*nçš„é›¶çŸ©é˜µ
+	//Ê×ÏÈ½«¾ØÕó×ª»¯Îª±ê×¼ĞÍ£¬¼´ÉÏÃæÊÇr*nµÄĞĞÂúÖÈ¾ØÕó£¬ÏÂÃæÊÇ(m-r)*nµÄÁã¾ØÕó
 	Complex zero(0, 0);
 	int tmpRow = 0;
 	RowVector tmpRV;
@@ -459,25 +459,25 @@ pair<Matrix, Matrix>  Matrix::fullRankDecomposition() {
 	int rank = 0;
 	for (int r = 0; r < row; r++) {
 		if (iterCol == col) break;
-		if (mergeMatrix[r][iterCol] == zero) {//è‹¥å½“å‰è¡Œçš„å¯¹è§’çº¿éƒ¨åˆ†ä¸º0ï¼Œåˆ™ä¸ä¸ä¸º0çš„é‚£è¡Œäº’æ¢
+		if (mergeMatrix[r][iterCol] == zero) {//Èôµ±Ç°ĞĞµÄ¶Ô½ÇÏß²¿·ÖÎª0£¬ÔòÓë²»Îª0µÄÄÇĞĞ»¥»»
 			tmpRow = r + 1;
 			while (tmpRow < row&&mergeMatrix[tmpRow][iterCol] == zero)
 				tmpRow++;
-			if (tmpRow == row) { //å½“è¯¥åˆ—æ²¡æœ‰éé›¶å…ƒç´ ï¼Œè·³è¿‡å³å¯
+			if (tmpRow == row) { //µ±¸ÃÁĞÃ»ÓĞ·ÇÁãÔªËØ£¬Ìø¹ı¼´¿É
 				iterCol++;
 				r--;
-				continue;//ç»§ç»­åœ¨å½“å‰è¡Œçš„ä¸‹ä¸€åˆ—å¯»æ‰¾éé›¶å…ƒç´ 
+				continue;//¼ÌĞøÔÚµ±Ç°ĞĞµÄÏÂÒ»ÁĞÑ°ÕÒ·ÇÁãÔªËØ
 			}
 			else {
-				//äº’æ¢rä¸tmpä¸¤è¡Œ
+				//»¥»»rÓëtmpÁ½ĞĞ
 				tmpRV = mergeMatrix[r];
 				mergeMatrix[r] = mergeMatrix[tmpRow];
 				mergeMatrix[tmpRow] = tmpRV;
 			}
 		}
-		mergeMatrix[r] = mergeMatrix[r] / mergeMatrix[r][iterCol];//å°†å¯¹è§’çº¿éƒ¨åˆ†ç½®1
+		mergeMatrix[r] = mergeMatrix[r] / mergeMatrix[r][iterCol];//½«¶Ô½ÇÏß²¿·ÖÖÃ1
 
-																  //å°†è¯¥åˆ—çš„ä¸‹åŠéƒ¨åˆ†ç½®0
+																  //½«¸ÃÁĞµÄÏÂ°ë²¿·ÖÖÃ0
 		for (tmpRow = r + 1; tmpRow < row; tmpRow++) {
 			if (mergeMatrix[tmpRow][iterCol] == zero)continue;
 			Complex factor = -mergeMatrix[tmpRow][iterCol];
@@ -487,7 +487,7 @@ pair<Matrix, Matrix>  Matrix::fullRankDecomposition() {
 		rank++;
 	}
 
-	if (rank == 0) throw logic_error("è¯¥çŸ©é˜µç§©ä¸º0ï¼Œä¸æ»¡è¶³æ»¡ç§©åˆ†è§£çš„æ¡ä»¶");
+	if (rank == 0) throw logic_error("¸Ã¾ØÕóÖÈÎª0£¬²»Âú×ãÂúÖÈ·Ö½âµÄÌõ¼ş");
 
 	pair<Matrix, Matrix> splitRes = verticalSplit(mergeMatrix, mergeMatrix.col - row, row);
 	Matrix B = splitRes.first;
@@ -510,18 +510,18 @@ Matrix Matrix::pseudoInverse() {
 
 
 Matrix& Matrix::operator=(const Matrix& t_Matrix) {
-	if (matrix != t_Matrix.matrix) {//æ£€æŸ¥è‡ªèµ‹å€¼çš„æ­£ç¡®æ€§
+	if (matrix != t_Matrix.matrix) {//¼ì²é×Ô¸³ÖµµÄÕıÈ·ĞÔ
 		free();
 		row = t_Matrix.row;
 		col = t_Matrix.col;
 		matrix = new RowVector[row];
 		for (int r = 0; r < row; r++) {
 			/*-----------------------ATTENTION-----------------------
-			* è°ƒç”¨RowVectorçš„æ‹·è´èµ‹å€¼è¿ç®—ç¬¦
-			* è¿™é‡Œä¸èƒ½è°ƒç”¨memcpyæ¥æ‹·è´matrixæˆå‘˜ï¼Œå› ä¸ºè¦å®ç°æ‹·è´èµ‹å€¼çš„è¯­ä¹‰
-			* memcpyä¼šå°†t_Matrix.matrixå†…å­˜åŒºåŸŸçš„å€¼å®Œå…¨èµ‹å€¼ä¸€ä»½ç»™this->matrix
-			* ä½†æ˜¯è¯¥å†…å­˜åŒºåŸŸæ˜¯RowVectorå¯¹è±¡ï¼Œè€Œè¯¥å¯¹è±¡åŒ…å«äº†æŒ‡é’ˆ
-			* è¿™æ ·ä¼šå¯¼è‡´å¤åˆ¶å‰åï¼ŒRowVectorä¸­çš„æŒ‡é’ˆä¸€è‡´
+			* µ÷ÓÃRowVectorµÄ¿½±´¸³ÖµÔËËã·û
+			* ÕâÀï²»ÄÜµ÷ÓÃmemcpyÀ´¿½±´matrix³ÉÔ±£¬ÒòÎªÒªÊµÏÖ¿½±´¸³ÖµµÄÓïÒå
+			* memcpy»á½«t_Matrix.matrixÄÚ´æÇøÓòµÄÖµÍêÈ«¸³ÖµÒ»·İ¸øthis->matrix
+			* µ«ÊÇ¸ÃÄÚ´æÇøÓòÊÇRowVector¶ÔÏó£¬¶ø¸Ã¶ÔÏó°üº¬ÁËÖ¸Õë
+			* ÕâÑù»áµ¼ÖÂ¸´ÖÆÇ°ºó£¬RowVectorÖĞµÄÖ¸ÕëÒ»ÖÂ
 			*------------------------ATTENTION-----------------------*/
 			matrix[r].operator=(t_Matrix.matrix[r]);
 		}
@@ -531,12 +531,12 @@ Matrix& Matrix::operator=(const Matrix& t_Matrix) {
 
 
 Matrix& Matrix::operator=(Matrix&& t_Matrix) noexcept {
-	if (matrix != t_Matrix.matrix) {//æ£€æŸ¥è‡ªèµ‹å€¼çš„æ­£ç¡®æ€§
-		free();//æ¸…ç†èµ„æº
+	if (matrix != t_Matrix.matrix) {//¼ì²é×Ô¸³ÖµµÄÕıÈ·ĞÔ
+		free();//ÇåÀí×ÊÔ´
 		row = t_Matrix.row;
 		col = t_Matrix.col;
-		matrix = t_Matrix.matrix;//æ¥ç®¡èµ„æº
-		t_Matrix.matrix = nullptr;//ç½®ç©ºæŒ‡é’ˆ
+		matrix = t_Matrix.matrix;//½Ó¹Ü×ÊÔ´
+		t_Matrix.matrix = nullptr;//ÖÃ¿ÕÖ¸Õë
 	}
 	return *this;
 }
@@ -569,7 +569,7 @@ void Matrix::print(ostream&t_Out, int t_NumEnter) {
 
 
 Matrix Matrix::verticalMerge(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
-	if (t_Matrix1.row != t_Matrix2.row) throw logic_error("è¿™ä¸¤ä¸ªçŸ©é˜µæ— æ³•åˆå¹¶");
+	if (t_Matrix1.row != t_Matrix2.row) throw logic_error("ÕâÁ½¸ö¾ØÕóÎŞ·¨ºÏ²¢");
 	Matrix res(t_Matrix1.row, t_Matrix1.col + t_Matrix2.col);
 	for (int r = 0; r < t_Matrix1.row; r++) {
 		for (int c = 0; c < t_Matrix1.col; c++) {
@@ -586,7 +586,7 @@ Matrix Matrix::verticalMerge(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
 
 
 pair<Matrix, Matrix> Matrix::verticalSplit(const Matrix& t_Matrix, int t_LeftCol, int t_RightCol) {
-	if (t_Matrix.col != t_LeftCol + t_RightCol) throw logic_error("è¯¥çŸ©é˜µæ— æ³•åˆ†è£‚æˆæŒ‡å®šç»´åº¦");
+	if (t_Matrix.col != t_LeftCol + t_RightCol) throw logic_error("¸Ã¾ØÕóÎŞ·¨·ÖÁÑ³ÉÖ¸¶¨Î¬¶È");
 	Matrix left(t_Matrix.row, t_LeftCol), right(t_Matrix.row, t_RightCol);
 	for (int r = 0; r < left.row; r++) {
 		for (int c = 0; c < left.col; c++) {
@@ -604,7 +604,7 @@ pair<Matrix, Matrix> Matrix::verticalSplit(const Matrix& t_Matrix, int t_LeftCol
 
 
 pair<Matrix, Matrix> Matrix::horizonSplit(const Matrix& t_Matrix, int t_UpRow, int t_DownRow) {
-	if (t_Matrix.row != t_UpRow + t_DownRow) throw logic_error("è¯¥çŸ©é˜µæ— æ³•åˆ†è£‚æˆæŒ‡å®šç»´åº¦");
+	if (t_Matrix.row != t_UpRow + t_DownRow) throw logic_error("¸Ã¾ØÕóÎŞ·¨·ÖÁÑ³ÉÖ¸¶¨Î¬¶È");
 	Matrix up(t_UpRow, t_Matrix.col), down(t_DownRow, t_Matrix.col);
 	for (int r = 0; r < up.row; r++) {
 		for (int c = 0; c < up.col; c++) {
@@ -621,7 +621,7 @@ pair<Matrix, Matrix> Matrix::horizonSplit(const Matrix& t_Matrix, int t_UpRow, i
 }
 
 Matrix Matrix::eye(const int t_Dim) {
-	if (t_Dim < 1) throw logic_error("å•ä½é˜µç»´åº¦è‡³å°‘ä¸º1");
+	if (t_Dim < 1) throw logic_error("µ¥Î»ÕóÎ¬¶ÈÖÁÉÙÎª1");
 	Matrix res(t_Dim, t_Dim);
 	for (int i = 0; i < t_Dim; i++) {
 		res[i][i] = Complex(1, 0);
@@ -630,7 +630,7 @@ Matrix Matrix::eye(const int t_Dim) {
 }
 
 
-//å•ç›®å–åè¿ç®—ç¬¦
+//µ¥Ä¿È¡·´ÔËËã·û
 Matrix operator-(const Matrix& t_Matrix) {
 	Matrix res(t_Matrix.row, t_Matrix.col);
 	for (int r = 0; r < t_Matrix.row; r++) {
@@ -640,9 +640,9 @@ Matrix operator-(const Matrix& t_Matrix) {
 }
 
 
-//çŸ©é˜µé—´çš„è¿ç®—
+//¾ØÕó¼äµÄÔËËã
 Matrix operator+(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
-	if (t_Matrix1.row != t_Matrix2.row || t_Matrix1.col != t_Matrix2.col) throw logic_error("çŸ©é˜µç»´åº¦ä¸åŒï¼Œæ— æ³•ç›¸åŠ ");
+	if (t_Matrix1.row != t_Matrix2.row || t_Matrix1.col != t_Matrix2.col) throw logic_error("¾ØÕóÎ¬¶È²»Í¬£¬ÎŞ·¨Ïà¼Ó");
 	Matrix res(t_Matrix1.row, t_Matrix1.col);
 	for (int r = 0; r < t_Matrix1.row; r++) {
 		for (int c = 0; c < t_Matrix1.col; c++) {
@@ -654,7 +654,7 @@ Matrix operator+(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
 
 
 Matrix operator-(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
-	if (t_Matrix1.row != t_Matrix2.row || t_Matrix1.col != t_Matrix2.col) throw logic_error("çŸ©é˜µç»´åº¦ä¸åŒï¼Œæ— æ³•ç›¸å‡");
+	if (t_Matrix1.row != t_Matrix2.row || t_Matrix1.col != t_Matrix2.col) throw logic_error("¾ØÕóÎ¬¶È²»Í¬£¬ÎŞ·¨Ïà¼õ");
 	Matrix res(t_Matrix1.row, t_Matrix1.col);
 	for (int r = 0; r < t_Matrix1.row; r++) {
 		for (int c = 0; c < t_Matrix1.col; c++) {
@@ -666,13 +666,13 @@ Matrix operator-(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
 
 
 Matrix operator*(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
-	if (t_Matrix1.col != t_Matrix2.row) throw logic_error("çŸ©é˜µç»´åº¦ä¸åŒ¹é…ï¼Œæ— æ³•ç›¸ä¹˜");
+	if (t_Matrix1.col != t_Matrix2.row) throw logic_error("¾ØÕóÎ¬¶È²»Æ¥Åä£¬ÎŞ·¨Ïà³Ë");
 
 	Matrix res(t_Matrix1.row, t_Matrix2.col);
 
 	for (int r = 0; r < t_Matrix1.row; r++) {
 		for (int c = 0; c < t_Matrix2.col; c++) {
-			//è®¡ç®—æ¯ä¸€é¡¹
+			//¼ÆËãÃ¿Ò»Ïî
 			Complex tmp(0, 0);
 			for (int idx = 0; idx < t_Matrix1.col; idx++) {
 				tmp += t_Matrix1[r][idx] * t_Matrix2[idx][c];
@@ -684,7 +684,7 @@ Matrix operator*(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
 }
 
 
-//çŸ©é˜µä¸å¤æ•°çš„è¿ç®—
+//¾ØÕóÓë¸´ÊıµÄÔËËã
 Matrix operator+(const Matrix& t_Matrix, const Complex& t_Complex) {
 	Matrix res(t_Matrix.row, t_Matrix.col);
 	for (int r = 0; r < t_Matrix.row; r++) {
@@ -722,7 +722,7 @@ Matrix operator*(const Complex& t_Complex, const Matrix& t_Matrix) {
 
 
 Matrix operator/(const Matrix& t_Matrix, const Complex& t_Complex) {
-	if (Complex::abs(t_Complex) == 0) throw logic_error("é™¤æ•°æ¨¡å€¼ä¸º0ï¼Œéæ³•ï¼");
+	if (Complex::abs(t_Complex) == 0) throw logic_error("³ıÊıÄ£ÖµÎª0£¬·Ç·¨£¡");
 	Matrix res(t_Matrix.row, t_Matrix.col);
 	for (int r = 0; r < t_Matrix.row; r++) {
 		res[r] = t_Matrix[r] / t_Complex;
@@ -740,7 +740,7 @@ Matrix operator/(const Complex& t_Complex, const Matrix& t_Matrix) {
 
 Matrix elementProduct(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
 	if (t_Matrix1.row != t_Matrix2.row ||
-		t_Matrix1.col != t_Matrix2.col) throw logic_error("çŸ©é˜µç»´åº¦ä¸åŒ¹é…");
+		t_Matrix1.col != t_Matrix2.col) throw logic_error("¾ØÕóÎ¬¶È²»Æ¥Åä");
 	Matrix res(t_Matrix1.row, t_Matrix1.col);
 	for (int r = 0; r < t_Matrix1.row; r++) {
 		res[r] = elementProduct(t_Matrix1[r], t_Matrix2[r]);
@@ -749,7 +749,7 @@ Matrix elementProduct(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
 }
 Matrix elementDivide(const Matrix& t_Matrix1, const Matrix& t_Matrix2) {
 	if (t_Matrix1.row != t_Matrix2.row ||
-		t_Matrix1.col != t_Matrix2.col) throw logic_error("çŸ©é˜µç»´åº¦ä¸åŒ¹é…");
+		t_Matrix1.col != t_Matrix2.col) throw logic_error("¾ØÕóÎ¬¶È²»Æ¥Åä");
 	Matrix res(t_Matrix1.row, t_Matrix1.col);
 	for (int r = 0; r < t_Matrix1.row; r++) {
 		res[r] = elementDivide(t_Matrix1[r], t_Matrix2[r]);

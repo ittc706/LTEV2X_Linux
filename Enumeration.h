@@ -5,13 +5,13 @@ enum Platform {
 	Linux
 };
 enum GTTMode {
-	URBAN,      //城市
-	HIGHSPEED   //高速
+	URBAN,      //����
+	HIGHSPEED   //����
 };
 
 enum RRMMode {
-	RR,       //Round-Robin,轮询
-	TDM_DRA,        //Distributed Resource Allocation,分布式
+	RR,       //Round-Robin,��ѯ
+	TDM_DRA,        //Distributed Resource Allocation,�ֲ�ʽ
 	ICC_DRA
 };
 
@@ -20,22 +20,22 @@ enum WTMode {
 	SINR_MMSE
 };
 
-enum LocationType { //位置类型 
+enum LocationType { //λ������ 
 	Los,
 	Nlos,
 	None
 };
 
 enum MessageType {
-	EMERGENCY = 0,   //紧急信息（比如车祸信息，优先级较高）
-	PERIOD = 1,  //周期性信息（包括VeUE的基本信息，车速，位置，方向等等）
-	DATA = 2     //数据业务(文本，视频，声音等等）
+	EMERGENCY = 0,   //������Ϣ�����糵����Ϣ�����ȼ��ϸߣ�
+	PERIOD = 1,  //��������Ϣ������VeUE�Ļ�����Ϣ�����٣�λ�ã�����ȵȣ�
+	DATA = 2     //����ҵ��(�ı�����Ƶ�������ȵȣ�
 };
 
 enum RSUType {
-	INTERSECTION,       //处于十字路口中央，城镇特有
-	VERTICAL,           //处于竖直的道路中
-	HORIZONTAL          //处于水平的道路中    
+	INTERSECTION,       //����ʮ��·�����룬��������
+	VERTICAL,           //������ֱ�ĵ�·��
+	HORIZONTAL          //����ˮƽ�ĵ�·��    
 };
 
 enum EventLogType {

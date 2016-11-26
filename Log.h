@@ -5,21 +5,21 @@
 
 
 /*===========================================
-*            è¾“å‡ºæ—¥å¿—æ–‡ä»¶æµå£°æ˜
+*            Êä³öÈÕÖ¾ÎÄ¼şÁ÷ÉùÃ÷
 * ==========================================*/
 extern std::ofstream g_FileTemp;
-//GTT_Urbanæ¨¡å—
+//GTT_UrbanÄ£¿é
 extern std::ofstream g_FileVeUELocationUpdateLogInfo;
 extern std::ofstream g_FileVeUENumPerRSULogInfo;
 extern std::ofstream g_FileLocationInfo;
 extern std::ofstream g_FileVeUEMessage;
-//RRMæ¨¡å—
+//RRMÄ£¿é
 extern std::ofstream g_FileScheduleInfo;
 extern std::ofstream g_FileClasterPerformInfo;
 extern std::ofstream g_FileEventListInfo;
 extern std::ofstream g_FileTTILogInfo;
 extern std::ofstream g_FileEventLogInfo;
-//TMC_Bæ¨¡å—
+//TMC_BÄ£¿é
 extern std::ofstream g_FileStatisticsDescription;
 extern std::ofstream g_FileEmergencyDelayStatistics;
 extern std::ofstream g_FilePeriodDelayStatistics;

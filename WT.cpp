@@ -3,7 +3,7 @@
 *
 *       Filename:  WT.cpp
 *
-*    Description:  WTæ¨¡å—
+*    Description:  WTÄ£¿é
 *
 *        Version:  1.0
 *        Created:

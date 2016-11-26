@@ -3,7 +3,7 @@
 *
 *       Filename:  System.cpp
 *
-*    Description:  TMCæ¨¡å—
+*    Description:  TMCÄ£¿é
 *
 *        Version:  1.0
 *        Created:
@@ -54,25 +54,25 @@ using namespace std;
 void System::process() {
 	long double programStart = clock();
 
-	//å‚æ•°é…ç½®
+	//²ÎÊıÅäÖÃ
 	configure();
 
-	//ä»¿çœŸåˆå§‹åŒ–
+	//·ÂÕæ³õÊ¼»¯
 	initialization();
 
-	//åˆ›å»ºäº‹ä»¶é“¾è¡¨
+	//´´½¨ÊÂ¼şÁ´±í
 	m_TMCPoint->buildEventList(g_FileEventListInfo);
 
-	//å¼€å§‹ä»¿çœŸ
+	//¿ªÊ¼·ÂÕæ
 	for (int count = 0;count < m_Config.NTTI;count++) {
 		cout << "Current TTI = " << m_TTI << endl;
-		//åœ°ç†ä½ç½®æ›´æ–°
+		//µØÀíÎ»ÖÃ¸üĞÂ
 		if (count % m_Config.locationUpdateNTTI == 0) {
 			m_GTTPoint->channelGeneration();
 			m_GTTPoint->cleanWhenLocationUpdate();
 			m_RRMPoint->cleanWhenLocationUpdate();
 		}
-		//å¼€å§‹èµ„æºåˆ†é…
+		//¿ªÊ¼×ÊÔ´·ÖÅä
 		m_RRMPoint->schedule();
 		m_TTI++;
 	}
@@ -83,11 +83,11 @@ void System::process() {
 		timeFactor = 1000L;
 	else
 		timeFactor = 1000000L;
-	cout << "å¹²æ‰°ä¿¡é“è®¡ç®—è€—æ—¶ï¼š" << m_RRMPoint->m_GTTTimeConsume / timeFactor << " s\n" << endl;
-	cout << "SINRè®¡ç®—è€—æ—¶ï¼š" << m_RRMPoint->m_WTTimeConsume / timeFactor << " s\n" << endl;
+	cout << "¸ÉÈÅĞÅµÀ¼ÆËãºÄÊ±£º" << m_RRMPoint->m_GTTTimeConsume / timeFactor << " s\n" << endl;
+	cout << "SINR¼ÆËãºÄÊ±£º" << m_RRMPoint->m_WTTimeConsume / timeFactor << " s\n" << endl;
 	cout.unsetf(ios::fixed);
 
-	//å¤„ç†å„é¡¹ä¸šåŠ¡æ—¶å»¶æ•°æ®
+	//´¦Àí¸÷ÏîÒµÎñÊ±ÑÓÊı¾İ
 	m_TMCPoint->processStatistics(
 		g_FileStatisticsDescription,
 		g_FileEmergencyDelayStatistics, g_FilePeriodDelayStatistics, g_FileDataDelayStatistics,
@@ -96,46 +96,46 @@ void System::process() {
 		g_FilePackageLoss, g_FilePackageTransimit,
 		g_FileEventLogInfo);
 
-	//æ‰“å°è½¦è¾†åœ°ç†ä½ç½®æ›´æ–°æ—¥å¿—ä¿¡æ¯
+	//´òÓ¡³µÁ¾µØÀíÎ»ÖÃ¸üĞÂÈÕÖ¾ĞÅÏ¢
 	m_GTTPoint->writeVeUELocationUpdateLogInfo(g_FileVeUELocationUpdateLogInfo, g_FileVeUENumPerRSULogInfo);
 
-	//æ•´ä¸ªç¨‹åºè®¡æ—¶
+	//Õû¸ö³ÌĞò¼ÆÊ±
 	long double programEnd = clock();
 	cout.setf(ios::fixed);
 	cout << "\nRunning Time :" << setprecision(1) << (programEnd - programStart) / timeFactor << " s\n" << endl;
 	cout.unsetf(ios::fixed);
 }
 
-void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
-	srand((unsigned)time(NULL));//è®¾ç½®çœŸä¸ªä»¿çœŸçš„éšæœºæ•°ç§å­
+void System::configure() {//ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
+	srand((unsigned)time(NULL));//ÉèÖÃÕæ¸ö·ÂÕæµÄËæ»úÊıÖÖ×Ó
 
 	ConfigLoader configLoader;
 
-	//é¦–å…ˆå…ˆåˆ¤æ–­å½“å‰çš„å¹³å°ï¼Œåˆ©ç”¨è·¯å¾„çš„è¡¨ç¤ºåœ¨ä¸¤ä¸ªå¹³å°ä¸‹çš„å·®å¼‚æ¥åˆ¤æ–­
-	ifstream inPlatformWindows("Config\\systemConfig.html"),
-		inPlatformLinux("Config/systemConfig.html");
+	//Ê×ÏÈÏÈÅĞ¶Ïµ±Ç°µÄÆ½Ì¨£¬ÀûÓÃÂ·¾¶µÄ±íÊ¾ÔÚÁ½¸öÆ½Ì¨ÏÂµÄ²îÒìÀ´ÅĞ¶Ï
+	ifstream inPlatformWindows("Config\\systemConfig.xml"),
+		inPlatformLinux("Config/systemConfig.xml");
 	
 	if (inPlatformWindows.is_open()) {
 		m_Config.platform = Windows;
-		cout << "æ‚¨å½“å‰çš„å¹³å°ä¸ºï¼šWindows" << endl;	
+		cout << "Äúµ±Ç°µÄÆ½Ì¨Îª£ºWindows" << endl;	
 	}
 	else if (inPlatformLinux.is_open()) {
 		m_Config.platform = Linux;
-		cout << "æ‚¨å½“å‰çš„å¹³å°ä¸ºï¼šLinux" << endl;	
+		cout << "Äúµ±Ç°µÄÆ½Ì¨Îª£ºLinux" << endl;	
 	}
 	else
 		throw logic_error("PlatformError");
 
-	//åˆå§‹åŒ–è¾“å‡ºæµå¯¹è±¡
+	//³õÊ¼»¯Êä³öÁ÷¶ÔÏó
 	logFileConfig(m_Config.platform);
 
-	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>å¼€å§‹è§£æç³»ç»Ÿé…ç½®æ–‡ä»¶<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>¿ªÊ¼½âÎöÏµÍ³ÅäÖÃÎÄ¼ş<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	switch (m_Config.platform) {
 	case Windows:
-		configLoader.resolvConfigPath("Config\\systemConfig.html");
+		configLoader.resolvConfigPath("Config\\systemConfig.xml");
 		break;
 	case Linux:
-		configLoader.resolvConfigPath("Config/systemConfig.html");
+		configLoader.resolvConfigPath("Config/systemConfig.xml");
 		break;
 	default:
 		throw logic_error("Platform Config Error!");
@@ -149,7 +149,7 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("NTTI")) != nullString) {
 		ss << temp;
 		ss >> m_Config.NTTI;
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
 	}
 	else
@@ -158,7 +158,7 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("periodicEventNTTI")) != nullString) {
 		ss << temp;
 		ss >> m_Config.periodicEventNTTI;
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
 	}
 	else
@@ -168,7 +168,7 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("emergencyLambda")) != nullString) {
 		ss << temp;
 		ss >> m_Config.emergencyLambda;
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
 	}
 	else
@@ -177,7 +177,7 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("dataLambda")) != nullString) {
 		ss << temp;
 		ss >> m_Config.dataLambda;
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
 	}
 	else
@@ -186,7 +186,7 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("locationUpdateNTTI")) != nullString) {
 		ss << temp;
 		ss >> m_Config.locationUpdateNTTI;
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
 	}
 	else
@@ -195,14 +195,14 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("GTTMode")) != nullString) {
 		if (temp == "URBAN") {
 			m_Config._GTTMode = URBAN;
-			cout << "GTTå•å…ƒï¼šURBANæ¨¡å¼" << endl;
+			cout << "GTTµ¥Ôª£ºURBANÄ£Ê½" << endl;
 		}
 		else if (temp == "HIGHSPEED") {
 			m_Config._GTTMode = HIGHSPEED;
-			cout << "GTTå•å…ƒï¼šHIGHSPEEDæ¨¡å¼" << endl;
+			cout << "GTTµ¥Ôª£ºHIGHSPEEDÄ£Ê½" << endl;
 		}
 		else
-			throw logic_error("åœ°ç†æ‹“æ‰‘å•å…ƒå‚æ•°é…ç½®é”™è¯¯");
+			throw logic_error("µØÀíÍØÆËµ¥Ôª²ÎÊıÅäÖÃ´íÎó");
 	}
 	else
 		throw logic_error("ConfigLoaderError");
@@ -210,18 +210,18 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("RRMMode")) != nullString) {
 		if (temp == "TDM_DRA") {
 			m_Config._RRMMode = TDM_DRA;
-			cout << "RRMå•å…ƒï¼šTDM_DRAæ¨¡å¼" << endl;
+			cout << "RRMµ¥Ôª£ºTDM_DRAÄ£Ê½" << endl;
 		}
 		else if (temp == "ICC_DRA") {
 			m_Config._RRMMode = ICC_DRA;
-			cout << "RRMå•å…ƒï¼šICC_DRAæ¨¡å¼" << endl;
+			cout << "RRMµ¥Ôª£ºICC_DRAÄ£Ê½" << endl;
 		}
 		else if (temp == "RR") {
 			m_Config._RRMMode = RR;
-			cout << "RRMå•å…ƒï¼šRRæ¨¡å¼" << endl;
+			cout << "RRMµ¥Ôª£ºRRÄ£Ê½" << endl;
 		}
 		else
-			throw logic_error("æ— é™èµ„æºç®¡ç†å•å…ƒå‚æ•°é…ç½®é”™è¯¯");
+			throw logic_error("ÎŞÏŞ×ÊÔ´¹ÜÀíµ¥Ôª²ÎÊıÅäÖÃ´íÎó");
 	}
 	else
 		throw logic_error("ConfigLoaderError");
@@ -229,9 +229,9 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("ThreadNum")) != nullString) {
 		ss << temp;
 		ss >> m_Config.threadNum;
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
-		cout << "å¼€è¾Ÿçš„çº¿ç¨‹æ•°é‡ä¸º: " << m_Config.threadNum << endl;
+		cout << "¿ª±ÙµÄÏß³ÌÊıÁ¿Îª: " << m_Config.threadNum << endl;
 	}
 	else
 		throw logic_error("ConfigLoaderError");
@@ -239,26 +239,26 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	if ((temp = configLoader.getParam("WTMode")) != nullString) {
 		if (temp == "SINR_MRC") {
 			m_Config._WTMode = SINR_MRC;
-			cout << "WTå•å…ƒï¼šSINR_MRCæ¨¡å¼" << endl;
+			cout << "WTµ¥Ôª£ºSINR_MRCÄ£Ê½" << endl;
 		}
 		else if (temp == "SINR_MMSE") {
 			m_Config._WTMode = SINR_MMSE;
-			cout << "WTå•å…ƒï¼šSINR_MMSEæ¨¡å¼" << endl;
+			cout << "WTµ¥Ôª£ºSINR_MMSEÄ£Ê½" << endl;
 		}
 		else
-			throw logic_error("æ— çº¿ä¼ è¾“å•å…ƒå‚æ•°é…ç½®é”™è¯¯");
+			throw logic_error("ÎŞÏß´«Êäµ¥Ôª²ÎÊıÅäÖÃ´íÎó");
 	}
 	else
 		throw logic_error("ConfigLoaderError");
 
 
-	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>å¼€å§‹è§£ææ—¥å¿—é…ç½®æ–‡ä»¶<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>¿ªÊ¼½âÎöÈÕÖ¾ÅäÖÃÎÄ¼ş<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	switch (m_Config.platform) {
 	case Windows:
-		configLoader.resolvConfigPath("Config\\LogControlConfig.html");
+		configLoader.resolvConfigPath("Config\\LogControlConfig.xml");
 		break;
 	case Linux:
-		configLoader.resolvConfigPath("Config/LogControlConfig.html");
+		configLoader.resolvConfigPath("Config/LogControlConfig.xml");
 		break;
 	default:
 		throw logic_error("Platform Config Error!");
@@ -270,8 +270,8 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 		else if (temp == "OFF")
 			m_Config.TTILogIsOn = false;
 		else
-			throw logic_error("TTIæ—¥å¿—å‚æ•°é…ç½®é”™è¯¯");
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+			throw logic_error("TTIÈÕÖ¾²ÎÊıÅäÖÃ´íÎó");
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
 	}
 	else
@@ -283,8 +283,8 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 		else if (temp == "OFF")
 			m_Config.eventLogIsOn = false;
 		else
-			throw logic_error("Eventæ—¥å¿—å‚æ•°é…ç½®é”™è¯¯");
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+			throw logic_error("EventÈÕÖ¾²ÎÊıÅäÖÃ´íÎó");
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
 		Event::s_LogIsOn = m_Config.eventLogIsOn;
 	}
@@ -297,8 +297,8 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 		else if (temp == "OFF")
 			m_Config.scheduleLogIsOn = false;
 		else
-			throw logic_error("Scheduleæ—¥å¿—å‚æ•°é…ç½®é”™è¯¯");
-		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+			throw logic_error("ScheduleÈÕÖ¾²ÎÊıÅäÖÃ´íÎó");
+		ss.clear();//Çå³ı±êÖ¾Î»
 		ss.str("");
 	}
 	else
@@ -309,16 +309,16 @@ void System::configure() {//ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 void System::initialization() {
 	m_TTI = 0;	
 
-	//GTTæ¨¡å—åˆå§‹åŒ–
+	//GTTÄ£¿é³õÊ¼»¯
 	initializeGTTModule();
 
-	//WTæ¨¡å—åˆå§‹åŒ–
+	//WTÄ£¿é³õÊ¼»¯
 	initializeWTModule();
 
-	//RRMæ¨¡å—åˆå§‹åŒ–
+	//RRMÄ£¿é³õÊ¼»¯
 	initializeRRMModule();
 
-	//TMCæ¨¡å—åˆå§‹åŒ–
+	//TMCÄ£¿é³õÊ¼»¯
 	initializeTMCModule();
 
 	initializeNON();
@@ -334,16 +334,16 @@ void System::initializeGTTModule() {
 		m_GTTPoint = new GTT_HighSpeed(this);
 		break;
 	}
-	//åˆå§‹åŒ–åœ°ç†æ‹“æ‰‘å‚æ•°
+	//³õÊ¼»¯µØÀíÍØÆË²ÎÊı
 	m_GTTPoint->configure();
 
-	//åˆå§‹åŒ–eNBã€Rodeã€RSUã€VUEç­‰å®¹å™¨
+	//³õÊ¼»¯eNB¡¢Rode¡¢RSU¡¢VUEµÈÈİÆ÷
 	m_GTTPoint->initialize();
 }
 
 void System::initializeWTModule() {
 	m_WTPoint = new WT_B(this);
-	m_WTPoint->initialize();//æ¨¡å—åˆå§‹åŒ–
+	m_WTPoint->initialize();//Ä£¿é³õÊ¼»¯
 }
 
 
@@ -361,18 +361,18 @@ void System::initializeRRMModule() {
 	default:
 		break;
 	}
-	m_RRMPoint->initialize();//æ¨¡å—åˆå§‹åŒ–
+	m_RRMPoint->initialize();//Ä£¿é³õÊ¼»¯
 }
 
 
 void System::initializeTMCModule() {
 	m_TMCPoint = new TMC_B(this);
-	m_TMCPoint->initialize();//æ¨¡å—åˆå§‹åŒ–
+	m_TMCPoint->initialize();//Ä£¿é³õÊ¼»¯
 }
 
 
 void System::initializeNON() {
-	//ç³»ç»ŸVeUEä¸å„ä¸ªå•å…ƒä¸­VeUEè§†å›¾å»ºç«‹å…³è”
+	//ÏµÍ³VeUEÓë¸÷¸öµ¥ÔªÖĞVeUEÊÓÍ¼½¨Á¢¹ØÁª
 	m_VeUEAry = new VeUE[m_Config.VeUENum];
 	for (int VeUEId = 0; VeUEId < m_Config.VeUENum; VeUEId++) {
 		m_VeUEAry[VeUEId].m_GTT = m_GTTPoint->m_VeUEAry[VeUEId];
@@ -388,7 +388,7 @@ void System::initializeNON() {
 		m_TMCPoint->m_VeUEAry[VeUEId]->setSystemPoint(&m_VeUEAry[VeUEId]);
 	}
 
-	//ç³»ç»ŸRSUä¸å„ä¸ªå•å…ƒä¸­RSUè§†å›¾å»ºç«‹å…³è”
+	//ÏµÍ³RSUÓë¸÷¸öµ¥ÔªÖĞRSUÊÓÍ¼½¨Á¢¹ØÁª
 	m_RSUAry = new RSU[m_Config.RSUNum];
 	for (int RSUId = 0; RSUId < m_Config.RSUNum; RSUId++) {
 		m_RSUAry[RSUId].m_GTT = m_GTTPoint->m_RSUAry[RSUId];
@@ -403,18 +403,18 @@ void System::initializeNON() {
 		m_RSUAry[RSUId].m_TMC = m_TMCPoint->m_RSUAry[RSUId];
 		m_TMCPoint->m_RSUAry[RSUId]->setSystemPoint(&m_RSUAry[RSUId]);
 
-		//å¿…é¡»ç­‰åˆ°å„ä¸ªå•å…ƒçš„RSUå»ºç«‹è¿æ¥åï¼Œæ‰èƒ½å¯¹RRMå•å…ƒå†…çš„RSUå¯¹è±¡è¿›è¡Œåˆå§‹åŒ–
+		//±ØĞëµÈµ½¸÷¸öµ¥ÔªµÄRSU½¨Á¢Á¬½Óºó£¬²ÅÄÜ¶ÔRRMµ¥ÔªÄÚµÄRSU¶ÔÏó½øĞĞ³õÊ¼»¯
 		m_RRMPoint->m_RSUAry[RSUId]->initialize();
 	}
 
-	//ç³»ç»ŸeNBä¸å„ä¸ªå•å…ƒä¸­eNBè§†å›¾å»ºç«‹å…³è”
+	//ÏµÍ³eNBÓë¸÷¸öµ¥ÔªÖĞeNBÊÓÍ¼½¨Á¢¹ØÁª
 	m_eNBAry = new eNB[m_Config.eNBNum];
 	for (int eNBId = 0; eNBId < m_Config.eNBNum; eNBId++) {
 		m_eNBAry[eNBId].m_GTT = m_GTTPoint->m_eNBAry[eNBId];
 		m_GTTPoint->m_eNBAry[eNBId]->setSystemPoint(&m_eNBAry[eNBId]);
 	}
 
-	//ç³»ç»ŸRoadä¸å„ä¸ªå•å…ƒä¸­Roadè§†å›¾å»ºç«‹å…³è”
+	//ÏµÍ³RoadÓë¸÷¸öµ¥ÔªÖĞRoadÊÓÍ¼½¨Á¢¹ØÁª
 	m_RoadAry = new Road[m_Config.RoadNum];
 	for (int roadId = 0; roadId < m_Config.RoadNum; roadId++) {
 		m_RoadAry[roadId].m_GTT = m_GTTPoint->m_RoadAry[roadId];
@@ -424,19 +424,19 @@ void System::initializeNON() {
 
 
 System::~System() {
-	//æ¸…ç†æ¨¡å—æŒ‡é’ˆ
+	//ÇåÀíÄ£¿éÖ¸Õë
 	Delete::safeDelete(m_TMCPoint);
 	Delete::safeDelete(m_RRMPoint);
 	Delete::safeDelete(m_GTTPoint);
 	Delete::safeDelete(m_WTPoint);
 
-	//æ¸…ç†å„å®ä½“ç±»æ•°ç»„
+	//ÇåÀí¸÷ÊµÌåÀàÊı×é
 	Delete::safeDelete(m_eNBAry, true);
 	Delete::safeDelete(m_RSUAry, true);
 	Delete::safeDelete(m_VeUEAry, true);
 	Delete::safeDelete(m_RoadAry, true);
 
-    //å…³é—­æ–‡ä»¶æµ
+    //¹Ø±ÕÎÄ¼şÁ÷
 	g_FileTemp.close();
 
 	g_FileVeUELocationUpdateLogInfo.close();

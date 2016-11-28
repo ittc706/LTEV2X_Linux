@@ -101,7 +101,7 @@ GTT_Urban_Road::GTT_Urban_Road(UrbanRoadConfig &t_RoadConfig) {
 
 default_random_engine GTT_Urban::s_Engine((unsigned)time(NULL));
 
-const double GTT_Urban::s_ROAD_WIDTH = 7.0f;
+const double GTT_Urban::s_ROAD_WIDTH = 14.0f;
 
 const double GTT_Urban::s_ROAD_TOPO_RATIO[s_ROAD_NUM * 2] = {
 	-1.5f, 1.0f,

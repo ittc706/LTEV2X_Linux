@@ -117,7 +117,7 @@ public:
 	/*
 	* 南北向路长
 	*/
-	static const int s_ROAD_LENGTH_SN = 250;
+	static const int s_ROAD_LENGTH_SN = 433;
 
 	/*
 	* 东西向路长

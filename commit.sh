@@ -33,6 +33,7 @@ mkdir ./Unicode ./UTF-8
 # 开始转码
 for filename in $(ls *.h *.cpp)
 do
+	echo "正在转码: "$filename
 	native2ascii $filename ./Unicode/$filename
 	native2ascii -reverse -encoding utf-8 ./Unicode/$filename ./UTF-8/$filename
 done

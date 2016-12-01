@@ -1,9 +1,13 @@
 #pragma once
 
+#include<iostream>
+#include<iomanip>
+#include<vector>
+
 class Delete {
 public:
 	/*
-	* É¾³ıº¯Êı£¬É¾³ıºó»áÖÃ¿ÕÖ¸Õë
+	* åˆ é™¤å‡½æ•°ï¼Œåˆ é™¤åä¼šç½®ç©ºæŒ‡é’ˆ
 	*/
 	template<typename T>
 	static void safeDelete(T*&t_Point, bool t_IsArray = false) {
@@ -13,6 +17,26 @@ public:
 			else
 				delete t_Point;
 			t_Point = nullptr;
+		}
+	}
+};
+
+class Print {
+public:
+	template<typename T>
+	static void printVectorDim1(std::vector<T> t_Vector) {
+		for (T& t : t_Vector)
+			std::cout << std::left << std::setw(5) << t;
+		std::cout << endl;
+	}
+
+	template<typename T>
+	static void printVectorDim2(std::vector<std::vector<T>> t_Vector) {
+		for (std::vector<T>& innerVector : t_Vector) {
+			for (T& t : innerVector) {
+				std::cout << std::left << std::setw(5) << t;
+			}
+			std::cout << endl;
 		}
 	}
 };

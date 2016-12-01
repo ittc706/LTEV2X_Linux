@@ -3,7 +3,7 @@
 *
 *       Filename:  GTT_Urban.cpp
 *
-*    Description:  TMCÄ£¿é
+*    Description:  TMCæ¨¡å—
 *
 *        Version:  1.0
 *        Created:
@@ -25,7 +25,6 @@
 #include"System.h"
 #include"GTT_Urban.h"
 #include"IMTA.h"
-#include"Log.h"
 #include"Function.h"
 #include"ConfigLoader.h"
 
@@ -41,7 +40,7 @@ GTT_Urban_VeUE::GTT_Urban_VeUE(VeUEConfig &t_VeUEConfig) {
 	m_Y = t_VeUEConfig.Y;
 	m_AbsX = t_VeUEConfig.AbsX;
 	m_AbsY = t_VeUEConfig.AbsY;
-	m_V = t_VeUEConfig.V/3.6;//»»ËãÎªm/s
+	m_V = t_VeUEConfig.V/3.6;//æ¢ç®—ä¸ºm/s
 	m_VAngle = t_VeUEConfig.angle;
 
 	IMTA::randomUniform(&m_FantennaAngle, 1, 180.0f, -180.0f, false);
@@ -58,7 +57,7 @@ GTT_Urban_RSU::GTT_Urban_RSU() {
 	m_AbsX = GTT_Urban::s_RSU_TOPO_RATIO[m_RSUId * 2 + 0] * (GTT_Urban::s_ROAD_LENGTH_SN + 2 * GTT_Urban::s_ROAD_WIDTH);
 	m_AbsY = GTT_Urban::s_RSU_TOPO_RATIO[m_RSUId * 2 + 1] * (GTT_Urban::s_ROAD_LENGTH_EW + 2 * GTT_Urban::s_ROAD_WIDTH);
 	IMTA::randomUniform(&m_FantennaAngle, 1, 180.0f, -180.0f, false);
-	g_FileLocationInfo << toString(0);
+	//g_FileLocationInfo << toString(0);
 
 	m_ClusterNum = GTT_Urban::s_RSU_CLUSTER_NUM[m_RSUId];
 	m_ClusterVeUEIdList = vector<list<int>>(m_ClusterNum);
@@ -72,7 +71,6 @@ void GTT_Urban_eNB::initialize(eNBConfig &t_eNBConfig) {
 	m_Y = t_eNBConfig.Y;
 	m_AbsX = t_eNBConfig.AbsX;
 	m_AbsY = t_eNBConfig.AbsY;
-	g_FileLocationInfo << toString(0);
 }
 
 
@@ -80,14 +78,13 @@ GTT_Urban_Road::GTT_Urban_Road(UrbanRoadConfig &t_RoadConfig) {
 	m_RoadId = t_RoadConfig.roadId;
 	m_AbsX = GTT_Urban::s_ROAD_TOPO_RATIO[m_RoadId * 2 + 0] * (GTT_Urban::s_ROAD_LENGTH_SN + 2 * GTT_Urban::s_ROAD_WIDTH);
 	m_AbsY = GTT_Urban::s_ROAD_TOPO_RATIO[m_RoadId * 2 + 1] * (GTT_Urban::s_ROAD_LENGTH_EW + 2 * GTT_Urban::s_ROAD_WIDTH);
-	g_FileLocationInfo << toString(0);
 
 	m_eNBNum = t_RoadConfig.eNBNum;
 	if (m_eNBNum == 1) {
 		/*
-		* ÕâÀï±È½ÏÈÆ£¬½âÊÍÒ»ÏÂ
-		* ÓÉÓÚt_RoadConfig.eNB´æµÄÊÇÒ»¸ö(GTT_eNB**)ÀàĞÍ£¬Ë«ÖØÖ¸Õë
-		* µÚÒ»ÖØÖ¸ÕëÖ¸ÏòÊı×é
+		* è¿™é‡Œæ¯”è¾ƒç»•ï¼Œè§£é‡Šä¸€ä¸‹
+		* ç”±äºt_RoadConfig.eNBå­˜çš„æ˜¯ä¸€ä¸ª(GTT_eNB**)ç±»å‹ï¼ŒåŒé‡æŒ‡é’ˆ
+		* ç¬¬ä¸€é‡æŒ‡é’ˆæŒ‡å‘æ•°ç»„
 		*/
 		m_eNB = *((GTT_eNB **)t_RoadConfig.eNB + t_RoadConfig.eNBOffset);
 		eNBConfig eNBConfig;
@@ -113,61 +110,6 @@ double GTT_Urban::s_ROAD_WIDTH = INVALID;
 
 double GTT_Urban::s_SPEED = INVALID;
 
-void GTT_Urban::loadConfig(Platform t_Platform) {
-	ConfigLoader configLoader;
-	if (t_Platform == Windows) {
-		configLoader.resolvConfigPath("Config\\UrbanConfig.xml");
-	}
-	else if(t_Platform==Linux){
-		configLoader.resolvConfigPath("Config/UrbanConfig.xml");
-	}
-	else {
-		throw logic_error("Platform Config Error!");
-	}
-
-	stringstream ss;
-
-	const string nullString("");
-	string temp;
-
-	if ((temp = configLoader.getParam("RoadLengthSN")) != nullString) {
-		ss << temp;
-		ss >> s_ROAD_LENGTH_SN;
-		ss.clear();//Çå³ı±êÖ¾Î»
-		ss.str("");
-	}
-	else
-		throw logic_error("ConfigLoaderError");
-
-	if ((temp = configLoader.getParam("RoadLengthEW")) != nullString) {
-		ss << temp;
-		ss >> s_ROAD_LENGTH_EW;
-		ss.clear();//Çå³ı±êÖ¾Î»
-		ss.str("");
-	}
-	else
-		throw logic_error("ConfigLoaderError");
-
-	if ((temp = configLoader.getParam("RoadWidth")) != nullString) {
-		ss << temp;
-		ss >> s_ROAD_WIDTH;
-		ss.clear();//Çå³ı±êÖ¾Î»
-		ss.str("");
-	}
-	else
-		throw logic_error("ConfigLoaderError");
-
-	if ((temp = configLoader.getParam("Speed")) != nullString) {
-		ss << temp;
-		ss >> s_SPEED;
-		ss.clear();//Çå³ı±êÖ¾Î»
-		ss.str("");
-	}
-	else
-		throw logic_error("ConfigLoaderError");
-
-}
-
 const double GTT_Urban::s_ROAD_TOPO_RATIO[s_ROAD_NUM * 2] = {
 	-1.5f, 1.0f,
 	-0.5f, 1.0f,
@@ -184,6 +126,7 @@ const double GTT_Urban::s_ROAD_TOPO_RATIO[s_ROAD_NUM * 2] = {
 	0.5f,-1.0f,
 	1.5f,-1.0f
 };
+
 const int GTT_Urban::s_WRAP_AROUND_ROAD[s_ROAD_NUM][9] = {
 	{ 0,1,6,5,4,13,8,9,10 },
 	{ 1,2,7,6,5,0,9,10,11 },
@@ -202,7 +145,7 @@ const int GTT_Urban::s_WRAP_AROUND_ROAD[s_ROAD_NUM][9] = {
 };
 
 const int GTT_Urban::s_RSU_CLUSTER_NUM[s_RSU_NUM] = {
-	4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
+	5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5
 };
 
 const double GTT_Urban::s_RSU_TOPO_RATIO[s_RSU_NUM * 2] = {
@@ -249,6 +192,66 @@ const int GTT_Urban::s_RSU_IN_ROAD[s_ROAD_NUM][4] = {
 	{ 16,17,23,22 }
 };
 
+void GTT_Urban::loadConfig(Platform t_Platform) {
+	ConfigLoader configLoader;
+	if (t_Platform == Windows) {
+		configLoader.resolvConfigPath("Config\\UrbanConfig.xml");
+	}
+	else if (t_Platform == Linux) {
+		configLoader.resolvConfigPath("Config/UrbanConfig.xml");
+	}
+	else {
+		throw logic_error("Platform Config Error!");
+	}
+
+	stringstream ss;
+
+	const string nullString("");
+	string temp;
+
+	if ((temp = configLoader.getParam("RoadLengthSN")) != nullString) {
+		ss << temp;
+		ss >> s_ROAD_LENGTH_SN;
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.str("");
+	}
+	else
+		throw logic_error("ConfigLoaderError");
+
+	if ((temp = configLoader.getParam("RoadLengthEW")) != nullString) {
+		ss << temp;
+		ss >> s_ROAD_LENGTH_EW;
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.str("");
+	}
+	else
+		throw logic_error("ConfigLoaderError");
+
+	if ((temp = configLoader.getParam("RoadWidth")) != nullString) {
+		ss << temp;
+		ss >> s_ROAD_WIDTH;
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.str("");
+	}
+	else
+		throw logic_error("ConfigLoaderError");
+
+	if ((temp = configLoader.getParam("Speed")) != nullString) {
+		ss << temp;
+		ss >> s_SPEED;
+		ss.clear();//æ¸…é™¤æ ‡å¿—ä½
+		ss.str("");
+	}
+	else
+		throw logic_error("ConfigLoaderError");
+
+	/*cout << "RoadLengthSN: " << s_ROAD_LENGTH_SN << endl;
+	cout << "RoadLengthEW: " << s_ROAD_LENGTH_EW << endl;
+	cout << "RoadWidth: " << s_ROAD_WIDTH << endl;
+	cout << "Speed: " << s_SPEED << endl;
+	system("pause");*/
+}
+
 GTT_Urban::GTT_Urban(System* t_Context) :
 	GTT(t_Context) {}
 
@@ -256,7 +259,7 @@ GTT_Urban::GTT_Urban(System* t_Context) :
 void GTT_Urban::configure() {
 	getContext()->m_Config.eNBNum = s_eNB_NUM;
 	getContext()->m_Config.RoadNum = s_ROAD_NUM;
-	getContext()->m_Config.RSUNum = s_RSU_NUM;//Ä¿Ç°Ö»±íÊ¾UE RSUÊı
+	getContext()->m_Config.RSUNum = s_RSU_NUM;//ç›®å‰åªè¡¨ç¤ºUE RSUæ•°
 	m_pupr = new int[getContext()->m_Config.RoadNum];
 	getContext()->m_Config.VeUENum = 0;
 	int Lambda = static_cast<int>((s_ROAD_LENGTH_EW + s_ROAD_LENGTH_SN) * 2 * 3.6 / (2.5 * 15));
@@ -264,7 +267,7 @@ void GTT_Urban::configure() {
 	{
 		int k = 0;
 		long double p = 1.0;
-		long double l = exp(-Lambda);  /* ÎªÁË¾«¶È£¬²Å¶¨ÒåÎªlong doubleµÄ£¬exp(-Lambda)ÊÇ½Ó½ü0µÄĞ¡Êı*/
+		long double l = exp(-Lambda);  /* ä¸ºäº†ç²¾åº¦ï¼Œæ‰å®šä¹‰ä¸ºlong doubleçš„ï¼Œexp(-Lambda)æ˜¯æ¥è¿‘0çš„å°æ•°*/
 		while (p >= l)
 		{
 			double u = (double)(rand() % 10000)*0.0001f;
@@ -277,7 +280,7 @@ void GTT_Urban::configure() {
 	//m_xNum = 36;
 	//m_yNum = 62;
 	//m_ueTopoNum = (m_xNum + m_yNum) * 2 - 4;
-	//m_pueTopo = new double[m_ueTopoNum * 2];//ÖØºÏÁË4¸ö
+	//m_pueTopo = new double[m_ueTopoNum * 2];//é‡åˆäº†4ä¸ª
 	//double temp_x = -(double)gc_Width / 2 + gc_LaneWidth;
 	//double temp_y = -(double)gc_Length / 2 + gc_LaneWidth;
 	//for (int temp = 0; temp != m_ueTopoNum; ++temp)
@@ -298,19 +301,19 @@ void GTT_Urban::configure() {
 	//	m_pueTopo[temp * 2 + 0] = temp_x;
 	//	m_pueTopo[temp * 2 + 1] = temp_y;
 	//}
-	m_Speed = s_SPEED;//³µËÙÉè¶¨,km/h
+	m_Speed = s_SPEED;//è½¦é€Ÿè®¾å®š,km/h
 }
 
 
 void GTT_Urban::initialize() {
-	//³õÊ¼»¯m_eNBAry
+	//åˆå§‹åŒ–m_eNBAry
 	m_eNBAry = new GTT_eNB*[getContext()->m_Config.eNBNum];
 	for (int eNBId = 0; eNBId < getContext()->m_Config.eNBNum; eNBId++) {
 		m_eNBAry[eNBId] = new GTT_Urban_eNB();
-		//ÔÚRoad³õÊ¼»¯µÄÊ±ºò£¬¶ÔeNB½øĞĞ³õÊ¼»¯
+		//åœ¨Roadåˆå§‹åŒ–çš„æ—¶å€™ï¼Œå¯¹eNBè¿›è¡Œåˆå§‹åŒ–
 	}
 	
-	//³õÊ¼»¯m_RoadAry
+	//åˆå§‹åŒ–m_RoadAry
 	m_RoadAry = new GTT_Road*[getContext()->m_Config.RoadNum];
 	UrbanRoadConfig urbanRoadConfig;
 	for (int roadId = 0; roadId != getContext()->m_Config.RoadNum; ++roadId) {
@@ -326,13 +329,19 @@ void GTT_Urban::initialize() {
 		m_RoadAry[roadId] = new GTT_Urban_Road(urbanRoadConfig);
 	}
 
-	//³õÊ¼»¯m_RSUAry
+	//å°±ä¸ºäº†æ‰“å°ä¸€ä¸‹eNBçš„ä¿¡æ¯ï¼Œç”±äºeNBåˆå§‹åŒ–æ¯”è¾ƒå¥‡æ€ªï¼Œç”±roadæ¥åˆå§‹åŒ–
+	for (int eNBId = 0; eNBId < getContext()->m_Config.eNBNum; eNBId++) {
+		m_FileLocationInfo << m_eNBAry[eNBId]->toString(0);
+	}
+
+	//åˆå§‹åŒ–m_RSUAry
 	m_RSUAry = new GTT_RSU*[getContext()->m_Config.RSUNum];
 	for (int RSUId = 0; RSUId != getContext()->m_Config.RSUNum; RSUId++) {
 		m_RSUAry[RSUId] = new GTT_Urban_RSU();
+		m_FileLocationInfo << m_RSUAry[RSUId]->toString(0);
 	}
 
-	//³õÊ¼»¯m_VeUEAry
+	//åˆå§‹åŒ–m_VeUEAry
 	m_VeUEAry = new GTT_VeUE*[getContext()->m_Config.VeUENum];
 	VeUEConfig _VeUEConfig;
 	int VeUEId = 0;
@@ -372,7 +381,7 @@ void GTT_Urban::initialize() {
 		}
 	}
 
-	//³õÊ¼»¯³µÁ¾ÓëRSUµÄ¾àÀë
+	//åˆå§‹åŒ–è½¦è¾†ä¸RSUçš„è·ç¦»
 	for (int VeIdx = 0; VeIdx != getContext()->m_Config.VeUENum; VeIdx++) {
 		m_VeUEAry[VeIdx]->m_Distance = new double[s_RSU_NUM];
 			for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
@@ -393,7 +402,7 @@ void GTT_Urban::cleanWhenLocationUpdate() {
 
 
 void GTT_Urban::channelGeneration() {
-	//RSU.m_VeUEIdListÊÇÔÚfreshLocº¯ÊıÄÚÉú³ÉµÄ£¬Òò´ËĞèÒªÔÚ¸üĞÂÎ»ÖÃÇ°Çå¿ÕÕâ¸öÁĞ±í
+	//RSU.m_VeUEIdListæ˜¯åœ¨freshLocå‡½æ•°å†…ç”Ÿæˆçš„ï¼Œå› æ­¤éœ€è¦åœ¨æ›´æ–°ä½ç½®å‰æ¸…ç©ºè¿™ä¸ªåˆ—è¡¨
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
 		_GTT_RSU->m_VeUEIdList.clear();
@@ -401,14 +410,14 @@ void GTT_Urban::channelGeneration() {
 			_GTT_RSU->m_ClusterVeUEIdList[clusterIdx].clear();
 		}
 	}
-	//Í¬Ê±Ò²Çå³ıeNB.m_VeUEIdList
+	//åŒæ—¶ä¹Ÿæ¸…é™¤eNB.m_VeUEIdList
 	for (int eNBId = 0; eNBId < getContext()->m_Config.eNBNum; eNBId++)
 		m_eNBAry[eNBId]->m_VeUEIdList.clear();
 
-	//ÔË¶¯Ä£ĞÍ
+	//è¿åŠ¨æ¨¡å‹
 	freshLoc();
 
-	//½«¸üĞÂºóµÄRSU.m_VeUEIdListÑ¹Èë¶ÔÓ¦µÄ´ØÖĞ
+	//å°†æ›´æ–°åçš„RSU.m_VeUEIdListå‹å…¥å¯¹åº”çš„ç°‡ä¸­
 	for (int RSUId = 0; RSUId <getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
 		for (int VeUEId : _GTT_RSU->m_VeUEIdList) {
@@ -417,11 +426,11 @@ void GTT_Urban::channelGeneration() {
 		}
 	}
 
-	//¼ÇÂ¼²¢¸üĞÂÃ¿Á¾³µµÄÎ»ÖÃÈÕÖ¾
+	//è®°å½•å¹¶æ›´æ–°æ¯è¾†è½¦çš„ä½ç½®æ—¥å¿—
 	for (int VeUEId = 0; VeUEId<getContext()->m_Config.VeUENum; VeUEId++)
 		m_VeUEAry[VeUEId]->m_LocationUpdateLogInfoList.push_back(tuple<int, int>(m_VeUEAry[VeUEId]->m_RSUId, m_VeUEAry[VeUEId]->m_ClusterIdx));
 	
-	//¼ÇÂ¼RSUÄÚ³µÁ¾µÄÊıÄ¿
+	//è®°å½•RSUå†…è½¦è¾†çš„æ•°ç›®
 	vector<int> curVeUENum;
 	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++) {
 		GTT_RSU *_GTT_RSU = m_RSUAry[RSUId];
@@ -430,8 +439,8 @@ void GTT_Urban::channelGeneration() {
 	m_VeUENumPerRSU.push_back(curVeUENum);
 
 
-	//<UNDONE>:»ùÕ¾ÀàµÄRSUIDListÔÚÄÄÀïÎ¬»¤µÄ?
-	//¸üĞÂ»ùÕ¾µÄVeUEÈİÆ÷
+	//<UNDONE>:åŸºç«™ç±»çš„RSUIDListåœ¨å“ªé‡Œç»´æŠ¤çš„?
+	//æ›´æ–°åŸºç«™çš„VeUEå®¹å™¨
 	for (int eNBId = 0; eNBId <getContext()->m_Config.eNBNum; eNBId++) {
 		GTT_eNB *_eNB = m_eNBAry[eNBId];
 		for (int RSUId : _eNB->m_RSUIdList) {
@@ -444,6 +453,8 @@ void GTT_Urban::channelGeneration() {
 
 
 void GTT_Urban::freshLoc() {
+	//g_FileVeUEMessage.close();
+	//g_FileVeUEMessage.open("Log\\GTTLog\\VeUEMessage.txt");
 	double freshTime = ((double)getContext()->m_Config.locationUpdateNTTI) / 1000.0;
 	for (int UserIdx = 0; UserIdx != getContext()->m_Config.VeUENum; UserIdx++)
 	{
@@ -555,7 +566,7 @@ void GTT_Urban::freshLoc() {
 		m_VeUEAry[UserIdx]->m_AbsX = m_RoadAry[m_VeUEAry[UserIdx]->m_RoadId]->m_AbsX + m_VeUEAry[UserIdx]->m_X;
 		m_VeUEAry[UserIdx]->m_AbsY = m_RoadAry[m_VeUEAry[UserIdx]->m_RoadId]->m_AbsY + m_VeUEAry[UserIdx]->m_Y;
 
-		//¸üĞÂ³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄ¾àÀë
+		//æ›´æ–°è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„è·ç¦»
 		for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
 			m_VeUEAry[UserIdx]->m_Distance[RSUIdx] = sqrt(pow((m_VeUEAry[UserIdx]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX), 2.0f) + pow((m_VeUEAry[UserIdx]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY), 2.0f));
 		}
@@ -571,14 +582,14 @@ void GTT_Urban::freshLoc() {
 	location.VeUEAntH = 1.5;
 	location.RSUAntH = 5;
 
-	IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//²úÉú¸ßË¹Ëæ»úÊı£¬ÎªºóÃæĞÅµÀÏµÊıÊ¹ÓÃ¡£
+	IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//äº§ç”Ÿé«˜æ–¯éšæœºæ•°ï¼Œä¸ºåé¢ä¿¡é“ç³»æ•°ä½¿ç”¨ã€‚
 
 	int RSUIdx = 0;
 	int ClusterID = 0;
 
 	for (int UserIdx1 = 0; UserIdx1 != getContext()->m_Config.VeUENum; UserIdx1++)
 	{
-		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄÂ·¾¶ËğºÄ
+		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„è·¯å¾„æŸè€—
 		double wPL[s_RSU_NUM] = { 0 };
 		for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
 
@@ -591,7 +602,7 @@ void GTT_Urban::freshLoc() {
 
 				if (m_VeUEAry[UserIdx1]->m_Distance[RSUIdx] > 3 && m_VeUEAry[UserIdx1]->m_Distance[RSUIdx] < wDistanceBP)
 				{
-					wPL[RSUIdx] = 22.7f * log10(m_VeUEAry[UserIdx1]->m_Distance[RSUIdx]) + 27.0f + 20.0f * (log10(IMTA::s_FC) - 9.0f);//×ª»»ÎªGHz
+					wPL[RSUIdx] = 22.7f * log10(m_VeUEAry[UserIdx1]->m_Distance[RSUIdx]) + 27.0f + 20.0f * (log10(IMTA::s_FC) - 9.0f);//è½¬æ¢ä¸ºGHz
 				}
 				else
 				{
@@ -647,64 +658,69 @@ void GTT_Urban::freshLoc() {
 			}
 		}
 
-		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄÒõÓ°Ë¥Âä
+		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„é˜´å½±è¡°è½
 		double wShadow[s_RSU_NUM] = { 0 };
 		IMTA::randomGaussian(wShadow, s_RSU_NUM, 0.0f, 3.0f);
 
-		//¼ÆËã³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄ´óÖĞ³ß¶ÈË¥ÂäºÍ
+		//è®¡ç®—è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„å¤§ä¸­å°ºåº¦è¡°è½å’Œ
 		double wPLSF[s_RSU_NUM];
 		for (int RSUIdx = 0; RSUIdx != s_RSU_NUM; RSUIdx++) {
 			wPLSF[RSUIdx] = -(wPL[RSUIdx] + wShadow[RSUIdx]);
 		}
 
-		//¼ÆËã³ö×îĞ¡µÄ´óÖĞ³ß¶ÈË¥Âä
+		//è®¡ç®—å‡ºæœ€å°çš„å¤§ä¸­å°ºåº¦è¡°è½
 		int FirstRSUIdx, SecondRSUIdx;
 		IMTA::selectMax(wPLSF, s_RSU_NUM, &FirstRSUIdx, &SecondRSUIdx);
-		//³µÁ¾Ñ¡Ôñ×îĞ¡Ë¥ÂäµÄRSUÓëÖ®Í¨ĞÅ
+		//è½¦è¾†é€‰æ‹©æœ€å°è¡°è½çš„RSUä¸ä¹‹é€šä¿¡
 		RSUIdx = FirstRSUIdx;
 			
 		m_VeUEAry[UserIdx1]->m_IMTA = new IMTA[getContext()->m_Config.RSUNum];
-		//¼ÆËãÆğµãÎªRSUÖÕµãÎª³µÁ¾µÄÏòÁ¿
+		//è®¡ç®—èµ·ç‚¹ä¸ºRSUç»ˆç‚¹ä¸ºè½¦è¾†çš„å‘é‡
 		double vectorI2V[2];
-		vectorI2V[0] = m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX;//ÏòÁ¿ºá×ø±ê
-		vectorI2V[1] = m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY;//ÏòÁ¿×İ×ø±ê
-		double tan = vectorI2V[1] / vectorI2V[0];//¼ÆËã·½Ïò½Ç
-		//¸ù¾İ·½Ïò½ÇÅĞ¶ÏËùÔÚ´ØµÄId
-		if (vectorI2V[0] >= 0 && vectorI2V[1] >= 0) {
-			if (tan < 1)
-				ClusterID = 1;
-			else
-				ClusterID = 0;
+		vectorI2V[0] = m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX;//å‘é‡æ¨ªåæ ‡
+		vectorI2V[1] = m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY;//å‘é‡çºµåæ ‡
+		double tan = vectorI2V[1] / vectorI2V[0];//è®¡ç®—æ–¹å‘è§’
+		//æ ¹æ®æ–¹å‘è§’åˆ¤æ–­æ‰€åœ¨ç°‡çš„Id
+		if (m_VeUEAry[UserIdx1]->m_Distance[RSUIdx] > ((GTT_Urban::s_ROAD_LENGTH_SN + 2 * GTT_Urban::s_ROAD_WIDTH)) / 6) {
+			if (vectorI2V[0] >= 0 && vectorI2V[1] >= 0) {
+				if (tan < 1)
+					ClusterID = 2;
+				else
+					ClusterID = 1;
+			}
+			else if (vectorI2V[0] < 0 && vectorI2V[1] >= 0) {
+				if (tan < -1)
+					ClusterID = 1;
+				else
+					ClusterID = 4;
+			}
+			else if (vectorI2V[0] < 0 && vectorI2V[1] < 0) {
+				if (tan < 1)
+					ClusterID = 4;
+				else
+					ClusterID = 3;
+			}
+			else {
+				if (tan < -1)
+					ClusterID = 3;
+				else
+					ClusterID = 2;
+			}
 		}
-		else if (vectorI2V[0] < 0 && vectorI2V[1] >= 0) {
-			if (tan < -1)
-				ClusterID = 0;
-			else
-				ClusterID = 3;
-		}
-		else if (vectorI2V[0] < 0 && vectorI2V[1] < 0) {
-			if (tan < 1)
-				ClusterID = 3;
-			else
-				ClusterID = 2;
-		}
-		else {
-			if (tan < -1)
-				ClusterID = 2;
-			else
-				ClusterID = 1;
-		}
+		else
+			ClusterID = 0;
 
 		m_VeUEAry[UserIdx1]->m_RSUId = RSUIdx;
 		m_VeUEAry[UserIdx1]->m_ClusterIdx = ClusterID;
 		m_RSUAry[RSUIdx]->m_VeUEIdList.push_back(UserIdx1);
 
-		//Êä³öVeUEĞÅÏ¢µ½ÎÄµµ
-		g_FileVeUEMessage << UserIdx1 << " ";
-		g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_RSUId << " ";
-		g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_ClusterIdx << " ";
-		g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_AbsX << " ";
-		g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_AbsY << " ";
+		//è¾“å‡ºVeUEä¿¡æ¯åˆ°æ–‡æ¡£
+		m_FileVeUEMessage << UserIdx1 << " ";
+		m_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_RSUId << " ";
+		m_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_ClusterIdx << " ";
+		m_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_AbsX << " ";
+		m_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_AbsY << " ";
+		m_FileVeUEMessage << endl;
 		//g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_RoadId << " ";
 		//g_FileVeUEMessage << m_VeUEAry[UserIdx1]->m_VAngle << endl;
 
@@ -715,12 +731,12 @@ void GTT_Urban::freshLoc() {
 
 		double angle = 0;
 
-		//ÅĞ¶ÏLOS»¹ÊÇNLOS
+		//åˆ¤æ–­LOSè¿˜æ˜¯NLOS
 		double absX1 = abs(m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX);
 		double absY1 = abs(m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY);
 
 		if (absX1 <= 3.5 || absY1 <= 3.5) {
-			location.locationType = Los;// ÔÚÍ¬Ò»ÌõµÀÂ·ÉÏ¼´ÎªLOS
+			location.locationType = Los;// åœ¨åŒä¸€æ¡é“è·¯ä¸Šå³ä¸ºLOS
 			location.distance = sqrt(pow((m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX), 2.0f) + pow((m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY), 2.0f));
 			angle = atan2(m_VeUEAry[UserIdx1]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY, m_VeUEAry[UserIdx1]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX) / IMTA::s_DEGREE_TO_PI;
 		}
@@ -736,7 +752,7 @@ void GTT_Urban::freshLoc() {
 
 		antenna.TxAngle = angle - m_VeUEAry[UserIdx1]->m_FantennaAngle;
 		antenna.RxAngle = angle - m_RSUAry[RSUIdx]->m_FantennaAngle;
-		antenna.antGain = 6;//ÊÕ·¢ÌìÏß¸÷3dbi
+		antenna.antGain = 6;//æ”¶å‘å¤©çº¿å„3dbi
 		antenna.byTxAntNum = 1;
 		antenna.byRxAntNum = 2;
 		antenna.TxSlantAngle = new double[antenna.byTxAntNum];
@@ -752,7 +768,7 @@ void GTT_Urban::freshLoc() {
 
 		double t_Pl = 0;
 
-		m_VeUEAry[UserIdx1]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[UserIdx1]->m_V*3.6, m_VeUEAry[UserIdx1]->m_VAngle);//¼ÆËãÁË½á¹û´úÈëĞÅµÀÄ£ĞÍ¼ÆËãUEÖ®¼äĞÅµÀÏµÊı
+		m_VeUEAry[UserIdx1]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[UserIdx1]->m_V*3.6, m_VeUEAry[UserIdx1]->m_VAngle);//è®¡ç®—äº†ç»“æœä»£å…¥ä¿¡é“æ¨¡å‹è®¡ç®—UEä¹‹é—´ä¿¡é“ç³»æ•°
 		bool *flag = new bool();
 
 		m_VeUEAry[UserIdx1]->m_Ploss = t_Pl;
@@ -786,19 +802,19 @@ void GTT_Urban::freshLoc() {
 }
 
 
-void GTT_Urban::writeVeUELocationUpdateLogInfo(ofstream &t_File1, ofstream &t_File2) {
+void GTT_Urban::writeVeUELocationUpdateLogInfo() {
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
-		t_File1 << "VeUE[ " << left << setw(3) << VeUEId << "]" << endl;
-		t_File1 << "{" << endl;
+		m_FileVeUELocationUpdateLogInfo << "VeUE[ " << left << setw(3) << VeUEId << "]" << endl;
+		m_FileVeUELocationUpdateLogInfo << "{" << endl;
 		for (const tuple<int, int> &t : m_VeUEAry[VeUEId]->m_LocationUpdateLogInfoList)
-			t_File1 << "    " << "[ RSUId = " << left << setw(2) << get<0>(t) << " , ClusterIdx = " << get<1>(t) << " ]" << endl;
-		t_File1 << "}" << endl;
+			m_FileVeUELocationUpdateLogInfo << "    " << "[ RSUId = " << left << setw(2) << get<0>(t) << " , ClusterIdx = " << get<1>(t) << " ]" << endl;
+		m_FileVeUELocationUpdateLogInfo << "}" << endl;
 	}
 	for (const vector<int> &v : m_VeUENumPerRSU) {
 		for (int i : v) {
-			t_File2 << i << " ";
+			m_FileVeUENumPerRSULogInfo << i << " ";
 		}
-		t_File2 << endl;
+		m_FileVeUENumPerRSULogInfo << endl;
 	}
 }
 
@@ -809,7 +825,7 @@ void GTT_Urban::calculateInterference(const vector<vector<list<int>>>& t_RRMInte
 
 	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++) {
 		for (int patternIdx = 0; patternIdx < t_RRMInterferenceVec[0].size(); patternIdx++) {
-			const list<int> &interList = t_RRMInterferenceVec[VeUEId][patternIdx];//µ±Ç°³µÁ¾£¬µ±Ç°PatternÏÂËùÓĞ¸ÉÈÅ³µÁ¾µÄId
+			const list<int> &interList = t_RRMInterferenceVec[VeUEId][patternIdx];//å½“å‰è½¦è¾†ï¼Œå½“å‰Patternä¸‹æ‰€æœ‰å¹²æ‰°è½¦è¾†çš„Id
 
 			for (int interferenceVeUEId : interList) {
 
@@ -828,7 +844,7 @@ void GTT_Urban::calculateInterference(const vector<vector<list<int>>>& t_RRMInte
 				location.distance2 = 0;
 
 				double angle = 0;
-				if (location.manhattan == true)  //¼ÆËãlocation distance
+				if (location.manhattan == true)  //è®¡ç®—location distance
 				{
 					if (abs(m_VeUEAry[interferenceVeUEId]->m_AbsX - m_RSUAry[RSUIdx]->m_AbsX) <= 10.5 || abs(m_VeUEAry[interferenceVeUEId]->m_AbsY - m_RSUAry[RSUIdx]->m_AbsY) <= 10.5)
 					{
@@ -848,7 +864,7 @@ void GTT_Urban::calculateInterference(const vector<vector<list<int>>>& t_RRMInte
 				location.eNBAntH = 5;
 				location.VeUEAntH = 1.5;
 				location.RSUAntH = 5;
-				IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//²úÉú¸ßË¹Ëæ»úÊı£¬ÎªºóÃæĞÅµÀÏµÊıÊ¹ÓÃ¡£
+				IMTA::randomGaussian(location.posCor, 5, 0.0f, 1.0f);//äº§ç”Ÿé«˜æ–¯éšæœºæ•°ï¼Œä¸ºåé¢ä¿¡é“ç³»æ•°ä½¿ç”¨ã€‚
 
 				antenna.TxAngle = angle - m_VeUEAry[interferenceVeUEId]->m_FantennaAngle;
 				antenna.RxAngle = angle - m_RSUAry[RSUIdx]->m_FantennaAngle;
@@ -867,7 +883,7 @@ void GTT_Urban::calculateInterference(const vector<vector<list<int>>>& t_RRMInte
 				antenna.RxAntSpacing[1] = 0.5f;
 
 				double t_Pl = 0;
-				m_VeUEAry[interferenceVeUEId]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[interferenceVeUEId]->m_V*3.6, m_VeUEAry[interferenceVeUEId]->m_VAngle);//¼ÆËãÁË½á¹û´úÈëĞÅµÀÄ£ĞÍ¼ÆËãUEÖ®¼äĞÅµÀÏµÊı
+				m_VeUEAry[interferenceVeUEId]->m_IMTA[RSUIdx].build(&t_Pl, IMTA::s_FC, location, antenna, m_VeUEAry[interferenceVeUEId]->m_V*3.6, m_VeUEAry[interferenceVeUEId]->m_VAngle);//è®¡ç®—äº†ç»“æœä»£å…¥ä¿¡é“æ¨¡å‹è®¡ç®—UEä¹‹é—´ä¿¡é“ç³»æ•°
 				bool *flag = new bool();
 
 

@@ -31,34 +31,34 @@ int main() {
 //		};
 //
 //
-//		cout << "\n\n-------------RowVector(¿½±´¸³Öµ)-------------" << endl;
-//		cout << "=====RowVector(·Ç×Ô¸³Öµ)=====" << endl;
+//		cout << "\n\n-------------RowVector(æ‹·è´èµ‹å€¼)-------------" << endl;
+//		cout << "=====RowVector(éè‡ªèµ‹å€¼)=====" << endl;
 //		RowVector rvCopyAssign;
 //		rvCopyAssign = rv;
 //		rv.print(); cout << endl;
 //		rv[1] = Complex{ 0,0 };
 //		rv.print(); cout << endl;
 //		rvCopyAssign.print(); cout << endl;
-//		cout << "=====RowVector(×Ô¸³Öµ)=====" << endl;
+//		cout << "=====RowVector(è‡ªèµ‹å€¼)=====" << endl;
 //		rvCopyAssign = rvCopyAssign;
 //		rvCopyAssign.print(); cout << endl;
 //
-//		cout << "\n\n-------------RowVector(ÒÆ¶¯¸³Öµ)-------------" << endl;
+//		cout << "\n\n-------------RowVector(ç§»åŠ¨èµ‹å€¼)-------------" << endl;
 //		rv=RowVector{
 //			{ 1,2 },{ 2,2 },{ 3,3 }
 //		};
-//		cout << "=====RowVector(·Ç×Ô¸³Öµ)=====" << endl;
+//		cout << "=====RowVector(éè‡ªèµ‹å€¼)=====" << endl;
 //		RowVector rvMoveAssign;
 //		rvMoveAssign = std::move(rv);
 //		rvMoveAssign.print(); cout << endl;
-//		cout << "=====RowVector(×Ô¸³Öµ)=====" << endl;
+//		cout << "=====RowVector(è‡ªèµ‹å€¼)=====" << endl;
 //		rvMoveAssign = std::move(rvMoveAssign);
 //		rvMoveAssign.print(); cout << endl;
 //
 //
-//		//Ê×ÏÈ¼ì²éMatrix¿½±´¸³ÖµÇ°ºó£¬ÊÇ·ñ»¹ÓĞ¹ØÏµ
-//		cout << "\n\n-------------Matrix(¿½±´¸³Öµ)-------------" << endl;
-//		cout << "=====Matrix(·Ç×Ô¸³Öµ)=====" << endl;
+//		//é¦–å…ˆæ£€æŸ¥Matrixæ‹·è´èµ‹å€¼å‰åï¼Œæ˜¯å¦è¿˜æœ‰å…³ç³»
+//		cout << "\n\n-------------Matrix(æ‹·è´èµ‹å€¼)-------------" << endl;
+//		cout << "=====Matrix(éè‡ªèµ‹å€¼)=====" << endl;
 //		m = Matrix{
 //			{ { 1,2 },{ 2,2 },{ 3,3 } },
 //			{ { 4,4 },{ 5,3 },{ 6,6 } },
@@ -70,12 +70,12 @@ int main() {
 //		m[1][1] = Complex{ 0,0 };
 //		m.print(); cout << endl;
 //		mCopyAssign.print(); cout << endl;
-//		cout << "=====Matrix(×Ô¸³Öµ)=====" << endl;
+//		cout << "=====Matrix(è‡ªèµ‹å€¼)=====" << endl;
 //		mCopyAssign = mCopyAssign;
 //		mCopyAssign.print(); cout << endl;
 //
-//		cout << "\n\n-------------Matrix(ÒÆ¶¯¸³Öµ)-------------" << endl;
-//		cout << "=====Matrix(·Ç×Ô¸³Öµ)=====" << endl;
+//		cout << "\n\n-------------Matrix(ç§»åŠ¨èµ‹å€¼)-------------" << endl;
+//		cout << "=====Matrix(éè‡ªèµ‹å€¼)=====" << endl;
 //		m = Matrix{
 //			{ { 1,2 },{ 2,2 },{ 3,3 } },
 //			{ { 4,4 },{ 5,3 },{ 6,6 } },
@@ -84,13 +84,13 @@ int main() {
 //		Matrix mMoveAssign;
 //		mMoveAssign = std::move(m);
 //		mMoveAssign.print(); cout << endl;
-//		cout << "=====Matrix(×Ô¸³Öµ)=====" << endl;
+//		cout << "=====Matrix(è‡ªèµ‹å€¼)=====" << endl;
 //		mMoveAssign = std::move(mMoveAssign);
 //		mMoveAssign.print(); cout << endl;
 //
 //
 //
-//		cout << "\n\n-------------Matrix(¿½±´¹¹Ôì)-------------" << endl;
+//		cout << "\n\n-------------Matrix(æ‹·è´æ„é€ )-------------" << endl;
 //		m = Matrix{
 //			{ { 1,2 },{ 2,2 },{ 3,3 } },
 //			{ { 4,4 },{ 5,3 },{ 6,6 } },
@@ -113,7 +113,7 @@ int main() {
 
 
 //int main() {
-//	WT_B* p = new WT_B(nullptr);
+//	WT* p = new WT(nullptr);
 //	p->testCloest();
 //	system("pause");
 //	return 1;
@@ -130,7 +130,7 @@ int main() {
 
 
 //int main() {
-//	WT_B *w = new WT_B(Configure(), nullptr, nullptr);
+//	WT *w = new WT(Configure(), nullptr, nullptr);
 //	w->testSINR();
 //	system("pause");
 //	return 1;

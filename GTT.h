@@ -13,56 +13,56 @@ class GTT_HighSpeed_VeUE;
 class IMTA;
 
 class GTT_VeUE {
-	/*------------------¾²Ì¬------------------*/
+	/*------------------é™æ€------------------*/
 public:
 	/*
-	* ³µÁ¾¼ÆÊı
+	* è½¦è¾†è®¡æ•°
 	*/
 	static int s_VeUECount;
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÓÃÓÚ²»Í¬µ¥ÔªVeUEÊı¾İ½»»¥µÄÏµÍ³¼¶VeUE¶ÔÏó
+	* æŒ‡å‘ç”¨äºä¸åŒå•å…ƒVeUEæ•°æ®äº¤äº’çš„ç³»ç»Ÿçº§VeUEå¯¹è±¡
 	*/
 	VeUE* m_This=nullptr;
 
 public:
 	/*
-	* ³µÁ¾ID
+	* è½¦è¾†ID
 	*/
 	const int m_VeUEId = s_VeUECount++;
 
 	/*
-	* ËùÔÚµÀÂ·µÄRoadId
+	* æ‰€åœ¨é“è·¯çš„RoadId
 	*/
-	int m_RoadId;
+	int m_RoadId = -1;
 
 	/*
-	* Ïà¶Ôºá×ø±ê£¬×İ×ø±ê
+	* ç›¸å¯¹æ¨ªåæ ‡ï¼Œçºµåæ ‡
 	*/
-	double m_X;
-	double m_Y;
+	double m_X = -1;
+	double m_Y = -1;
 
 	/*
-	* ¾ø¶Ôºá×ø±ê£¬×İ×ø±ê
+	* ç»å¯¹æ¨ªåæ ‡ï¼Œçºµåæ ‡
 	*/
-	double m_AbsX;
-	double m_AbsY;
+	double m_AbsX = -1;
+	double m_AbsY = -1;
 
 	/*
-	* ³µÁ¾ËÙ¶È
+	* è½¦è¾†é€Ÿåº¦
 	*/
-	double m_V;
-
-	/*
-	* <?>
-	*/
-	double m_VAngle;
+	double m_V = -1;
 
 	/*
 	* <?>
 	*/
-	double m_FantennaAngle;
+	double m_VAngle = -1;
+
+	/*
+	* <?>
+	*/
+	double m_FantennaAngle = -1;
 
 	/*
 	* <?>
@@ -70,82 +70,87 @@ public:
 	IMTA *m_IMTA = nullptr;
 
 	/*
-	* ³µÁ¾ËùÔÚµÄRSUId
+	* è½¦è¾†æ‰€åœ¨çš„RSUId
 	*/
-	int m_RSUId;
+	int m_RSUId = -1;
 
 	/*
-	* ³µÁ¾ËùÔÚ´Ø±àºÅ
+	* è½¦è¾†æ‰€åœ¨ç°‡ç¼–å·
 	*/
-	int m_ClusterIdx;
+	int m_ClusterIdx = -1;
 
 	/*
-	* ·¢ËÍÌìÏßÊıÄ¿
+	* æ‹¥å¡ç­‰çº§
 	*/
-	int m_Nt;
+	int m_CongestionLevel = 0;
 
 	/*
-	* ½ÓÊÕÌìÏßÊıÄ¿
+	* å‘é€å¤©çº¿æ•°ç›®
 	*/
-	int m_Nr;
+	int m_Nt = -1;
 
 	/*
-	* Â·¾¶ËğºÄ
+	* æ¥æ”¶å¤©çº¿æ•°ç›®
 	*/
-	double m_Ploss;
+	int m_Nr = -1;
 
 	/*
-	* ĞÅµÀÏìÓ¦¾ØÕó
+	* è·¯å¾„æŸè€—
+	*/
+	double m_Ploss = -1;
+
+	/*
+	* ä¿¡é“å“åº”çŸ©é˜µ
 	*/
 	double* m_H = nullptr;
 
 	/*
-	* ³µÁ¾ÓëËùÓĞRSUÖ®¼äµÄ¾àÀë
+	* è½¦è¾†ä¸æ‰€æœ‰RSUä¹‹é—´çš„è·ç¦»
 	*/
 	double* m_Distance = nullptr;
 
 	/*
-	* ÆäËû³µÁ¾£¬¶Ôµ±Ç°³µÁ¾µÄ¸ÉÈÅÂ·¾¶ËğºÄ£¬WT_BÄ£¿éĞèÒª
-	* ÏÂ±ê£ºVeUEId(»áÔÚÒ»¿ªÊ¼¾Í¿ª±ÙºÃËùÓĞ³µÁ¾µÄ²ÛÎ»£¬¸Ã²ãµÄsize²»±ä)
+	* å…¶ä»–è½¦è¾†ï¼Œå¯¹å½“å‰è½¦è¾†çš„å¹²æ‰°è·¯å¾„æŸè€—ï¼ŒWTæ¨¡å—éœ€è¦
+	* ä¸‹æ ‡ï¼šVeUEId(ä¼šåœ¨ä¸€å¼€å§‹å°±å¼€è¾Ÿå¥½æ‰€æœ‰è½¦è¾†çš„æ§½ä½ï¼Œè¯¥å±‚çš„sizeä¸å˜)
 	*/
 	std::vector<double> m_InterferencePloss;
 
 	/*
-	* ÆäËû³µÁ¾£¬¶Ôµ±Ç°³µÁ¾µÄĞÅµÀÏìÓ¦¾ØÕó£¬WT_BÄ£¿éĞèÒª
-	* ÏÂ±ê£º¸ÉÈÅ³µÁ¾µÄVeUEId£ºVeUEId(»áÔÚÒ»¿ªÊ¼¾Í¿ª±ÙºÃËùÓĞ³µÁ¾µÄ²ÛÎ»£¬¸Ã²ãµÄsize²»±ä)
+	* å…¶ä»–è½¦è¾†ï¼Œå¯¹å½“å‰è½¦è¾†çš„ä¿¡é“å“åº”çŸ©é˜µï¼ŒWTæ¨¡å—éœ€è¦
+	* ä¸‹æ ‡ï¼šå¹²æ‰°è½¦è¾†çš„VeUEIdï¼šVeUEId(ä¼šåœ¨ä¸€å¼€å§‹å°±å¼€è¾Ÿå¥½æ‰€æœ‰è½¦è¾†çš„æ§½ä½ï¼Œè¯¥å±‚çš„sizeä¸å˜)
 	*/
 	std::vector<double*> m_InterferenceH;
 
 	/*
-	* µØÀíÎ»ÖÃ¸üĞÂÈÕÖ¾ĞÅÏ¢
+	* åœ°ç†ä½ç½®æ›´æ–°æ—¥å¿—ä¿¡æ¯
 	*/
 	std::list<std::tuple<int, int>> m_LocationUpdateLogInfoList;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* ¹¹Ôìº¯Êı
+	* æ„é€ å‡½æ•°
 	*/
 	GTT_VeUE() {}
 
 	/*
-	* Îö¹¹º¯Êı£¬ÊÍ·ÅÖ¸Õë
+	* ææ„å‡½æ•°ï¼Œé‡Šæ”¾æŒ‡é’ˆ
 	*/
 	~GTT_VeUE();
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	virtual GTT_Urban_VeUE  *const getUrbanPoint() = 0;
 	virtual GTT_HighSpeed_VeUE  *const getHighSpeedPoint() = 0;
 
 	/*
-	* È¡µÃÏµÍ³¼¶SystemµÄVeUEµÄÖ¸Õë
+	* å–å¾—ç³»ç»Ÿçº§Systemçš„VeUEçš„æŒ‡é’ˆ
 	*/
 	VeUE* getSystemPoint() { return m_This; }
 
 	/*
-	* ÉèÖÃÏµÍ³¼¶SystemµÄVeUEµÄÖ¸Õë
+	* è®¾ç½®ç³»ç»Ÿçº§Systemçš„VeUEçš„æŒ‡é’ˆ
 	*/
 	void setSystemPoint(VeUE* t_Point) { m_This = t_Point; }
 };
@@ -155,16 +160,16 @@ class GTT_Urban_RSU;
 class GTT_HighSpeed_RSU;
 
 class GTT_RSU {
-	/*------------------¾²Ì¬------------------*/
+	/*------------------é™æ€------------------*/
 public:
 	/*
-	* ³µÁ¾¼ÆÊı
+	* è½¦è¾†è®¡æ•°
 	*/
 	static int s_RSUCount;
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÓÃÓÚ²»Í¬µ¥ÔªRSUÊı¾İ½»»¥µÄÏµÍ³¼¶RSU¶ÔÏó
+	* æŒ‡å‘ç”¨äºä¸åŒå•å…ƒRSUæ•°æ®äº¤äº’çš„ç³»ç»Ÿçº§RSUå¯¹è±¡
 	*/
 	RSU* m_This = nullptr;
 
@@ -175,7 +180,7 @@ public:
 	int m_RSUId = s_RSUCount++;
 
 	/*
-	* ¾ø¶Ôºá×ø±ê£¬×İ×ø±ê
+	* ç»å¯¹æ¨ªåæ ‡ï¼Œçºµåæ ‡
 	*/
 	double m_AbsX;
 	double m_AbsY;
@@ -191,44 +196,44 @@ public:
 	double m_FantennaAngle;
 
 	/*
-	* µ±Ç°RSU·¶Î§ÄÚµÄVeUEId±àºÅÈİÆ÷,RRMÄ£¿éĞèÒª
+	* å½“å‰RSUèŒƒå›´å†…çš„VeUEIdç¼–å·å®¹å™¨,RRMæ¨¡å—éœ€è¦
 	*/
 	std::list<int> m_VeUEIdList;
 
 	/*
-	* Ò»¸öRSU¸²¸Ç·¶Î§ÄÚµÄ´ØµÄ¸öÊı,RRMÄ£¿éĞèÒª
+	* ä¸€ä¸ªRSUè¦†ç›–èŒƒå›´å†…çš„ç°‡çš„ä¸ªæ•°,RRMæ¨¡å—éœ€è¦
 	*/
 	int m_ClusterNum;
 
 	/*
-	* ´æ·ÅÃ¿¸ö´ØµÄVeUEµÄIdµÄÈİÆ÷,ÏÂ±ê´ú±í´ØµÄ±àºÅ
+	* å­˜æ”¾æ¯ä¸ªç°‡çš„VeUEçš„Idçš„å®¹å™¨,ä¸‹æ ‡ä»£è¡¨ç°‡çš„ç¼–å·
 	*/
 	std::vector<std::list<int>> m_ClusterVeUEIdList;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 	/*
-	* Îö¹¹º¯Êı£¬ÊÍ·ÅÖ¸Õë
+	* ææ„å‡½æ•°ï¼Œé‡Šæ”¾æŒ‡é’ˆ
 	*/
 	~GTT_RSU();
 
 	/*
-	* Éú³É¸ñÊ½»¯×Ö·û´®
+	* ç”Ÿæˆæ ¼å¼åŒ–å­—ç¬¦ä¸²
 	*/
 	std::string toString(int t_NumTab);
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	virtual GTT_Urban_RSU  *const getUrbanPoint() = 0;
 	virtual GTT_HighSpeed_RSU  *const getHighSpeedPoint() = 0;
 
 	/*
-	* È¡µÃÏµÍ³¼¶SystemµÄRSUµÄÖ¸Õë
+	* å–å¾—ç³»ç»Ÿçº§Systemçš„RSUçš„æŒ‡é’ˆ
 	*/
 	RSU* getSystemPoint() { return m_This; }
 
 	/*
-	* ÉèÖÃÏµÍ³¼¶SystemµÄRSUµÄÖ¸Õë
+	* è®¾ç½®ç³»ç»Ÿçº§Systemçš„RSUçš„æŒ‡é’ˆ
 	*/
 	void setSystemPoint(RSU* t_Point) { m_This = t_Point; }
 };
@@ -238,71 +243,71 @@ class GTT_Urban_eNB;
 class GTT_HighSpeed_eNB;
 
 class GTT_eNB {
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÓÃÓÚ²»Í¬µ¥ÔªeNBÊı¾İ½»»¥µÄÏµÍ³¼¶eNB¶ÔÏó
+	* æŒ‡å‘ç”¨äºä¸åŒå•å…ƒeNBæ•°æ®äº¤äº’çš„ç³»ç»Ÿçº§eNBå¯¹è±¡
 	*/
 	eNB* m_This = nullptr;
 public:
 	/*
-	* ËùÔÚµÀÂ·Id
+	* æ‰€åœ¨é“è·¯Id
 	*/
 	int m_RoadId;
 
 	/*
-	* »ùÕ¾Id
+	* åŸºç«™Id
 	*/
 	int m_eNBId;
 
 	/*
-	* »ùÕ¾Ïà¶Ôºá×İ×ø±ê
+	* åŸºç«™ç›¸å¯¹æ¨ªçºµåæ ‡
 	*/
 	double m_X, m_Y;
 
 	/*
-	* »ùÕ¾¾ø¶Ôºá×İ×ø±ê
+	* åŸºç«™ç»å¯¹æ¨ªçºµåæ ‡
 	*/
 	double m_AbsX, m_AbsY;
 
 	/*
-	* ¸Ã»ùÕ¾ÖĞµÄRSUÈİÆ÷(´æ´¢RSUµÄId)
+	* è¯¥åŸºç«™ä¸­çš„RSUå®¹å™¨(å­˜å‚¨RSUçš„Id)
 	*/
 	std::list<int> m_RSUIdList;
 
 	/*
-	* ¸Ã»ùÕ¾ÖĞµÄVeUEÈİÆ÷(´æ´¢VeUEµÄId)
+	* è¯¥åŸºç«™ä¸­çš„VeUEå®¹å™¨(å­˜å‚¨VeUEçš„Id)
 	*/
 	std::list<int> m_VeUEIdList;
 
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 
 	/*
-	* Éú³É¸ñÊ½»¯×Ö·û´®
+	* ç”Ÿæˆæ ¼å¼åŒ–å­—ç¬¦ä¸²
 	*/
 	std::string toString(int t_NumTab);
 
 	/*
-	* ³õÊ¼»¯·½·¨
-	* ²»ÓÃ¹¹Ôìº¯ÊıµÄÔ­ÒòÊÇ¹¹ÔìµÄÊ±¿ÌÆäÒÀÀµÏî»¹Ã»´´½¨Íê±Ï
+	* åˆå§‹åŒ–æ–¹æ³•
+	* ä¸ç”¨æ„é€ å‡½æ•°çš„åŸå› æ˜¯æ„é€ çš„æ—¶åˆ»å…¶ä¾èµ–é¡¹è¿˜æ²¡åˆ›å»ºå®Œæ¯•
 	*/
 	virtual void initialize(eNBConfig &t_eNBConfig) = 0;
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	virtual GTT_Urban_eNB  *const getUrbanPoint() = 0;
 	virtual GTT_HighSpeed_eNB  *const getHighSpeedPoint() = 0;
 
 	/*
-	* È¡µÃÏµÍ³¼¶SystemµÄeNBµÄÖ¸Õë
+	* å–å¾—ç³»ç»Ÿçº§Systemçš„eNBçš„æŒ‡é’ˆ
 	*/
 	eNB* getSystemPoint() { return m_This; }
 
 	/*
-	* ÉèÖÃÏµÍ³¼¶SystemµÄeNBµÄÖ¸Õë
+	* è®¾ç½®ç³»ç»Ÿçº§Systemçš„eNBçš„æŒ‡é’ˆ
 	*/
 	void setSystemPoint(eNB* t_Point) { m_This = t_Point; }
 };
@@ -312,20 +317,20 @@ class GTT_Urban_Road;
 class GTT_HighSpeed_Road;
 
 class GTT_Road {
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÓÃÓÚ²»Í¬µ¥ÔªRoadÊı¾İ½»»¥µÄÏµÍ³¼¶Road¶ÔÏó
+	* æŒ‡å‘ç”¨äºä¸åŒå•å…ƒRoadæ•°æ®äº¤äº’çš„ç³»ç»Ÿçº§Roadå¯¹è±¡
 	*/
 	Road* m_This = nullptr;
 public:
 	/*
-	* µÀÂ·Id
+	* é“è·¯Id
 	*/
 	int m_RoadId;
 
 	/*
-	* ¾ø¶Ôºá×ø±êÓë×İ×ø±ê
+	* ç»å¯¹æ¨ªåæ ‡ä¸çºµåæ ‡
 	*/
 	double m_AbsX;
 	double m_AbsY;
@@ -335,26 +340,26 @@ public:
 	*/
 	int  m_upr;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* Éú³É¸ñÊ½»¯×Ö·û´®
+	* ç”Ÿæˆæ ¼å¼åŒ–å­—ç¬¦ä¸²
 	*/
 	std::string toString(int t_NumTab);
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	virtual GTT_Urban_Road  *const getUrbanPoint() = 0;
 	virtual GTT_HighSpeed_Road  *const getHighSpeedPoint() = 0;
 
 	/*
-	* È¡µÃÏµÍ³¼¶SystemµÄRoadµÄÖ¸Õë
+	* å–å¾—ç³»ç»Ÿçº§Systemçš„Roadçš„æŒ‡é’ˆ
 	*/
 	Road* getSystemPoint() { return m_This; }
 
 	/*
-	* ÉèÖÃÏµÍ³¼¶SystemµÄRoadµÄÖ¸Õë
+	* è®¾ç½®ç³»ç»Ÿçº§Systemçš„Roadçš„æŒ‡é’ˆ
 	*/
 	void setSystemPoint(Road* t_Point) { m_This = t_Point; }
 };
@@ -362,94 +367,123 @@ public:
 
 class System;
 class GTT {
-	/*------------------Óò------------------*/
+	/*------------------é™æ€------------------*/
+public:
+	/*
+	* æ‹¥å¡ç­‰çº§æ€»æ•°
+	*/
+	static int s_CONGESTION_LEVEL_NUM;
+
+	/*
+	* æ‹¥å¡ç­‰çº§å¯¹åº”çš„è½¦è¾†æ•°ç›®
+	*/
+	static std::vector<int> s_VEUE_NUM_PER_CONGESTION_LEVEL;
+
+	/*
+	* åŠ è½½GTTæ¨¡å—
+	*/
+	static void loadConfig(Platform t_Platform);
+
+	/*
+	* ç»™å®šè½¦è¾†æ•°ç›®ï¼Œè¿”å›æ‹¥å¡ç­‰çº§
+	*/
+	static int calcuateCongestionLevel(int t_VeUENum);
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÏµÍ³µÄÖ¸Õë
+	* æŒ‡å‘ç³»ç»Ÿçš„æŒ‡é’ˆ
 	*/
 	System* m_Context;
 public:
 	/*
-	* GTTµ¥ÔªÊÓÍ¼ÏÂµÄ»ùÕ¾ÈİÆ÷
+	* GTTå•å…ƒè§†å›¾ä¸‹çš„åŸºç«™å®¹å™¨
 	*/
 	GTT_eNB** m_eNBAry;
 
 	/*
-	* GTTµ¥ÔªÊÓÍ¼ÏÂµÄµÀÂ·ÈİÆ÷
+	* GTTå•å…ƒè§†å›¾ä¸‹çš„é“è·¯å®¹å™¨
 	*/
 	GTT_Road** m_RoadAry;
 
 	/*
-	* GTTµ¥ÔªÊÓÍ¼ÏÂµÄRSUÈİÆ÷
+	* GTTå•å…ƒè§†å›¾ä¸‹çš„RSUå®¹å™¨
 	*/
 	GTT_RSU** m_RSUAry;
 
 	/*
-	* VeUEÈİÆ÷
-	* µÚÒ»Î¬¶ÈµÄÖ¸ÕëÖ¸ÏòÊı×é£¬¸ÃÊı×é´æ·ÅÖ¸ÏòGTT_VeUEÊµÌåµÄÖ¸Õë
-	* ÎªÊ²Ã´Êı×é´æµÄÊÇÖ¸Õë£¬ÒòÎªĞèÒªÊµÏÖ¶àÌ¬
+	* VeUEå®¹å™¨
+	* ç¬¬ä¸€ç»´åº¦çš„æŒ‡é’ˆæŒ‡å‘æ•°ç»„ï¼Œè¯¥æ•°ç»„å­˜æ”¾æŒ‡å‘GTT_VeUEå®ä½“çš„æŒ‡é’ˆ
+	* ä¸ºä»€ä¹ˆæ•°ç»„å­˜çš„æ˜¯æŒ‡é’ˆï¼Œå› ä¸ºéœ€è¦å®ç°å¤šæ€
 	*/
 	GTT_VeUE** m_VeUEAry;
 
-	/*------------------½Ó¿Ú------------------*/
+	/*
+	* æ—¥å¿—æ–‡ä»¶
+	*/
+	std::ofstream m_FileVeUELocationUpdateLogInfo;
+	std::ofstream m_FileVeUENumPerRSULogInfo;
+	std::ofstream m_FileLocationInfo;
+	std::ofstream m_FileVeUEMessage;
+
+	/*------------------æ¥å£------------------*/
 public:
 	/*
-	* Ä¬ÈÏ¹¹Ôìº¯Êı¶¨ÒåÎªÉ¾³ı
+	* é»˜è®¤æ„é€ å‡½æ•°å®šä¹‰ä¸ºåˆ é™¤
 	*/
 	GTT() = delete;
 
 	/*
-	* ¹¹Ôìº¯Êı
+	* æ„é€ å‡½æ•°
 	*/
-	GTT(System* t_Context) : m_Context(t_Context) {}
+	GTT(System* t_Context);
 
 	/*
-	* Îö¹¹º¯Êı
+	* ææ„å‡½æ•°
 	*/
 	~GTT();
 
 	/*
-	* »ñÈ¡ÏµÍ³ÀàµÄÖ¸Õë
+	* è·å–ç³»ç»Ÿç±»çš„æŒ‡é’ˆ
 	*/
 	System* getContext() { return m_Context; }
 
 	/*
-	* Ä£¿é²ÎÊıÅäÖÃ
+	* æ¨¡å—å‚æ•°é…ç½®
 	*/
 	virtual void configure() = 0;
 
 	/*
-	* µ±·¢ÉúÎ»ÖÃ¸üĞÂÊ±£¬Çå³ı»º´æµÄµ÷¶ÈÏà¹ØĞÅÏ¢
+	* å½“å‘ç”Ÿä½ç½®æ›´æ–°æ—¶ï¼Œæ¸…é™¤ç¼“å­˜çš„è°ƒåº¦ç›¸å…³ä¿¡æ¯
 	*/
 	virtual void cleanWhenLocationUpdate() = 0;
 
 	/*
-	* ³õÊ¼»¯¸÷¸öÊµÌåÊı×é
+	* åˆå§‹åŒ–å„ä¸ªå®ä½“æ•°ç»„
 	*/
 	virtual void initialize() = 0;
 
 	/*
-	* ĞÅµÀ²úÉú
+	* ä¿¡é“äº§ç”Ÿ
 	*/
 	virtual void channelGeneration() = 0;
 
 	/*
-	* ĞÅµÀË¢ĞÂ
+	* ä¿¡é“åˆ·æ–°
 	*/
 	virtual void freshLoc() = 0;
 
 	/*
-	* Ğ´ÈëµØÀíÎ»ÖÃ¸üĞÂÈÕÖ¾
+	* å†™å…¥åœ°ç†ä½ç½®æ›´æ–°æ—¥å¿—
 	*/
-	virtual void writeVeUELocationUpdateLogInfo(std::ofstream &t_File1, std::ofstream &t_File2) = 0;
+	virtual void writeVeUELocationUpdateLogInfo() = 0;
 
 	/*
-	* ¼ÆËã¸ÉÈÅ¾ØÕó
-	* ´«ÈëµÄ²ÎÊı½âÊÍ
-	*		Íâ²ãÏÂ±êÎª³µÁ¾±àºÅ
-	*		ÄÚ²ãÏÂ±êÎªPattern±àºÅ
-	*		×îÄÚ²ãlistÎª¸Ã³µÁ¾ÔÚ¸ÃPatternÏÂµÄ¸ÉÈÅÁĞ±í
-	* Ä¿Ç°½öÓĞ´Ø¼ä¸ÉÈÅ£¬ÒòÎªRSU¼ä¸ÉÈÅÌ«Ğ¡£¬¼¸ºõ¿ÉÒÔºöÂÔ
+	* è®¡ç®—å¹²æ‰°çŸ©é˜µ
+	* ä¼ å…¥çš„å‚æ•°è§£é‡Š
+	*		å¤–å±‚ä¸‹æ ‡ä¸ºè½¦è¾†ç¼–å·
+	*		å†…å±‚ä¸‹æ ‡ä¸ºPatternç¼–å·
+	*		æœ€å†…å±‚listä¸ºè¯¥è½¦è¾†åœ¨è¯¥Patternä¸‹çš„å¹²æ‰°åˆ—è¡¨
+	* ç›®å‰ä»…æœ‰ç°‡é—´å¹²æ‰°ï¼Œå› ä¸ºRSUé—´å¹²æ‰°å¤ªå°ï¼Œå‡ ä¹å¯ä»¥å¿½ç•¥
 	*/
 	virtual void calculateInterference(const std::vector<std::vector<std::list<int>>>& t_RRMInterferenceVec) = 0;
 };

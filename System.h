@@ -4,9 +4,9 @@
 #include"Config.h"
 #include"Event.h"
 /*
-* Ç°ÖÃÉùÃ÷
-* ÓÉÓÚSystem»á±»¸÷¸öÄ£¿é°üº¬£¬Òò´ËSystem.h¾¡Á¿±ÜÃâ°üº¬ÆäËûÄ£¿é
-* ÔÚ.cppÀïÃæ°üº¬¼´¿É
+* å‰ç½®å£°æ˜
+* ç”±äºSystemä¼šè¢«å„ä¸ªæ¨¡å—åŒ…å«ï¼Œå› æ­¤System.hå°½é‡é¿å…åŒ…å«å…¶ä»–æ¨¡å—
+* åœ¨.cppé‡Œé¢åŒ…å«å³å¯
 */
 class GTT;
 class RRM;
@@ -19,6 +19,9 @@ class eNB;
 class Road;
 
 class System{
+	/*
+	* å£°æ˜å‹å…ƒï¼ŒSystemæ‰€æœ‰åŸŸç¦æ­¢å¤–éƒ¨ç›´æ¥è®¿é—®
+	*/
 	friend class GTT;
 	friend class GTT_Urban;
 	friend class GTT_HighSpeed;
@@ -27,107 +30,88 @@ class System{
 	friend class RRM_ICC_DRA;
 	friend class RRM_RR;
 	friend class TMC;
-	friend class TMC_B;
 	friend class WT;
-	friend class WT_B;
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* ÏµÍ³µ±Ç°µÄTTIÊ±¿Ì
+	* ç³»ç»Ÿå½“å‰çš„TTIæ—¶åˆ»
 	*/
 	int m_TTI;
 
 	/*
-	* ÏµÍ³²ÎÊıÅäÖÃ
+	* ç³»ç»Ÿå‚æ•°é…ç½®
 	*/
 	SystemConfig m_Config;
 
 	/*
-	* ËÄ¸öÊµÌåÀàÈİÆ÷
-	* ·Ö±ğÊÇ»ùÕ¾£¬µÀÂ·£¬RSU£¬³µÁ¾
+	* å››ä¸ªå®ä½“ç±»å®¹å™¨
+	* åˆ†åˆ«æ˜¯åŸºç«™ï¼Œé“è·¯ï¼ŒRSUï¼Œè½¦è¾†
 	*/
 	eNB* m_eNBAry = nullptr;
 	Road* m_RoadAry = nullptr;
 	RSU* m_RSUAry = nullptr;
 	VeUE* m_VeUEAry = nullptr;
 
-	/*
-	* ÊÂ¼şÈİÆ÷£¬ÏÂ±ê´ú±íÊÂ¼şID
-	*/
-	std::vector<Event> m_EventVec;
 
 	/*
-	* ÒÔTTIÎªÏÂ±êµÄÊÂ¼şÈİÆ÷
-	* ÊÂ¼ş´¥·¢Á´±í£¬m_EventTTIList[i]´ú±íµÚi¸öTTIµÄÊÂ¼ş±í
-	*/
-	std::vector<std::list<int>> m_EventTTIList;
-
-	/*
-	* ÍÌÍÂÂÊ
-	* Íâ²ãÏÂ±êÎªTTI£¬ÄÚ²ãÏÂ±êÎªRSUId
-	*/
-	std::vector<std::vector<int>> m_TTIRSUThroughput;
-
-
-	/*
-	* Ä£¿é¿ØÖÆÆ÷
-	* GTTÄ£¿é£¬RRMÄ£¿é£¬WTÄ£¿é£¬TMCÄ£¿é
+	* æ¨¡å—æ§åˆ¶å™¨
+	* GTTæ¨¡å—ï¼ŒRRMæ¨¡å—ï¼ŒWTæ¨¡å—ï¼ŒTMCæ¨¡å—
 	*/
 	GTT* m_GTTPoint = nullptr;
 	RRM* m_RRMPoint = nullptr;
 	TMC* m_TMCPoint = nullptr;
 	WT* m_WTPoint = nullptr;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* ÏµÍ³·ÂÕæÁ÷³Ì×Ü¿Ø
+	* ç³»ç»Ÿä»¿çœŸæµç¨‹æ€»æ§
 	*/	
 	void process();
 
 	/*
-	* Îö¹¹º¯Êı£¬¸ºÔğ¸÷¸öÊµÌåÀàµÄÇåÀí¹¤×÷
+	* ææ„å‡½æ•°ï¼Œè´Ÿè´£å„ä¸ªå®ä½“ç±»çš„æ¸…ç†å·¥ä½œ
 	*/
 	~System();
 private:
 	/*
-	* ÏµÍ³·ÂÕæ²ÎÊıÅäÖÃ
+	* ç³»ç»Ÿä»¿çœŸå‚æ•°é…ç½®
 	*/
 	void configure();
 
 	/*
-	* ÏµÍ³²ÎÊıÅäÖÃ£¬Íê³ÉÏµÍ³³õÊ¼»¯
+	* ç³»ç»Ÿå‚æ•°é…ç½®ï¼Œå®Œæˆç³»ç»Ÿåˆå§‹åŒ–
 	*/
 	void initialization();
 
 	/*
-	* GTTÄ£¿é¶ÔÏó³õÊ¼»¯
-	* ±»initialization()µ÷ÓÃ
+	* GTTæ¨¡å—å¯¹è±¡åˆå§‹åŒ–
+	* è¢«initialization()è°ƒç”¨
 	*/
 	void initializeGTTModule();
 
 	/*
-	* WTÄ£¿é¶ÔÏó³õÊ¼»¯
-	* ±»initialization()µ÷ÓÃ
+	* WTæ¨¡å—å¯¹è±¡åˆå§‹åŒ–
+	* è¢«initialization()è°ƒç”¨
 	*/
 	void initializeWTModule();
 
 	/*
-	* RRMÄ£¿é¶ÔÏó³õÊ¼»¯
-	* ±»initialization()µ÷ÓÃ
+	* RRMæ¨¡å—å¯¹è±¡åˆå§‹åŒ–
+	* è¢«initialization()è°ƒç”¨
 	*/
 	void initializeRRMModule();
 
 	/*
-	* TMCÄ£¿é¶ÔÏó³õÊ¼»¯
-	* ±»initialization()µ÷ÓÃ
+	* TMCæ¨¡å—å¯¹è±¡åˆå§‹åŒ–
+	* è¢«initialization()è°ƒç”¨
 	*/
 	void initializeTMCModule();
 
 	/*
-	* ½¨Á¢ÖĞ×ªÊµÌå¶ÔÏó³õÊ¼»¯
+	* å»ºç«‹ä¸­è½¬å®ä½“å¯¹è±¡åˆå§‹åŒ–
 	*/
-	void initializeNON();
+	void initializeBuildConnection();
 };
 
 

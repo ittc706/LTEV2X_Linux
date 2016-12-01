@@ -27,6 +27,27 @@ cp -a ../LTEV2X/LTEV2X/Config ../LTEV2X/LTEV2X/Log ../LTEV2X/LTEV2X/WT .
 
 sleep 2s
 
+
+mkdir ./Unicode ./UTF-8
+
+# 开始转码
+for filename in $(ls *.h *.cpp)
+do
+	native2ascii $filename ./Unicode/$filename
+	native2ascii -reverse -encoding utf-8 ./Unicode/$filename ./UTF-8/$filename
+done
+
+# 删除文件
+rm -f *.h *.cpp
+
+sleep 2s
+
+mv ./UTF-8/* .
+
+rm -rf ./Unicode ./UTF-8
+
+sleep 2s
+
 git add .
 git commit -m ${description:3}
 

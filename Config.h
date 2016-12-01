@@ -1,70 +1,55 @@
 #pragma once
 #include"Enumeration.h"
 
-//ÏµÍ³»ù±¾µÄ·ÂÕæ²ÎÊı
+//ç³»ç»ŸåŸºæœ¬çš„ä»¿çœŸå‚æ•°
 struct SystemConfig {
 	/*
-	* ·ÂÕæÆ½Ì¨£¬Linux»òWindows£¬½öÉæ¼°µ½ÎÄ¼şÂ·¾¶µÄ¸ñÊ½
+	* ä»¿çœŸå¹³å°ï¼ŒLinuxæˆ–Windowsï¼Œä»…æ¶‰åŠåˆ°æ–‡ä»¶è·¯å¾„çš„æ ¼å¼
 	*/
 	Platform platform;
 
 	/*
-	* GTTÄ£¿éÊµÏÖµÄ¾ßÌåÀà±ğ
+	* GTTæ¨¡å—å®ç°çš„å…·ä½“ç±»åˆ«
 	*/
 	GTTMode _GTTMode;
 
 	/*
-	* RRMÄ£¿éÊµÏÖµÄ¾ßÌåÀà±ğ
+	* RRMæ¨¡å—å®ç°çš„å…·ä½“ç±»åˆ«
 	*/
 	RRMMode _RRMMode;
 
 	/*
-	* WTÄ£¿éÊµÏÖµÄ¾ßÌåÀà±ğ
+	* WTæ¨¡å—å®ç°çš„å…·ä½“ç±»åˆ«
 	*/
 	WTMode _WTMode;
 
 	/*
-	* ·ÂÕæ×Ü¹²µÄTTI
+	* ä»¿çœŸæ€»å…±çš„TTI
 	*/
 	int NTTI;
 
 	/*
-	* Ïß³ÌÊıÁ¿
+	* çº¿ç¨‹æ•°é‡
 	*/
 	int threadNum;
 
 	/*
-	* ³µÁ¾Ë¢ĞÂÎ»ÖÃµÄÖÜÆÚ
+	* è½¦è¾†åˆ·æ–°ä½ç½®çš„å‘¨æœŸ
 	*/
 	int locationUpdateNTTI;
 
 	/*
-	* ÖÜÆÚĞÔÊÂ¼şµÄÖÜÆÚ£¨µ¥Î»TTI£©
-	*/
-	int periodicEventNTTI;
-
-	/*
-	* Êı¾İÒµÎñÊÂ¼ş²´ËÉ¹ı³ÌLamda
-	*/
-	double dataLambda;
-
-	/*
-	* ½ô¼±ÊÂ¼ş²´ËÉ¹ı³ÌLamda,µ¥Î»´Î/TTI
-	*/
-	double emergencyLambda;
-
-	/*
-	* ³µÁ¾×ÜÊı
+	* è½¦è¾†æ€»æ•°
 	*/
 	int VeUENum;
 
 	/*
-	* RSU×ÜÊı
+	* RSUæ€»æ•°
 	*/
 	int RSUNum;
 
 	/*
-	* »ùÕ¾×ÜÊı
+	* åŸºç«™æ€»æ•°
 	*/
 	int eNBNum;
 
@@ -74,22 +59,22 @@ struct SystemConfig {
 	int RoadNum;
 
 	/*
-	* TTIÈÕÖ¾¿ª¹Ø
+	* TTIæ—¥å¿—å¼€å…³
 	*/
 	bool TTILogIsOn = false;
 
 	/*
-	* EventÈÕÖ¾¿ª¹Ø
+	* Eventæ—¥å¿—å¼€å…³
 	*/
 	bool eventLogIsOn = false;
 
 	/*
-	* ScheduleÈÕÖ¾¿ª¹Ø
+	* Scheduleæ—¥å¿—å¼€å…³
 	*/
 	bool scheduleLogIsOn = false;
 };
 
-//eNBÅäÖÃ²ÎÊı
+//eNBé…ç½®å‚æ•°
 struct eNBConfig {
 	SystemConfig* systemConfig;
 	int roadId;
@@ -100,7 +85,7 @@ struct eNBConfig {
 	double AbsY;
 };
 
-//RoadÅäÖÃ²ÎÊı
+//Roadé…ç½®å‚æ•°
 struct UrbanRoadConfig {
 	SystemConfig* systemConfig;
 	int roadId;
@@ -119,7 +104,7 @@ struct HighSpeedRodeConfig {
 };
 
 
-//VeUEÅäÖÃ²ÎÊı
+//VeUEé…ç½®å‚æ•°
 struct VeUEConfig {
 	int roadId;
 	double X;
@@ -132,21 +117,21 @@ struct VeUEConfig {
 };
 
 
-//µØÀíÎ»ÖÃÅäÖÃ²ÎÊı
+//åœ°ç†ä½ç½®é…ç½®å‚æ•°
 struct Location {
 	bool manhattan;
 	LocationType locationType;
-	double distance; //µ¥Î»:m
-	double distance1; //µ¥Î»:m
-	double distance2; //µ¥Î»:m
-	double eNBAntH; //µ¥Î»:m
-	double VeUEAntH; //µ¥Î»:m
-	double RSUAntH;//µ¥Î»£ºm
+	double distance; //å•ä½:m
+	double distance1; //å•ä½:m
+	double distance2; //å•ä½:m
+	double eNBAntH; //å•ä½:m
+	double VeUEAntH; //å•ä½:m
+	double RSUAntH;//å•ä½ï¼šm
 	double posCor[5];
 
 };
 
-//ÌìÏßÅäÖÃ²ÎÊı
+//å¤©çº¿é…ç½®å‚æ•°
 struct Antenna {
 	double TxAngle; // degree
 	double RxAngle; // degree

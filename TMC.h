@@ -2,27 +2,45 @@
 #include<list>
 #include<vector>
 #include<fstream>
+#include"Event.h"
 
 //<TMC>: Traffic Model and Control
 class VeUE;
 
 class TMC_VeUE {
-	/*------------------Óò------------------*/
+	/*------------------é™æ€------------------*/
+public:
+	/*
+	* éšæœºæ•°å¼•æ“ï¼Œè¯¥ç±»å…±äº«
+	*/
+	static std::default_random_engine s_Engine;
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÓÃÓÚ²»Í¬µ¥ÔªVeUEÊı¾İ½»»¥µÄÏµÍ³¼¶VeUE¶ÔÏó
+	* æŒ‡å‘ç”¨äºä¸åŒå•å…ƒVeUEæ•°æ®äº¤äº’çš„ç³»ç»Ÿçº§VeUEå¯¹è±¡
 	*/
 	VeUE* m_This;
 
-	/*------------------·½·¨------------------*/
 public:
 	/*
-	* È¡µÃÏµÍ³¼¶SystemµÄVeUEµÄÖ¸Õë
+	* é»˜è®¤æ„é€ å‡½æ•°
+	*/
+	TMC_VeUE();
+
+	/*
+	* å¯¹åº”æ‹¥å¡ç­‰çº§ä¸‹ï¼Œè½¦è¾†ä¸‹æ¬¡å‘¨æœŸäº‹ä»¶è§¦å‘çš„æ—¶åˆ»
+	*/
+	std::vector<int> m_NextPeriodEventTriggerTTI;
+
+	/*------------------æ–¹æ³•------------------*/
+public:
+	/*
+	* å–å¾—ç³»ç»Ÿçº§Systemçš„VeUEçš„æŒ‡é’ˆ
 	*/
 	VeUE* getSystemPoint() { return m_This; }
 
 	/*
-	* ÉèÖÃÏµÍ³¼¶SystemµÄVeUEµÄÖ¸Õë
+	* è®¾ç½®ç³»ç»Ÿçº§Systemçš„VeUEçš„æŒ‡é’ˆ
 	*/
 	void setSystemPoint(VeUE* t_Point) { m_This = t_Point; }
 };
@@ -30,111 +48,212 @@ public:
 class RSU;
 
 class TMC_RSU {
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÓÃÓÚ²»Í¬µ¥ÔªRSUÊı¾İ½»»¥µÄÏµÍ³¼¶RSU¶ÔÏó
+	* æŒ‡å‘ç”¨äºä¸åŒå•å…ƒRSUæ•°æ®äº¤äº’çš„ç³»ç»Ÿçº§RSUå¯¹è±¡
 	*/
 	RSU* m_This;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* È¡µÃÏµÍ³¼¶SystemµÄRSUµÄÖ¸Õë
+	* å–å¾—ç³»ç»Ÿçº§Systemçš„RSUçš„æŒ‡é’ˆ
 	*/
 	RSU* getSystemPoint() { return m_This; }
 
 	/*
-	* ÉèÖÃÏµÍ³¼¶SystemµÄRSUµÄÖ¸Õë
+	* è®¾ç½®ç³»ç»Ÿçº§Systemçš„RSUçš„æŒ‡é’ˆ
 	*/
 	void setSystemPoint(RSU* t_Point) { m_This = t_Point; }
 };
 
 class System;
 class TMC {
-	/*------------------¾²Ì¬------------------*/
+	/*------------------é™æ€------------------*/
 public:
 	/*
-	* ½ô¼±ÊÂ¼ş/ÖÜÆÚÊÂ¼ş/Êı¾İÒµÎñÊÂ¼ş µÄÊı¾İ°üÊıÁ¿
-	* ÏÂ±êÒÔMessageTypeµÄ¶¨ÒåÎª×¼
+	* æ‹¥å¡ç­‰çº§
 	*/
-	static const std::vector<int> s_MESSAGE_PACKAGE_NUM;
+	static int s_CONGESTION_LEVEL_NUM;
 
 	/*
-	* ½ô¼±ÊÂ¼ş/ÖÜÆÚÊÂ¼ş/Êı¾İÒµÎñÊÂ¼ş Ã¿¸öÊı¾İ°üµÄbitÊıÁ¿
-	* ÏÂ±êÒÔMessageTypeµÄ¶¨ÒåÎª×¼
+	* å¯¹åº”æ‹¥å¡ç­‰çº§ä¸‹å‘¨æœŸæ€§äº‹ä»¶çš„å‘¨æœŸ(å•ä½TTI)
 	*/
-	static const std::vector<std::vector<int>> s_MESSAGE_BIT_NUM_PER_PACKAGE;
+	static std::vector<int> s_PERIODIC_EVENT_PERIOD_PER_CONGESTION_LEVEL;
 
 	/*
-	* ½ô¼±ÊÂ¼ş/ÖÜÆÚÊÂ¼ş/Êı¾İÒµÎñÊÂ¼ş ³õÊ¼µÄÍË±Ü´°´óĞ¡
-	* ÏÂ±êÒÔMessageTypeµÄ¶¨ÒåÎª×¼
+	* ç´§æ€¥äº‹ä»¶æ³Šæ¾è¿‡ç¨‹Lamda,å•ä½æ¬¡/TTI
 	*/
-	static const std::vector<int> s_INITIAL_WINDOW_SIZE;
+	static double s_EMERGENCY_POISSON;
 
 	/*
-	* ½ô¼±ÊÂ¼ş/ÖÜÆÚÊÂ¼ş/Êı¾İÒµÎñÊÂ¼ş ×î´óµÄÍË±Ü´°´óĞ¡
-	* ÏÂ±êÒÔMessageTypeµÄ¶¨ÒåÎª×¼
+	* æ•°æ®ä¸šåŠ¡äº‹ä»¶æ³Šæ¾è¿‡ç¨‹Lamda,å•ä½æ¬¡/TTI
 	*/
-	static const std::vector<int> s_MAX_WINDOW_SIZE;
-	/*------------------Óò------------------*/
+	static double s_DATA_POISSON;
+
+	/*
+	* ç´§æ€¥äº‹ä»¶/å‘¨æœŸäº‹ä»¶/æ•°æ®ä¸šåŠ¡äº‹ä»¶ çš„æ•°æ®åŒ…æ•°é‡
+	* ä¸‹æ ‡ä»¥MessageTypeçš„å®šä¹‰ä¸ºå‡†
+	*/
+	static std::vector<int> s_MESSAGE_PACKAGE_NUM;
+
+	/*
+	* ç´§æ€¥äº‹ä»¶/å‘¨æœŸäº‹ä»¶/æ•°æ®ä¸šåŠ¡äº‹ä»¶ æ¯ä¸ªæ•°æ®åŒ…çš„bitæ•°é‡
+	* ä¸‹æ ‡ä»¥MessageTypeçš„å®šä¹‰ä¸ºå‡†
+	*/
+	static std::vector<std::vector<int>> s_MESSAGE_BIT_NUM_PER_PACKAGE;
+
+	/*
+	* ç´§æ€¥äº‹ä»¶/å‘¨æœŸäº‹ä»¶/æ•°æ®ä¸šåŠ¡äº‹ä»¶ åˆå§‹çš„é€€é¿çª—å¤§å°
+	* ä¸‹æ ‡ä»¥MessageTypeçš„å®šä¹‰ä¸ºå‡†
+	*/
+	static std::vector<int> s_INITIAL_WINDOW_SIZE;
+
+	/*
+	* ç´§æ€¥äº‹ä»¶/å‘¨æœŸäº‹ä»¶/æ•°æ®ä¸šåŠ¡äº‹ä»¶ æœ€å¤§çš„é€€é¿çª—å¤§å°
+	* ä¸‹æ ‡ä»¥MessageTypeçš„å®šä¹‰ä¸ºå‡†
+	*/
+	static std::vector<int> s_MAX_WINDOW_SIZE;
+
+	/*
+	* åŠ è½½TMCæ¨¡å—é…ç½®å‚æ•°
+	*/
+	static void loadConfig(Platform t_Platform);
+	/*------------------åŸŸ------------------*/
 private:
 	/*
-	* Ö¸ÏòÏµÍ³µÄÖ¸Õë
+	* æŒ‡å‘ç³»ç»Ÿçš„æŒ‡é’ˆ
 	*/
 	System* m_Context;
 public:
 	/*
-	* TMCÊÓÍ¼ÏÂµÄRSUÈİÆ÷
+	* TMCè§†å›¾ä¸‹çš„RSUå®¹å™¨
 	*/
 	TMC_RSU** m_RSUAry;
 
 	/*
-	* TMCÊÓÍ¼ÏÂµÄVeUEÈİÆ÷
+	* TMCè§†å›¾ä¸‹çš„VeUEå®¹å™¨
 	*/
 	TMC_VeUE** m_VeUEAry;
 
-	/*------------------½Ó¿Ú------------------*/
+	/*
+	* äº‹ä»¶å®¹å™¨ï¼Œä¸‹æ ‡ä»£è¡¨äº‹ä»¶ID
+	*/
+	std::vector<Event> m_EventVec;
+
+	/*
+	* ä»¥TTIä¸ºä¸‹æ ‡çš„äº‹ä»¶å®¹å™¨
+	* äº‹ä»¶è§¦å‘é“¾è¡¨ï¼Œm_EventTTIList[i]ä»£è¡¨ç¬¬iä¸ªTTIçš„äº‹ä»¶è¡¨
+	*/
+	std::vector<std::list<int>> m_EventTTIList;
+
+	/*
+	* ç´§æ€¥äº‹ä»¶è§¦å‘åˆ—è¡¨
+	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨TTI
+	* å†…å±‚listå­˜æ”¾å¯¹åº”TTIè§¦å‘ç´§æ€¥äº‹ä»¶çš„è½¦è¾†Id
+	*/
+	std::vector<std::list<int>> m_EergencyVeUEIdListOfTriggerTTI;
+
+	/*
+	* æ•°æ®äº‹ä»¶è§¦å‘åˆ—è¡¨
+	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨TTI
+	* å†…å±‚listå­˜æ”¾å¯¹åº”TTIè§¦å‘æ•°æ®äº‹ä»¶çš„è½¦è¾†Id
+	*/
+	std::vector<std::list<int>> m_DataVeUEIdListOfTriggerTTI;
+
+	/*
+	* ååç‡
+	* å¤–å±‚ä¸‹æ ‡ä¸ºTTIï¼Œå†…å±‚ä¸‹æ ‡ä¸ºRSUId
+	*/
+	std::vector<std::vector<int>> m_TTIRSUThroughput;
+
+	/*
+	* æ¯è¾†è½¦ç´§æ€¥äº‹ä»¶è§¦å‘çš„æ¬¡æ•°
+	* ç”¨äºéªŒè¯æ³Šæ¾åˆ†å¸ƒï¼Œä»¿çœŸä¸­å¹¶æ— ç”¨å¤„
+	*/
+	std::vector<int> m_VeUEEmergencyNum;
+
+	/*
+	* æ¯è¾†è½¦æ•°æ®ä¸šåŠ¡äº‹ä»¶è§¦å‘çš„æ¬¡æ•°
+	* ç”¨äºéªŒè¯æ³Šæ¾åˆ†å¸ƒï¼Œä»¿çœŸä¸­å¹¶æ— ç”¨å¤„
+	*/
+	std::vector<int> m_VeUEDataNum;
+
+	/*
+	* æ¯ç±»äº‹ä»¶æˆåŠŸä¼ è¾“çš„æ•°ç›®
+	* å¤–å±‚ä¸‹æ ‡ä¸ºäº‹ä»¶ç§ç±»
+	*/
+	std::vector<int> m_TransimitSucceedEventNumPerEventType;
+
+	/*
+	* æ—¥å¿—æ–‡ä»¶
+	*/
+	std::ofstream m_FileEventLogInfo;
+	std::ofstream m_FileEventListInfo;
+	std::ofstream m_FileStatisticsDescription;
+	std::ofstream m_FileEmergencyDelayStatistics;
+	std::ofstream m_FilePeriodDelayStatistics;
+	std::ofstream m_FileDataDelayStatistics;
+	std::ofstream m_FileEmergencyPossion;
+	std::ofstream m_FileDataPossion;
+	std::ofstream m_FileEmergencyConflictNum;
+	std::ofstream m_FilePeriodConflictNum;
+	std::ofstream m_FileDataConflictNum;
+	std::ofstream m_FileTTIThroughput;
+	std::ofstream m_FileRSUThroughput;
+	std::ofstream m_FilePackageLoss;
+	std::ofstream m_FilePackageTransimit;
+	/*------------------æ¥å£------------------*/
 public:
 	/*
-	* Ä¬ÈÏ¹¹Ôìº¯Êı¶¨ÒåÎªÉ¾³ı
+	* é»˜è®¤æ„é€ å‡½æ•°å®šä¹‰ä¸ºåˆ é™¤
 	*/
 	TMC() = delete;
 
 	/*
-	* ¹¹Ôìº¯Êı
+	* æ„é€ å‡½æ•°
 	*/
-	TMC(System* t_Context) : m_Context(t_Context) {}
+	TMC(System* t_Context);
 
 	/*
-	* Îö¹¹º¯Êı
+	* ææ„å‡½æ•°
 	*/
 	~TMC();
 
 	/*
-	* »ñÈ¡ÏµÍ³ÀàµÄÖ¸Õë
+	* è·å–ç³»ç»Ÿç±»çš„æŒ‡é’ˆ
 	*/
 	System* getContext() { return m_Context; }
 
 	/*
-	* ³õÊ¼»¯RSU VeUEÄÚ¸Ãµ¥ÔªµÄÄÚ²¿Àà
+	* åˆå§‹åŒ–RSU VeUEå†…è¯¥å•å…ƒçš„å†…éƒ¨ç±»
 	*/
-	virtual void initialize() = 0;
+	void initialize();
 
 	/*
-	* Éú³ÉÊÂ¼şÁ´±í
+	* ç”Ÿæˆäº‹ä»¶é“¾è¡¨
 	*/
-	virtual void buildEventList(std::ofstream& t_File)=0;
+	void eventTrigger();
 
 	/*
-	* ·ÂÕæ½áÊøºóÍ³¼Æ¸÷ÖÖÊı¾İ
+	* ç”Ÿæˆäº‹ä»¶é“¾è¡¨
 	*/
-	virtual void processStatistics(
-		std::ofstream& t_FileStatisticsDescription,
-		std::ofstream& t_FileEmergencyDelay, std::ofstream& t_FilePeriodDelay, std::ofstream& t_FileDataDelay, 
-		std::ofstream& t_FileEmergencyPossion, std::ofstream& t_FileDataPossion, 
-		std::ofstream& t_FileEmergencyConflict, std::ofstream& t_FilePeriodConflict, std::ofstream& t_FileDataConflict,
-		std::ofstream& t_FilePackageLoss, std::ofstream& t_FilePackageTransimit,
-		std::ofstream& t_FileEventLog
-	)=0;
+	void buildEmergencyDataEventTriggerTTI();
+
+	/*
+	* ä»¿çœŸç»“æŸåç»Ÿè®¡å„ç§æ•°æ®
+	*/
+	void processStatistics();
+
+private:
+	/*
+	* å†™å…¥äº‹ä»¶åˆ—è¡¨çš„ä¿¡æ¯
+	*/
+	void writeEventListInfo();
+
+	/*
+	* å†™å…¥ä»¥äº‹ä»¶çš„æ—¥å¿—ä¿¡æ¯
+	*/
+	void writeEventLogInfo();
 };

@@ -8,29 +8,29 @@
 //<RRM_ICC_DRA> :Radio Resource Management Inter-Cluster Concurrency based Distributed Resource Allocation
 
 class RRM_ICC_DRA_VeUE :public RRM_VeUE{
-	/*------------------¾²Ì¬------------------*/
+	/*------------------é™æ€------------------*/
 public:
 	static std::default_random_engine s_Engine;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* ¹¹Ôìº¯Êı
+	* æ„é€ å‡½æ•°
 	*/
 	RRM_ICC_DRA_VeUE();
 
 	/*
-	* Ëæ»úÑ¡Ôñ×ÊÔ´¿é
+	* éšæœºé€‰æ‹©èµ„æºå—
 	*/
 	int selectRBBasedOnP2(const std::vector<int>&t_CurAvaliablePatternIdx);
 
 	/*
-	* Éú³É¸ñÊ½»¯×Ö·û´®
+	* ç”Ÿæˆæ ¼å¼åŒ–å­—ç¬¦ä¸²
 	*/
 	std::string toString(int t_NumTab);
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	RRM_TDM_DRA_VeUE *const getTDM_DRAPoint()override { throw std::logic_error("RuntimeException"); }
 	RRM_ICC_DRA_VeUE *const getICC_DRAPoint()override { return this; }
@@ -39,99 +39,99 @@ public:
 
 
 class RRM_ICC_DRA_RSU :public RRM_RSU {
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 public:
 	/*
-	* RSU¼¶±ğµÄ´ı½ÓÈëÁĞ±í
-	* Íâ²ãÏÂ±êÎª´Ø±àºÅ
-	* ÄÚ²ãlist´æ·ÅµÄÊÇ¶ÔÓ¦´ØµÄVeUEId
+	* RSUçº§åˆ«çš„å¾…æ¥å…¥åˆ—è¡¨
+	* å¤–å±‚ä¸‹æ ‡ä¸ºç°‡ç¼–å·
+	* å†…å±‚listå­˜æ”¾çš„æ˜¯å¯¹åº”ç°‡çš„VeUEId
 	*/
 	std::vector<std::list<int>> m_AccessEventIdList;
 
 	/*
-	* RSU¼¶±ğµÄµÈ´ıÁĞ±í
-	* Íâ²ãÏÂ±êÎª´Ø±àºÅ
-	* ÄÚ²ãlist´æ·ÅµÄÊÇ¶ÔÓ¦´ØµÄVeUEId
-	* ÆäÀ´Ô´ÓĞ£º
-	*		1¡¢·Ö´Øºó£¬ÓÉSystem¼¶µÄÇĞ»»Á´±í×ªÈë¸ÃRSU¼¶±ğµÄµÈ´ıÁ´±í
-	*		2¡¢ÊÂ¼şÁ´±íÖĞµ±Ç°µÄÊÂ¼ş´¥·¢
-	*		3¡¢VeUEÔÚ´«ÊäÏûÏ¢ºó£¬·¢Éú³åÍ»£¬½â¾ö³åÍ»ºó£¬×ªÈëµÈ´ıÁ´±í
+	* RSUçº§åˆ«çš„ç­‰å¾…åˆ—è¡¨
+	* å¤–å±‚ä¸‹æ ‡ä¸ºç°‡ç¼–å·
+	* å†…å±‚listå­˜æ”¾çš„æ˜¯å¯¹åº”ç°‡çš„VeUEId
+	* å…¶æ¥æºæœ‰ï¼š
+	*		1ã€åˆ†ç°‡åï¼Œç”±Systemçº§çš„åˆ‡æ¢é“¾è¡¨è½¬å…¥è¯¥RSUçº§åˆ«çš„ç­‰å¾…é“¾è¡¨
+	*		2ã€äº‹ä»¶é“¾è¡¨ä¸­å½“å‰çš„äº‹ä»¶è§¦å‘
+	*		3ã€VeUEåœ¨ä¼ è¾“æ¶ˆæ¯åï¼Œå‘ç”Ÿå†²çªï¼Œè§£å†³å†²çªåï¼Œè½¬å…¥ç­‰å¾…é“¾è¡¨
 	*/
 	std::vector<std::list<int>> m_WaitEventIdList;
 
 	/*
-	* Pattern¿éÊÍÊÇ·ñ¿ÉÓÃµÄ±ê¼Ç
-	* Íâ²ãÏÂ±ê´ú±í´Ø±àºÅ
-	* ÄÚ²ãÏÂ±ê´ú±íPattern±àºÅ
-	* Èô"m_PatternIsAvailable[i][j]==true"´ú±í´ØiµÄPattern¿éj¿ÉÓÃ
+	* Patternå—é‡Šæ˜¯å¦å¯ç”¨çš„æ ‡è®°
+	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç°‡ç¼–å·
+	* å†…å±‚ä¸‹æ ‡ä»£è¡¨Patternç¼–å·
+	* è‹¥"m_PatternIsAvailable[i][j]==true"ä»£è¡¨ç°‡içš„Patternå—jå¯ç”¨
 	*/
 	std::vector<std::vector<bool>> m_PatternIsAvailable;
 
 	/*
-	* ´æ·Åµ÷¶Èµ÷¶ÈĞÅÏ¢
-	* Íâ²ãÏÂ±ê´ú±í´Ø±àºÅ
-	* ÄÚ²ãÏÂ±ê´ú±íPattern±àºÅ
+	* å­˜æ”¾è°ƒåº¦è°ƒåº¦ä¿¡æ¯
+	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç°‡ç¼–å·
+	* å†…å±‚ä¸‹æ ‡ä»£è¡¨Patternç¼–å·
 	*/
 	std::vector<std::vector<ScheduleInfo*>> m_ScheduleInfoTable;
 
 	/*
-	* µ±Ç°Ê±¿Ìµ±Ç°RSUÄÚ´¦ÓÚ´«Êä×´Ì¬µÄµ÷¶ÈĞÅÏ¢Á´±í
-	* Íâ²ãÏÂ±ê´ú±í´Ø±àºÅ
-	* ÄÚ²ãÏÂ±ê´ú±íPattern±àºÅ
-	* ×îÄÚ²ãÓÃlistÓÃÓÚ´¦Àí³åÍ»
+	* å½“å‰æ—¶åˆ»å½“å‰RSUå†…å¤„äºä¼ è¾“çŠ¶æ€çš„è°ƒåº¦ä¿¡æ¯é“¾è¡¨
+	* å¤–å±‚ä¸‹æ ‡ä»£è¡¨ç°‡ç¼–å·
+	* å†…å±‚ä¸‹æ ‡ä»£è¡¨Patternç¼–å·
+	* æœ€å†…å±‚ç”¨listç”¨äºå¤„ç†å†²çª
 	*/
 	std::vector<std::vector<std::list<ScheduleInfo*>>> m_TransimitScheduleInfoList;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* ¹¹Ôìº¯Êı
+	* æ„é€ å‡½æ•°
 	*/
 	RRM_ICC_DRA_RSU();
 
 	/*
-	* ³õÊ¼»¯
-	* ²¿·Ö³ÉÔ±ĞèÒªµÈµ½GTTÄ£¿é³õÊ¼»¯Íê±Ïºó£¬ÓĞÁË´ØµÄÊıÁ¿²ÅÄÜ½øĞĞ±¾µ¥ÔªRSUµÄ³õÊ¼»¯
+	* åˆå§‹åŒ–
+	* éƒ¨åˆ†æˆå‘˜éœ€è¦ç­‰åˆ°GTTæ¨¡å—åˆå§‹åŒ–å®Œæ¯•åï¼Œæœ‰äº†ç°‡çš„æ•°é‡æ‰èƒ½è¿›è¡Œæœ¬å•å…ƒRSUçš„åˆå§‹åŒ–
 	*/
 	void initialize() override;
 
 	/*
-	* Éú³É¸ñÊ½»¯×Ö·û´®
+	* ç”Ÿæˆæ ¼å¼åŒ–å­—ç¬¦ä¸²
 	*/
 	std::string toString(int t_NumTab);
 
 	/*
-	* ½«AccessVeUEIdListµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
+	* å°†AccessVeUEIdListçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
 	*/
 	void pushToAccessEventIdList(int t_ClusterIdx, int t_EventId);
 
 	/*
-	* ½«WaitVeUEIdListµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
+	* å°†WaitVeUEIdListçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
 	*/
 	void pushToWaitEventIdList(int t_ClusterIdx, int t_EventId);
 
 	/*
-	* ½«SwitchVeUEIdListµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
+	* å°†SwitchVeUEIdListçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
 	*/
 	void pushToSwitchEventIdList(std::list<int>& t_SwitchVeUEIdList, int t_EventId);
 
 	/*
-	* ½«TransimitScheduleInfoµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
+	* å°†TransimitScheduleInfoçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
 	*/
 	void pushToTransmitScheduleInfoList(ScheduleInfo* t_Info);
 
 	/*
-	* ½«ScheduleInfoTableµÄÌí¼Ó·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
+	* å°†ScheduleInfoTableçš„æ·»åŠ å°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
 	*/
 	void pushToScheduleInfoTable(ScheduleInfo* t_Info);
 
 	/*
-	* ½«RSU¼¶±ğµÄScheduleInfoTableµÄµ¯³ö·â×°ÆğÀ´£¬±ãÓÚ²é¿´ÄÄÀïµ÷ÓÃ£¬ÀûÓÚµ÷ÊÔ
+	* å°†RSUçº§åˆ«çš„ScheduleInfoTableçš„å¼¹å‡ºå°è£…èµ·æ¥ï¼Œä¾¿äºæŸ¥çœ‹å“ªé‡Œè°ƒç”¨ï¼Œåˆ©äºè°ƒè¯•
 	*/
 	void pullFromScheduleInfoTable(int t_TTI);
 
 	/*
-	* ÓÃÓÚÈ¡µÃÖ¸ÏòÊµ¼ÊÀàĞÍµÄÖ¸Õë
+	* ç”¨äºå–å¾—æŒ‡å‘å®é™…ç±»å‹çš„æŒ‡é’ˆ
 	*/
 	RRM_TDM_DRA_RSU *const getTDM_DRAPoint()override { throw std::logic_error("RuntimeException"); }
 	RRM_ICC_DRA_RSU *const getICC_DRAPoint() override { return this; }
@@ -140,161 +140,161 @@ public:
 
 
 class RRM_ICC_DRA :public RRM {
-	/*------------------¾²Ì¬------------------*/
+	/*------------------é™æ€------------------*/
 public:
 	/*
-	* Ã¿¸öPatternµÄRBÊıÁ¿
+	* æ¯ä¸ªPatternçš„RBæ•°é‡
 	*/
 	static const int s_RB_NUM_PER_PATTERN = 10;
 
 	/*
-	* ×ÜµÄPatternÊıÁ¿
+	* æ€»çš„Patternæ•°é‡
 	*/
 	static const int s_TOTAL_PATTERN_NUM = s_TOTAL_BANDWIDTH / s_BANDWIDTH_OF_RB / s_RB_NUM_PER_PATTERN;
 
-	/*------------------Óò------------------*/
+	/*------------------åŸŸ------------------*/
 public:
 	/*
-	* ÓÃÓÚ´æ·Å½øĞĞRSUÇĞ»»µÄ³µÁ¾£¬ÔİÊ±±£´æµÄ×÷ÓÃ
+	* ç”¨äºå­˜æ”¾è¿›è¡ŒRSUåˆ‡æ¢çš„è½¦è¾†ï¼Œæš‚æ—¶ä¿å­˜çš„ä½œç”¨
 	*/
 	std::list<int> m_SwitchEventIdList;
 
 	/*
-	* ÓÃÓÚ´æ·ÅÖ¸¶¨³µÁ¾Ö¸¶¨PatternµÄ¸ÉÈÅÁĞ±í(Ö»±£ÁôRSUÄÚ´Ø¼ä¸ÉÈÅ)
-	* Íâ²ãÏÂ±êÎªVeUEId
-	* ÄÚ²ãÏÂ±êÎªPatternIdx
+	* ç”¨äºå­˜æ”¾æŒ‡å®šè½¦è¾†æŒ‡å®šPatternçš„å¹²æ‰°åˆ—è¡¨(åªä¿ç•™RSUå†…ç°‡é—´å¹²æ‰°)
+	* å¤–å±‚ä¸‹æ ‡ä¸ºVeUEId
+	* å†…å±‚ä¸‹æ ‡ä¸ºPatternIdx
 	*/
 	std::vector<std::vector<std::list<int>>> m_InterferenceVec;
 
 	/*
-	* ¶àÏß³Ì×ÜÊı
+	* å¤šçº¿ç¨‹æ€»æ•°
 	*/
 	int m_ThreadNum;
 
 	/*
-	* ¶àÏß³ÌÈİÆ÷
+	* å¤šçº¿ç¨‹å®¹å™¨
 	*/
 	std::vector<std::thread> m_Threads;
 
 	/*
-	* ·ÖÅä¸øÃ¿¸öÏß³ÌµÄRSUId·¶Î§
+	* åˆ†é…ç»™æ¯ä¸ªçº¿ç¨‹çš„RSUIdèŒƒå›´
 	*/
 	std::vector<std::pair<int, int>> m_ThreadsRSUIdRange;
 
-	/*------------------·½·¨------------------*/
+	/*------------------æ–¹æ³•------------------*/
 public:
 	/*
-	* Ä¬ÈÏ¹¹Ôìº¯Êı¶¨ÒåÎªÉ¾³ı
+	* é»˜è®¤æ„é€ å‡½æ•°å®šä¹‰ä¸ºåˆ é™¤
 	*/
 	RRM_ICC_DRA() = delete;
 
 	/*
-	* ¹¹Ôìº¯Êı
-	* ¸Ã¹¹Ôìº¯Êı¶¨ÒåÁË¸ÃÄ£¿éµÄÊÓÍ¼
-	* ËùÓĞÖ¸Õë³ÉÔ±¿½±´ÏµÍ³ÀàÖĞµÄ¶ÔÓ¦³ÉÔ±Ö¸Õë£¬¹²ÏíÍ¬Ò»ÊµÌå
+	* æ„é€ å‡½æ•°
+	* è¯¥æ„é€ å‡½æ•°å®šä¹‰äº†è¯¥æ¨¡å—çš„è§†å›¾
+	* æ‰€æœ‰æŒ‡é’ˆæˆå‘˜æ‹·è´ç³»ç»Ÿç±»ä¸­çš„å¯¹åº”æˆå‘˜æŒ‡é’ˆï¼Œå…±äº«åŒä¸€å®ä½“
 	*/
 	RRM_ICC_DRA(System* t_Context);
 
 	/*
-	* ³õÊ¼»¯RSU VeUEÄÚ¸Ãµ¥ÔªµÄÄÚ²¿Àà
+	* åˆå§‹åŒ–RSU VeUEå†…è¯¥å•å…ƒçš„å†…éƒ¨ç±»
 	*/
 	void initialize() override;
 
 	/*
-	* µ±·¢ÉúÎ»ÖÃ¸üĞÂÊ±£¬Çå³ı»º´æµÄµ÷¶ÈÏà¹ØĞÅÏ¢
+	* å½“å‘ç”Ÿä½ç½®æ›´æ–°æ—¶ï¼Œæ¸…é™¤ç¼“å­˜çš„è°ƒåº¦ç›¸å…³ä¿¡æ¯
 	*/
 	void cleanWhenLocationUpdate()override;
 
 	/*
-	* RRM_ICC_DRAµ÷¶È×Ü¿Ø£¬¸²¸Ç»ùÀàµÄĞéº¯Êı
+	* RRM_ICC_DRAè°ƒåº¦æ€»æ§ï¼Œè¦†ç›–åŸºç±»çš„è™šå‡½æ•°
 	*/
 	void schedule() override;
 private:
 	/*
-	* ×ÊÔ´·ÖÅäĞÅÏ¢Çå¿Õ
+	* èµ„æºåˆ†é…ä¿¡æ¯æ¸…ç©º
 	*/
 	void informationClean();
 
 	/*
-	* ¸üĞÂµÈ´ıÁ´±í
+	* æ›´æ–°ç­‰å¾…é“¾è¡¨
 	*/
 	void updateAccessEventIdList(bool t_ClusterFlag);
 
 	/*
-	* ´¦ÀíÊÂ¼şÁ´±í
-	* ½«¸ÃÊ±¿Ì´¥·¢µÄÊÂ¼ş·ÅÈëRSUµÄµÈ´ıÁ´±íÖĞ
+	* å¤„ç†äº‹ä»¶é“¾è¡¨
+	* å°†è¯¥æ—¶åˆ»è§¦å‘çš„äº‹ä»¶æ”¾å…¥RSUçš„ç­‰å¾…é“¾è¡¨ä¸­
 	*/
 	void processEventList();
 
 	/*
-	* µØÀíÎ»ÖÃ¸üĞÂÊ±£¬´¦Àíµ÷¶È±í
+	* åœ°ç†ä½ç½®æ›´æ–°æ—¶ï¼Œå¤„ç†è°ƒåº¦è¡¨
 	*/
 	void processScheduleInfoTableWhenLocationUpdate();
 
 	/*
-	* µØÀíÎ»ÖÃ¸üĞÂÊ±£¬´¦ÀíµÈ´ıÁ´±í
+	* åœ°ç†ä½ç½®æ›´æ–°æ—¶ï¼Œå¤„ç†ç­‰å¾…é“¾è¡¨
 	*/
 	void processWaitEventIdListWhenLocationUpdate();
 
 	/*
-	* µØÀíÎ»ÖÃ¸üĞÂÊ±£¬´¦Àí×ª½Ó±í
+	* åœ°ç†ä½ç½®æ›´æ–°æ—¶ï¼Œå¤„ç†è½¬æ¥è¡¨
 	*/
 	void processSwitchListWhenLocationUpdate();
 
 	/*
-	* ´¦ÀíµÈ´ıÁ´±í£¬Éú³É½ÓÈëÁ´±í
+	* å¤„ç†ç­‰å¾…é“¾è¡¨ï¼Œç”Ÿæˆæ¥å…¥é“¾è¡¨
 	*/
 	void processWaitEventIdList();
 
 	/*
-	* »ùÓÚP1/P2/P3µÄ×ÊÔ´Ñ¡Ôñ
+	* åŸºäºP1/P2/P3çš„èµ„æºé€‰æ‹©
 	*/
 	void selectRBBasedOnP123();
 
 	/*
-	* Ê±ÑÓÍ³¼Æ
+	* æ—¶å»¶ç»Ÿè®¡
 	*/
 	void delaystatistics();
 
 	/*
-	* Ö¡Ìı³åÍ»£¬³åÍ»ºó±ÜÈÃ
+	* å¸§å¬å†²çªï¼Œå†²çªåé¿è®©
 	*/
 	void conflictListener();
 
 	/*
-	* ¼ÆËã¸ÉÈÅĞÅµÀÏìÓ¦
+	* è®¡ç®—å¹²æ‰°ä¿¡é“å“åº”
 	*/
 	void transimitPreparation();
 
 	/*
-	* ´«Êä¿ªÊ¼
+	* ä¼ è¾“å¼€å§‹
 	*/
 	void transimitStart();
 	void transimitStartThread(int t_FromRSUId, int t_ToRSUId);
 
 	/*
-	* ´«Êä½áÊø
+	* ä¼ è¾“ç»“æŸ
 	*/
 	void transimitEnd();
 
 	/*
-	* ¼ÇÂ¼µ÷¶ÈĞÅÏ¢ÈÕÖ¾
+	* è®°å½•è°ƒåº¦ä¿¡æ¯æ—¥å¿—
 	*/
-	void writeScheduleInfo(std::ofstream& t_File);
+	void writeScheduleInfo();
 
 	/*
-	* ÒÔTTIÎªÖ÷¼ü¼ÇÂ¼ÈÕÖ¾
+	* ä»¥TTIä¸ºä¸»é”®è®°å½•æ—¥å¿—
 	*/
-	void writeTTILogInfo(std::ofstream& t_File, int t_TTI, EventLogType t_EventLogType, int t_EventId, int t_FromRSUId, int t_FromClusterIdx, int t_FromPatternIdx, int t_ToRSUId, int t_ToClusterIdx, int t_ToPatternIdx, std::string t_Description);
+	void writeTTILogInfo(int t_TTI, EventLogType t_EventLogType, int t_EventId, int t_FromRSUId, int t_FromClusterIdx, int t_FromPatternIdx, int t_ToRSUId, int t_ToClusterIdx, int t_ToPatternIdx, std::string t_Description);
 	
 	/*
-	* Ğ´Èë·Ö´ØĞÅÏ¢µÄÈÕÖ¾
+	* å†™å…¥åˆ†ç°‡ä¿¡æ¯çš„æ—¥å¿—
 	*/
-	void writeClusterPerformInfo(bool isLocationUpdate, std::ofstream& t_File);
+	void writeClusterPerformInfo(bool isLocationUpdate);
 
 
 	/*
-	* ·µ»ØÖ¸¶¨Pattern±àºÅ¶ÔÓ¦µÄ×ÓÔØ²¨±àºÅ
+	* è¿”å›æŒ‡å®šPatternç¼–å·å¯¹åº”çš„å­è½½æ³¢ç¼–å·
 	*/
 	std::pair<int, int> getOccupiedSubCarrierRange(int t_PatternIdx);
 };

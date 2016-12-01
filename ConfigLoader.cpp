@@ -3,7 +3,7 @@
 *
 *       Filename:  ConfigLoader.cpp
 *
-*    Description:  TMCÄ£¿é
+*    Description:  TMCæ¨¡å—
 *
 *        Version:  1.0
 *        Created:
@@ -17,23 +17,43 @@
 */
 
 #include<iostream>
+#include<sstream>
 #include<stdexcept>
 #include"ConfigLoader.h"
 
 using namespace std;
 
+int ConfigLoader::stringToInt(std::string t_String) {
+	if (t_String.size() > 10) throw logic_error("IntOverFlow");
+	stringstream ss;
+	ss << t_String;
+	long res;
+	ss >> res;
+	if(res>(numeric_limits<int>::max)()|| res<(numeric_limits<int>::min)()) throw logic_error("IntOverFlow");
+	return static_cast<int>(res);
+}
+
+double ConfigLoader::stringToDouble(std::string t_String) {
+	//ç”±äºdoubleå®åœ¨å¤ªå¤§äº†ï¼Œæš‚ä¸å¤„ç†æº¢å‡ºäº†ï¼Œå³é»˜è®¤è¾“å…¥ä¸ºæ­£å¸¸èŒƒå›´
+	stringstream ss;
+	ss << t_String;
+	double res;
+	ss >> res;
+	return res;
+}
+
 void ConfigLoader::resolvConfigPath(string t_FilePath) {
-	//Çå¿Õ»º´æ
+	//æ¸…ç©ºç¼“å­˜
 	m_Content.clear();
 	m_TagContentMap.clear();
 
-	//¶ÁÈ¡´ı½âÎö×Ö·û´®
+	//è¯»å–å¾…è§£æå­—ç¬¦ä¸²
 	ifstream in(t_FilePath);
-	istream_iterator<char> if_it(in), if_eof;
+	istreambuf_iterator<char> if_it(in), if_eof;
 	m_Content.assign(if_it, if_eof);
 	in.close();
 
-	//½âÎö£¬²¢´æ´¢
+	//è§£æï¼Œå¹¶å­˜å‚¨
 	regex r("<([^<>]*)>([^<>]*)</([^<>]*)>");
 	for (sregex_iterator it(m_Content.begin(), m_Content.end(), r), eof; it != eof; ++it) {
 		string leftTag = it->operator[](1);

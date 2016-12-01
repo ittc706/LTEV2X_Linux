@@ -19,18 +19,18 @@ echo $description >> README.md
 rm -f *.h *.cpp
 rm -rf Config Log WT
 
-sleep 2s
+sleep 1s
 
 # 从对应的目录拷贝过来
 cp -a ../LTEV2X/LTEV2X/*.cpp  ../LTEV2X/LTEV2X/*.h  .
 cp -a ../LTEV2X/LTEV2X/Config ../LTEV2X/LTEV2X/Log ../LTEV2X/LTEV2X/WT .
 
-sleep 2s
+sleep 1s
 
 
 mkdir ./Unicode ./UTF-8
 
-# 开始转码
+# 开始转码.h以及.cpp文件
 for filename in $(ls *.h *.cpp)
 do
 	echo "正在转码: "$filename
@@ -38,16 +38,32 @@ do
 	native2ascii -reverse -encoding utf-8 ./Unicode/$filename ./UTF-8/$filename
 done
 
-# 删除文件
 rm -f *.h *.cpp
-
-sleep 2s
 
 mv ./UTF-8/* .
 
 rm -rf ./Unicode ./UTF-8
 
-sleep 2s
+sleep 1s
+
+# 开始转码配置文件
+
+mkdir ./Config/Unicode ./Config/UTF-8
+
+for filename in $(ls ./Config/*.xml)
+do
+	echo "正在转码: "Config/$filename
+	native2ascii ./Config/$filename ./Config/Unicode/$filename
+	native2ascii -reverse -encoding utf-8 ./Config/Unicode/$filename ./Config/UTF-8/$filename
+done
+
+rm -f ./Config/*.xml
+
+mv ./Config/UTF-8/* ./Config
+
+rm -rf ./Config/Unicode ./Config/UTF-8
+
+sleep 1s
 
 git add .
 git commit -m ${description:3}

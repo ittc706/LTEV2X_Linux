@@ -2,7 +2,7 @@ clear all;
 close all;
 clc;
 
-%% ½âÎö±êÇ©Êı¾İ
+%% è§£ææ ‡ç­¾æ•°æ®
 fid=fopen('StatisticsDescription.txt','r');
 Description=fscanf(fid,'%s');
 
@@ -14,9 +14,9 @@ for iter=1:length(tokens)
 end
 
 
-figId=1;%Í¼µÄId
+figId=1;%å›¾çš„Id
 
-%% ¶ÁÈ¡Ê±ÑÓÍ³¼ÆĞÅÏ¢
+%% è¯»å–æ—¶å»¶ç»Ÿè®¡ä¿¡æ¯
 PeriodDelayStatistics=load('PeriodDelayStatistics.txt');
 
 PeriodQueuingDelay=PeriodDelayStatistics(1,:);
@@ -27,32 +27,32 @@ PeriodSendDelay=PeriodDelayStatistics(2,:);
 numberPeriod=numberPeriod./sum(numberPeriod);
 
 
-%% µÈ´ıÊ±ÑÓ
+%% ç­‰å¾…æ—¶å»¶
 
 figure(figId)
 figId=figId+1;
 bar(centerPeriod,numberPeriod);
-title('ÖÜÆÚÊÂ¼şµÈ´ıÊ±ÑÓÍ³¼Æ','LineWidth',2);
-xlabel('µÈ´ıÊ±ÑÓ(TTI)','LineWidth',2);
-ylabel('¸ÅÂÊ','LineWidth',2);
+title('å‘¨æœŸäº‹ä»¶ç­‰å¾…æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+xlabel('ç­‰å¾…æ—¶å»¶(TTI)','LineWidth',2);
+ylabel('æ¦‚ç‡','LineWidth',2);
 grid on;
     
 
-%% ´«ÊäÊ±ÑÓ
+%% ä¼ è¾“æ—¶å»¶
 [numberPeriod,centerPeriod]=hist(PeriodSendDelay,min(PeriodSendDelay)-1:max(PeriodSendDelay)+1);
 numberPeriod=numberPeriod./sum(numberPeriod);
 
 figure(figId)
 figId=figId+1;
 bar(centerPeriod,numberPeriod);
-title('ÖÜÆÚÊÂ¼ş´«ÊäÊ±ÑÓÍ³¼Æ','LineWidth',2);
-xlabel('´«ÊäÊ±ÑÓ(TTI)','LineWidth',2);
-ylabel('¸ÅÂÊ','LineWidth',2);
+title('å‘¨æœŸäº‹ä»¶ä¼ è¾“æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+xlabel('ä¼ è¾“æ—¶å»¶(TTI)','LineWidth',2);
+ylabel('æ¦‚ç‡','LineWidth',2);
 grid on;
 
 
 
-%% ¶ÁÈ¡³åÍ»Í³¼ÆĞÅÏ¢
+%% è¯»å–å†²çªç»Ÿè®¡ä¿¡æ¯
 PeriodConflictNum=load('PeriodConflictNum.txt');
 
 [numberPeriod,centerPeriod]=hist(PeriodConflictNum,min(PeriodConflictNum)-1:max(PeriodConflictNum)+1);
@@ -61,13 +61,13 @@ numberPeriod=numberPeriod./sum(numberPeriod);
 figure(figId)
 figId=figId+1;
 bar(centerPeriod,numberPeriod);
-title('ÖÜÆÚÊÂ¼ş³åÍ»Í³¼Æ','LineWidth',2);
-xlabel('³åÍ»´ÎÊı','LineWidth',2);
-ylabel('¸ÅÂÊ','LineWidth',2);
+title('å‘¨æœŸäº‹ä»¶å†²çªç»Ÿè®¡','LineWidth',2);
+xlabel('å†²çªæ¬¡æ•°','LineWidth',2);
+ylabel('æ¦‚ç‡','LineWidth',2);
 grid on;
 
 
-%% ÍÌÍÂÂÊ
+%% ååç‡
 TTIThroughput=load('./TTIThroughput.txt');
 RSUThroughput=load('./RSUThroughput.txt');
 VeUENumPerRSULogInfo=load('../GTTLog/VeUENumPerRSULogInfo.txt');
@@ -82,7 +82,7 @@ end
 figure(figId)
 figId=figId+1;
 plot(TTIThroughput);
-title('TTIÍÌÍÂÁ¿','LineWidth',2);
+title('TTIååé‡','LineWidth',2);
 xlabel('TTI','LineWidth',2);
 ylabel('K bit','LineWidth',2);
 grid on;
@@ -90,7 +90,7 @@ grid on;
 figure(figId)
 figId=figId+1;
 plot(accumulatedTTIThroughput);
-title('ÀÛ¼ÆÍÌÍÂÁ¿','LineWidth',2);
+title('ç´¯è®¡ååé‡','LineWidth',2);
 xlabel('TTI','LineWidth',2);
 ylabel('K bit','LineWidth',2);
 grid on;
@@ -100,7 +100,7 @@ RSUThroughput=RSUThroughput/1000;
 figure(figId)
 figId=figId+1;
 bar(RSUThroughput);
-title('ÍÌÍÂÁ¿Í³¼Æ','LineWidth',2);
+title('ååé‡ç»Ÿè®¡','LineWidth',2);
 xlabel('RSUId','LineWidth',2);
 ylabel('K bit','LineWidth',2);
 grid on;
@@ -110,51 +110,51 @@ VeUENumPerRSULogInfo=mean(VeUENumPerRSULogInfo,1);
 figure(figId)
 figId=figId+1;
 bar(VeUENumPerRSULogInfo)
-title('³µÁ¾·Ö²¼Í³¼ÆÍ¼','LineWidth',2);
-xlabel('³µÁ¾ÊıÄ¿','LineWidth',2);
+title('è½¦è¾†åˆ†å¸ƒç»Ÿè®¡å›¾','LineWidth',2);
+xlabel('è½¦è¾†æ•°ç›®','LineWidth',2);
 ylabel('RSUId','LineWidth',2);
 grid on;
 
 
-%TTIÍÌÍÂÁ¿CDFÍ¼
+%TTIååé‡CDFå›¾
 [numberTTIThroughput,centerTTIThroughput]=hist(TTIThroughput,100);
 Tem=zeros(length(centerTTIThroughput),2);
 Tem(:,1)=centerTTIThroughput.';
 Tem(:,2)=numberTTIThroughput.';
-sortrows(Tem,1);%ÒÀ¾İÖĞĞÄÖµ½øĞĞÖ÷ÖµÅÅĞò
+sortrows(Tem,1);%ä¾æ®ä¸­å¿ƒå€¼è¿›è¡Œä¸»å€¼æ’åº
 centerTTIThroughput=Tem(:,1).';
 numberTTIThroughput=Tem(:,2).';
 TotalTTI=length(TTIThroughput);
-accumulateNumberTTIThroughput=cumsum(numberTTIThroughput);%¼ÆËãÀÛÊıÁ¿
-accumulatePTTIThroughput=accumulateNumberTTIThroughput./TotalTTI;%¼ÆËãÀÛ¸ÅÂÊ
+accumulateNumberTTIThroughput=cumsum(numberTTIThroughput);%è®¡ç®—ç´¯æ•°é‡
+accumulatePTTIThroughput=accumulateNumberTTIThroughput./TotalTTI;%è®¡ç®—ç´¯æ¦‚ç‡
 
 figure(figId)
 figId=figId+1;
 plot(centerTTIThroughput,accumulatePTTIThroughput,'bo-','LineWidth',2);
-title('TTIÍÌÍÂÂÊCDFÍ¼','LineWidth',2);
-xlabel('ÍÌÍÂÁ¿(Kbits/TTI)','LineWidth',2);
+title('TTIååç‡CDFå›¾','LineWidth',2);
+xlabel('ååé‡(Kbits/TTI)','LineWidth',2);
 ylabel('CDF','LineWidth',2);
 grid on;
 
 
-%RSUÍÌÍÂÁ¿CDFÍ¼
+%RSUååé‡CDFå›¾
 RSUThroughput=RSUThroughput/length(TTIThroughput);
 [numberRSUThroughput,centerRSUThroughput]=hist(RSUThroughput,length(RSUThroughput));
 Tem=zeros(length(centerRSUThroughput),2);
 Tem(:,1)=centerRSUThroughput.';
 Tem(:,2)=numberRSUThroughput.';
-sortrows(Tem,1);%ÒÀ¾İÖĞĞÄÖµ½øĞĞÖ÷ÖµÅÅĞò
+sortrows(Tem,1);%ä¾æ®ä¸­å¿ƒå€¼è¿›è¡Œä¸»å€¼æ’åº
 centerRSUThroughput=Tem(:,1).';
 numberRSUThroughput=Tem(:,2).';
 TotalRSU=length(RSUThroughput);
-accumulateNumberRSUThroughput=cumsum(numberRSUThroughput);%¼ÆËãÀÛÊıÁ¿
-accumulatePRSUThroughput=accumulateNumberRSUThroughput./TotalRSU;%¼ÆËãÀÛ¸ÅÂÊ
+accumulateNumberRSUThroughput=cumsum(numberRSUThroughput);%è®¡ç®—ç´¯æ•°é‡
+accumulatePRSUThroughput=accumulateNumberRSUThroughput./TotalRSU;%è®¡ç®—ç´¯æ¦‚ç‡
 
 figure(figId)
 figId=figId+1;
 plot(centerRSUThroughput,accumulatePRSUThroughput,'bo-','LineWidth',2);
-title('RSUÍÌÍÂÂÊCDFÍ¼','LineWidth',2);
-xlabel('ÍÌÍÂÁ¿(Kbits/TTI/RSU)','LineWidth',2);
+title('RSUååç‡CDFå›¾','LineWidth',2);
+xlabel('ååé‡(Kbits/TTI/RSU)','LineWidth',2);
 ylabel('CDF','LineWidth',2);
 grid on;
 

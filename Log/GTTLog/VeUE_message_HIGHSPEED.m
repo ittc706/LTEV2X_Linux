@@ -1,19 +1,19 @@
-%¸ßËÙ¹«Â·³¡¾°
+%é«˜é€Ÿå…¬è·¯åœºæ™¯
 
-% ÏÔÊ¾Ä³¸öRSUÏÂ²»Í¬´ØÏÂµÄ³µÁ¾ÍØÆË
+% æ˜¾ç¤ºæŸä¸ªRSUä¸‹ä¸åŒç°‡ä¸‹çš„è½¦è¾†æ‹“æ‰‘
 [data1,data2,data3,data4,data5] = textread('VeUEMessage.txt','%n%n%n%n%n');
 dim = length(data1);
 ClusterNumber = 2;
 RandomColor = rand(ClusterNumber,3);
  for cnt = 1:1:dim
-    if(data2(cnt,1)==8)%Ñ¡ÔñĞèÒª²é¿´µÄRSU±àºÅ,´Ó0µ½34
+    if(data2(cnt,1)==8)%é€‰æ‹©éœ€è¦æŸ¥çœ‹çš„RSUç¼–å·,ä»0åˆ°34
     ClusterId = data3(cnt,1)+1;
     plot(data4(cnt,1),data5(cnt,1),'X','Color',RandomColor(ClusterId,:));hold on
     axis([-2000 2000 -15 15]);
     end
  end
  
-% % ÏÔÊ¾²»Í¬RSUÏÂ³µÁ¾µÄÍØÆË
+% % æ˜¾ç¤ºä¸åŒRSUä¸‹è½¦è¾†çš„æ‹“æ‰‘
 % [data1,data2,data3,data4,data5] = textread('VeUE_message_HIGHSPEED.txt','%n%n%n%n%n');
 % dim = length(data1);
 % RSUNumber = 35;

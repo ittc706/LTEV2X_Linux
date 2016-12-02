@@ -3,10 +3,10 @@ close all;
 clc;
 
 
-separate=0;%¿ØÖÆ×÷Í¼ºÏ²¢»¹ÊÇ·Ö¿ª
-figId=1;%Í¼µÄId
+separate=0;%æ§åˆ¶ä½œå›¾åˆå¹¶è¿˜æ˜¯åˆ†å¼€
+figId=1;%å›¾çš„Id
 
-%% ¶ÁÈ¡Ê±ÑÓÍ³¼ÆĞÅÏ¢
+%% è¯»å–æ—¶å»¶ç»Ÿè®¡ä¿¡æ¯
 
 EmergencyDelayStatistics=load('EmergencyDelayStatistics.txt');
 PeriodDelayStatistics=load('PeriodDelayStatistics.txt');
@@ -30,30 +30,30 @@ numberPeriod=numberPeriod./sum(numberPeriod);
 [numberData,centerData]=hist(DataQueuingDelay,min(DataQueuingDelay)-1:max(DataQueuingDelay)+1);
 numberData=numberData./sum(numberData);
 
-%% µÈ´ıÊ±ÑÓ
+%% ç­‰å¾…æ—¶å»¶
 if(separate==1)
     figure(figId)
     figId=figId+1;
     bar(centerEmergency,numberEmergency);
-    title('½ô¼±ÊÂ¼şµÈ´ıÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('µÈ´ıÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('ç´§æ€¥äº‹ä»¶ç­‰å¾…æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ç­‰å¾…æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 
     figure(figId)
     figId=figId+1;
     bar(centerPeriod,numberPeriod);
-    title('ÖÜÆÚÊÂ¼şµÈ´ıÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('µÈ´ıÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('å‘¨æœŸäº‹ä»¶ç­‰å¾…æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ç­‰å¾…æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
     
     figure(figId)
     figId=figId+1;
     bar(centerData,numberData);
-    title('Êı¾İÒµÎñÊÂ¼şµÈ´ıÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('µÈ´ıÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('æ•°æ®ä¸šåŠ¡äº‹ä»¶ç­‰å¾…æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ç­‰å¾…æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 else
     figure(figId)
@@ -62,28 +62,28 @@ else
     
     subplot(1,3,1);
     bar(centerEmergency,numberEmergency);
-    title('½ô¼±ÊÂ¼şµÈ´ıÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('µÈ´ıÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('ç´§æ€¥äº‹ä»¶ç­‰å¾…æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ç­‰å¾…æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
     
     subplot(1,3,2);
     bar(centerPeriod,numberPeriod);
-    title('ÖÜÆÚÊÂ¼şµÈ´ıÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('µÈ´ıÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('å‘¨æœŸäº‹ä»¶ç­‰å¾…æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ç­‰å¾…æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 
     subplot(1,3,3);
     bar(centerData,numberData);
-    title('Êı¾İÒµÎñÊÂ¼şµÈ´ıÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('µÈ´ıÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('æ•°æ®ä¸šåŠ¡äº‹ä»¶ç­‰å¾…æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ç­‰å¾…æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 end
 
 
-%% ´«ÊäÊ±ÑÓ
+%% ä¼ è¾“æ—¶å»¶
 [numberEmergency,centerEmergency]=hist(EmergencySendDelay,min(EmergencySendDelay)-1:max(EmergencySendDelay)+1);
 numberEmergency=numberEmergency./sum(numberEmergency);
 
@@ -98,25 +98,25 @@ if(separate==1)
     figure(figId)
     figId=figId+1;
     bar(centerEmergency,numberEmergency);
-    title('½ô¼±ÊÂ¼ş´«ÊäÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('´«ÊäÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('ç´§æ€¥äº‹ä»¶ä¼ è¾“æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ä¼ è¾“æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
     
     figure(figId)
     figId=figId+1;
     bar(centerPeriod,numberPeriod);
-    title('ÖÜÆÚÊÂ¼ş´«ÊäÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('´«ÊäÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('å‘¨æœŸäº‹ä»¶ä¼ è¾“æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ä¼ è¾“æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 
     figure(figId)
     figId=figId+1;
     bar(centerData,numberData);
-    title('Êı¾İÒµÎñÊÂ¼ş´«ÊäÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('´«ÊäÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('æ•°æ®ä¸šåŠ¡äº‹ä»¶ä¼ è¾“æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ä¼ è¾“æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 else
     figure(figId)
@@ -125,29 +125,29 @@ else
     
     subplot(1,3,1);
     bar(centerEmergency,numberEmergency);
-    title('½ô¼±ÊÂ¼ş´«ÊäÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('´«ÊäÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('ç´§æ€¥äº‹ä»¶ä¼ è¾“æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ä¼ è¾“æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
     
     subplot(1,3,2);
     bar(centerPeriod,numberPeriod);
-    title('ÖÜÆÚÊÂ¼ş´«ÊäÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('´«ÊäÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('å‘¨æœŸäº‹ä»¶ä¼ è¾“æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ä¼ è¾“æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 
     subplot(1,3,3);
     bar(centerData,numberData);
-    title('Êı¾İÒµÎñÊÂ¼ş´«ÊäÊ±ÑÓÍ³¼Æ','LineWidth',2);
-    xlabel('´«ÊäÊ±ÑÓ(TTI)','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('æ•°æ®ä¸šåŠ¡äº‹ä»¶ä¼ è¾“æ—¶å»¶ç»Ÿè®¡','LineWidth',2);
+    xlabel('ä¼ è¾“æ—¶å»¶(TTI)','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 end
 
 
 
-%% ¶ÁÈ¡³åÍ»Í³¼ÆĞÅÏ¢
+%% è¯»å–å†²çªç»Ÿè®¡ä¿¡æ¯
 EmergencyConflictNum=load('EmergencyConflictNum.txt');
 PeriodConflictNum=load('PeriodConflictNum.txt');
 DataConflictNum=load('DataConflictNum.txt');
@@ -167,25 +167,25 @@ if(separate==1)
     figure(figId)
     figId=figId+1;
     bar(centerEmergency,numberEmergency);
-    title('½ô¼±ÊÂ¼ş³åÍ»Í³¼Æ','LineWidth',2);
-    xlabel('³åÍ»´ÎÊı','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('ç´§æ€¥äº‹ä»¶å†²çªç»Ÿè®¡','LineWidth',2);
+    xlabel('å†²çªæ¬¡æ•°','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
     
     figure(figId)
     figId=figId+1;
     bar(centerPeriod,numberPeriod);
-    title('ÖÜÆÚÊÂ¼ş³åÍ»Í³¼Æ','LineWidth',2);
-    xlabel('³åÍ»´ÎÊı','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('å‘¨æœŸäº‹ä»¶å†²çªç»Ÿè®¡','LineWidth',2);
+    xlabel('å†²çªæ¬¡æ•°','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 
     figure(figId)
     figId=figId+1;
     bar(centerData,numberData);
-    title('Êı¾İÒµÎñÊÂ¼ş³åÍ»Í³¼Æ','LineWidth',2);
-    xlabel('³åÍ»´ÎÊı','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('æ•°æ®ä¸šåŠ¡äº‹ä»¶å†²çªç»Ÿè®¡','LineWidth',2);
+    xlabel('å†²çªæ¬¡æ•°','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 else
     figure(figId)
@@ -194,31 +194,31 @@ else
 
     subplot(1,3,1);
     bar(centerEmergency,numberEmergency);
-    title('½ô¼±ÊÂ¼ş³åÍ»Í³¼Æ','LineWidth',2);
-    xlabel('³åÍ»´ÎÊı','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('ç´§æ€¥äº‹ä»¶å†²çªç»Ÿè®¡','LineWidth',2);
+    xlabel('å†²çªæ¬¡æ•°','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
     
     subplot(1,3,2);
     bar(centerPeriod,numberPeriod);
-    title('ÖÜÆÚÊÂ¼ş³åÍ»Í³¼Æ','LineWidth',2);
-    xlabel('³åÍ»´ÎÊı','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('å‘¨æœŸäº‹ä»¶å†²çªç»Ÿè®¡','LineWidth',2);
+    xlabel('å†²çªæ¬¡æ•°','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 
 
     subplot(1,3,3);
     bar(centerData,numberData);
-    title('Êı¾İÒµÎñÊÂ¼ş³åÍ»Í³¼Æ','LineWidth',2);
-    xlabel('³åÍ»´ÎÊı','LineWidth',2);
-    ylabel('¸ÅÂÊ','LineWidth',2);
+    title('æ•°æ®ä¸šåŠ¡äº‹ä»¶å†²çªç»Ÿè®¡','LineWidth',2);
+    xlabel('å†²çªæ¬¡æ•°','LineWidth',2);
+    ylabel('æ¦‚ç‡','LineWidth',2);
     grid on;
 end
 
 
 
 
-%% ÍÌÍÂÂÊ
+%% ååç‡
 TTIThroughput=load('./TTIThroughput.txt');
 RSUThroughput=load('./RSUThroughput.txt');
 VeUENumPerRSULogInfo=load('../GTTLog/VeUENumPerRSULogInfo.txt');
@@ -233,7 +233,7 @@ end
 figure(figId)
 figId=figId+1;
 plot(TTIThroughput);
-title('TTIÍÌÍÂÁ¿','LineWidth',2);
+title('TTIååé‡','LineWidth',2);
 xlabel('TTI','LineWidth',2);
 ylabel('K bit','LineWidth',2);
 grid on;
@@ -241,7 +241,7 @@ grid on;
 figure(figId)
 figId=figId+1;
 plot(accumulatedTTIThroughput);
-title('ÀÛ¼ÆÍÌÍÂÁ¿','LineWidth',2);
+title('ç´¯è®¡ååé‡','LineWidth',2);
 xlabel('TTI','LineWidth',2);
 ylabel('K bit','LineWidth',2);
 grid on;
@@ -251,7 +251,7 @@ RSUThroughput=RSUThroughput/1000;
 figure(figId)
 figId=figId+1;
 bar(RSUThroughput);
-title('ÍÌÍÂÁ¿Í³¼Æ','LineWidth',2);
+title('ååé‡ç»Ÿè®¡','LineWidth',2);
 xlabel('RSUId','LineWidth',2);
 ylabel('K bit','LineWidth',2);
 grid on;
@@ -261,57 +261,57 @@ VeUENumPerRSULogInfo=mean(VeUENumPerRSULogInfo,1);
 figure(figId)
 figId=figId+1;
 bar(VeUENumPerRSULogInfo)
-title('³µÁ¾·Ö²¼Í³¼ÆÍ¼','LineWidth',2);
-xlabel('³µÁ¾ÊıÄ¿','LineWidth',2);
+title('è½¦è¾†åˆ†å¸ƒç»Ÿè®¡å›¾','LineWidth',2);
+xlabel('è½¦è¾†æ•°ç›®','LineWidth',2);
 ylabel('RSUId','LineWidth',2);
 grid on;
 
 
-%TTIÍÌÍÂÁ¿CDFÍ¼
+%TTIååé‡CDFå›¾
 [numberTTIThroughput,centerTTIThroughput]=hist(TTIThroughput,100);
 Tem=zeros(length(centerTTIThroughput),2);
 Tem(:,1)=centerTTIThroughput.';
 Tem(:,2)=numberTTIThroughput.';
-sortrows(Tem,1);%ÒÀ¾İÖĞĞÄÖµ½øĞĞÖ÷ÖµÅÅĞò
+sortrows(Tem,1);%ä¾æ®ä¸­å¿ƒå€¼è¿›è¡Œä¸»å€¼æ’åº
 centerTTIThroughput=Tem(:,1).';
 numberTTIThroughput=Tem(:,2).';
 TotalTTI=length(TTIThroughput);
-accumulateNumberTTIThroughput=cumsum(numberTTIThroughput);%¼ÆËãÀÛÊıÁ¿
-accumulatePTTIThroughput=accumulateNumberTTIThroughput./TotalTTI;%¼ÆËãÀÛ¸ÅÂÊ
+accumulateNumberTTIThroughput=cumsum(numberTTIThroughput);%è®¡ç®—ç´¯æ•°é‡
+accumulatePTTIThroughput=accumulateNumberTTIThroughput./TotalTTI;%è®¡ç®—ç´¯æ¦‚ç‡
 
 figure(figId)
 figId=figId+1;
 plot(centerTTIThroughput,accumulatePTTIThroughput,'bo-','LineWidth',2);
-title('TTIÍÌÍÂÂÊCDFÍ¼','LineWidth',2);
-xlabel('ÍÌÍÂÁ¿(Kbits/TTI)','LineWidth',2);
+title('TTIååç‡CDFå›¾','LineWidth',2);
+xlabel('ååé‡(Kbits/TTI)','LineWidth',2);
 ylabel('CDF','LineWidth',2);
 grid on;
 
 
-%RSUÍÌÍÂÁ¿CDFÍ¼
+%RSUååé‡CDFå›¾
 RSUThroughput=RSUThroughput/length(TTIThroughput);
 [numberRSUThroughput,centerRSUThroughput]=hist(RSUThroughput,length(RSUThroughput));
 Tem=zeros(length(centerRSUThroughput),2);
 Tem(:,1)=centerRSUThroughput.';
 Tem(:,2)=numberRSUThroughput.';
-sortrows(Tem,1);%ÒÀ¾İÖĞĞÄÖµ½øĞĞÖ÷ÖµÅÅĞò
+sortrows(Tem,1);%ä¾æ®ä¸­å¿ƒå€¼è¿›è¡Œä¸»å€¼æ’åº
 centerRSUThroughput=Tem(:,1).';
 numberRSUThroughput=Tem(:,2).';
 TotalRSU=length(RSUThroughput);
-accumulateNumberRSUThroughput=cumsum(numberRSUThroughput);%¼ÆËãÀÛÊıÁ¿
-accumulatePRSUThroughput=accumulateNumberRSUThroughput./TotalRSU;%¼ÆËãÀÛ¸ÅÂÊ
+accumulateNumberRSUThroughput=cumsum(numberRSUThroughput);%è®¡ç®—ç´¯æ•°é‡
+accumulatePRSUThroughput=accumulateNumberRSUThroughput./TotalRSU;%è®¡ç®—ç´¯æ¦‚ç‡
 
 figure(figId)
 figId=figId+1;
 plot(centerRSUThroughput,accumulatePRSUThroughput,'bo-','LineWidth',2);
-title('RSUÍÌÍÂÂÊCDFÍ¼','LineWidth',2);
-xlabel('ÍÌÍÂÁ¿(Kbits/TTI/RSU)','LineWidth',2);
+title('RSUååç‡CDFå›¾','LineWidth',2);
+xlabel('ååé‡(Kbits/TTI/RSU)','LineWidth',2);
 ylabel('CDF','LineWidth',2);
 grid on;
 
 
 
-%% ½ô¼±ÊÂ¼şÒÔ¼°Êı¾İÒµÎñÊÂ¼ş²´ËÉ·Ö²¼ÑéÖ¤
+%% ç´§æ€¥äº‹ä»¶ä»¥åŠæ•°æ®ä¸šåŠ¡äº‹ä»¶æ³Šæ¾åˆ†å¸ƒéªŒè¯
 EmergencyPossion=load('./EmergencyPossion.txt');
 DataPossion=load('./DataPossion.txt');
 
@@ -325,9 +325,9 @@ end
 figure(figId)
 figId=figId+1;
 bar(centerEmergency,numberEmergency);
-title('½ô¼±ÊÂ¼ş²´ËÉ·Ö²¼Í¼','LineWidth',2);
-xlabel('ÔÚ·ÂÕæÊ±¼äÄÚ½ô¼±ÊÂ¼şÉú³É´ÎÊı','LineWidth',2);
-ylabel('³µÁ¾ÊıÄ¿','LineWidth',2);
+title('ç´§æ€¥äº‹ä»¶æ³Šæ¾åˆ†å¸ƒå›¾','LineWidth',2);
+xlabel('åœ¨ä»¿çœŸæ—¶é—´å†…ç´§æ€¥äº‹ä»¶ç”Ÿæˆæ¬¡æ•°','LineWidth',2);
+ylabel('è½¦è¾†æ•°ç›®','LineWidth',2);
 grid on;
 
 if(unique(DataPossion)==0)
@@ -339,9 +339,9 @@ end
 figure(figId)
 figId=figId+1;
 bar(centerData,numberData);
-title('Êı¾İÒµÎñÊÂ¼ş²´ËÉ·Ö²¼Í¼','LineWidth',2);
-xlabel('ÔÚ·ÂÕæÊ±¼äÄÚÊı¾İÒµÎñÊÂ¼şÉú³É´ÎÊı','LineWidth',2);
-ylabel('³µÁ¾ÊıÄ¿','LineWidth',2);
+title('æ•°æ®ä¸šåŠ¡äº‹ä»¶æ³Šæ¾åˆ†å¸ƒå›¾','LineWidth',2);
+xlabel('åœ¨ä»¿çœŸæ—¶é—´å†…æ•°æ®ä¸šåŠ¡äº‹ä»¶ç”Ÿæˆæ¬¡æ•°','LineWidth',2);
+ylabel('è½¦è¾†æ•°ç›®','LineWidth',2);
 grid on;
 
 

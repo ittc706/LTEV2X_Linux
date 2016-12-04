@@ -3,7 +3,7 @@
 *
 *       Filename:  RRM.cpp
 *
-*    Description:  TMC模块
+*    Description:  RRM模块
 *
 *        Version:  1.0
 *        Created:
@@ -20,6 +20,8 @@
 #include<sstream>
 #include<iomanip>
 #include"System.h"
+
+#include"GTT.h"
 #include"RRM.h"
 
 #include"VUE.h"
@@ -88,11 +90,11 @@ RRM::RRM(System* t_Context) : m_Context(t_Context) {
 }
 
 RRM::~RRM() {
-	for (int VeUEId = 0; VeUEId < getContext()->m_Config.VeUENum; VeUEId++)
+	for (int VeUEId = 0; VeUEId < GTT::s_VeUE_NUM; VeUEId++)
 		Delete::safeDelete(m_VeUEAry[VeUEId]);
 	Delete::safeDelete(m_VeUEAry, true);
 
-	for (int RSUId = 0; RSUId < getContext()->m_Config.RSUNum; RSUId++)
+	for (int RSUId = 0; RSUId < GTT::s_RSU_NUM; RSUId++)
 		Delete::safeDelete(m_RSUAry[RSUId]);
 	Delete::safeDelete(m_RSUAry, true);
 

@@ -3,7 +3,7 @@
 *
 *       Filename:  IMTA.cpp
 *
-*    Description:  TMC模块
+*    Description:  IMTA
 *
 *        Version:  1.0
 *        Created:
